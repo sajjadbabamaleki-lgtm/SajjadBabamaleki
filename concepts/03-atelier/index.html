@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+</head>
+<body style="margin:0">
+<title>Sajjad Babamaleki Atelier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Host+Grotesk:ital,wght@0,300..800;1,300..800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: gallery white-grey, 12-column Swiss grid with hairlines. A live liquid-chrome sculpture (Three.js, studio-lit) is the only spectacle; type is tight, precise and small except the fitted name. Accent: ultramarine, used rarely. */
+:root{
+  --paper:#E7E7EA;
+  --paper-2:#DDDDE1;
+  --ink:#0D0D0F;
+  --ink-2:#5A5A62;
+  --rule:rgba(13,13,15,.16);
+  --accent:#2B39FF;
+  --sans:"Host Grotesk","Schibsted Grotesk",ui-sans-serif,system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --ease:cubic-bezier(.22,1,.36,1);
+  --g:clamp(16px,2.4vw,36px);
+  --col:12px;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{background:var(--paper)}
+body{background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.5;letter-spacing:-.005em;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+::selection{background:var(--accent);color:#fff}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:1.5px solid var(--accent);outline-offset:4px}
+.grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));column-gap:var(--col);padding-inline:var(--g)}
+.small{font-size:13px;line-height:1.4}
+.mono{font-family:var(--mono);font-size:11.5px;letter-spacing:.02em;text-transform:uppercase}
+.muted{color:var(--ink-2)}
+.ul{background:linear-gradient(currentColor,currentColor) 0 100%/0 1px no-repeat;transition:background-size .6s var(--ease)}
+.ul:hover{background-size:100% 1px}
+
+/* header */
+.hd{position:fixed;inset:0 0 auto;z-index:50;padding-top:env(safe-area-inset-top,0px);color:#fff;mix-blend-mode:difference}
+.hd .grid{height:60px;align-items:center}
+.hd .who{grid-column:1/4;font-weight:600;font-size:13px}
+.hd .what{grid-column:4/7;font-size:13px}
+.hd nav{grid-column:7/10;display:flex;gap:18px;font-size:13px}
+.hd .enq{grid-column:10/13;justify-self:end;font-size:13px}
+@media (max-width:760px){.hd .what,.hd nav{display:none}.hd .who{grid-column:1/8}.hd .enq{grid-column:8/13}}
+
+/* hero */
+.hero{position:relative;min-height:100dvh;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;isolation:isolate}
+#stage{position:absolute;inset:0;width:100%;height:100%;z-index:-1;display:block}
+.hero-shadow{position:absolute;left:50%;top:67%;width:38vmin;height:5vmin;translate:-50% 0;border-radius:50%;background:radial-gradient(closest-side,rgba(13,13,15,.22),transparent);filter:blur(6px);z-index:-2}
+.hero-row{align-items:end;padding-bottom:18px}
+.hero-row .intro{grid-column:1/5;max-width:34ch;font-size:15px;line-height:1.45}
+.hero-row .status{grid-column:9/13;justify-self:end;text-align:right}
+.name{padding-inline:var(--g);padding-bottom:calc(var(--g) * .35);margin:0;font-weight:500;letter-spacing:-.055em;line-height:.8;white-space:nowrap}
+.name .fit{display:block;width:max-content;font-size:120px}
+.name .two{display:none}
+.ch{display:inline-block}
+.ln-mask{display:inline-block;overflow:hidden;vertical-align:bottom;padding-bottom:.06em;margin-bottom:-.06em}
+@media (max-width:700px){.hero-shadow{display:none}.name .one{display:none}.name .two{display:block}.hero-row .intro{grid-column:1/13;margin-bottom:10px}.hero-row .status{grid-column:1/13;justify-self:start;text-align:left}}
+@media (prefers-reduced-motion:no-preference){
+  .ch{animation:chUp 1.3s var(--ease) both;animation-delay:calc(.25s + var(--i) * 32ms)}
+  @keyframes chUp{from{transform:translateY(105%)}}
+  .fade-in{animation:fi 1.2s var(--ease) .7s both}
+  @keyframes fi{from{opacity:0}}
+}
+
+/* profile */
+.profile{padding-block:clamp(120px,16vw,220px) clamp(90px,12vw,160px)}
+.profile .lab{grid-column:1/4}
+.profile .txt{grid-column:4/13;font-size:clamp(28px,3.6vw,54px);line-height:1.06;letter-spacing:-.035em;font-weight:450;margin:0;text-wrap:balance;text-indent:25%}
+.profile .txt span{color:var(--ink-2)}
+.profile .meta{grid-column:4/13;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));column-gap:var(--col);margin-top:64px;border-top:1px solid var(--rule);padding-top:14px}
+@media (max-width:760px){.profile .lab,.profile .txt,.profile .meta{grid-column:1/13}.profile .txt{text-indent:0;margin-top:16px}.profile .meta{grid-template-columns:1fr;row-gap:18px}}
+
+/* work */
+.work-hd{align-items:end;border-top:1px solid var(--rule);padding-top:14px;margin-inline:var(--g);padding-inline:0}
+.work-hd h2{grid-column:1/7;margin:0;font-size:13px;font-weight:600}
+.work-hd .n{grid-column:7/13;justify-self:end}
+.works{row-gap:clamp(64px,9vw,140px);padding-block:48px 0}
+.w{display:block}
+.w .img{position:relative;overflow:hidden;background:var(--paper-2)}
+.w img{display:block;width:100%;height:100%;object-fit:cover;transition:transform 1.4s var(--ease)}
+.w:hover img{transform:scale(1.035)}
+.w .cap{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;padding-top:12px}
+.w .cap h3{margin:0;font-size:15px;font-weight:600;letter-spacing:-.01em}
+.w .cap .d{grid-column:1/2;color:var(--ink-2);font-size:13px}
+.w .cap .y{grid-row:1;grid-column:2;font-family:var(--mono);font-size:11.5px;color:var(--ink-2)}
+.w1{grid-column:1/8}.w1 .img{aspect-ratio:4/5}
+.w2{grid-column:9/13;align-self:end}.w2 .img{aspect-ratio:3/4}
+.w3{grid-column:2/7}.w3 .img{aspect-ratio:1/1}
+.w4{grid-column:8/13;margin-top:18vw}.w4 .img{aspect-ratio:4/5}
+@media (max-width:760px){.w1,.w2,.w3,.w4{grid-column:1/13;margin-top:0}}
+
+/* disciplines */
+.disc{padding-block:clamp(140px,18vw,260px) 40px}
+.disc .side{grid-column:1/5;align-self:start;position:sticky;top:90px}
+.disc .side h2{margin:0 0 14px;font-size:clamp(40px,5vw,76px);font-weight:500;letter-spacing:-.05em;line-height:.9}
+.disc .list{grid-column:6/13}
+.item{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:var(--col);padding-block:22px 44px;border-top:1px solid var(--rule)}
+.item h3{margin:0;font-size:clamp(22px,2.2vw,30px);font-weight:500;letter-spacing:-.035em;line-height:1.05}
+.item p{margin:0 0 12px;font-size:14.5px;color:var(--ink-2);max-width:40ch}
+.item ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.item li{font-family:var(--mono);font-size:11px;text-transform:uppercase;padding:5px 9px;border:1px solid var(--rule);border-radius:999px}
+@media (max-width:760px){.disc .side,.disc .list{grid-column:1/13;position:static}.item{grid-template-columns:1fr;row-gap:12px}}
+
+/* contact */
+.contact{padding-top:clamp(140px,18vw,260px)}
+.contact .lab{grid-column:1/13;border-top:1px solid var(--rule);padding-top:14px;display:flex;justify-content:space-between;gap:16px}
+.big{padding-inline:var(--g);margin:28px 0 0;font-weight:500;letter-spacing:-.06em;line-height:.82;white-space:nowrap}
+.big .fit{display:block;width:max-content;font-size:120px}
+.big a{display:block;transition:color .5s var(--ease)}
+.big a:hover{color:var(--accent)}
+.reach{margin-top:36px;align-items:start;row-gap:24px}
+.reach .mail{grid-column:1/7;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.reach .mail span{font-size:clamp(18px,2vw,26px);letter-spacing:-.03em;font-weight:500;user-select:all;overflow-wrap:anywhere}
+.copy{height:34px;padding:0 14px;border-radius:999px;border:1px solid var(--ink);background:transparent;color:var(--ink);font:500 12px var(--sans);cursor:pointer;transition:background .4s var(--ease),color .4s var(--ease)}
+.copy:hover{background:var(--ink);color:var(--paper)}
+.copy:active{transform:scale(.96)}
+.reach .soc{grid-column:7/10;display:grid;gap:4px;font-size:14px}
+.reach .loc{grid-column:10/13;justify-self:end;text-align:right;font-size:14px}
+.ft{margin-top:clamp(100px,12vw,180px);padding-block:14px 22px;border-top:1px solid var(--rule);margin-inline:var(--g);padding-inline:0}
+.ft span:first-child{grid-column:1/7}
+.ft a{grid-column:7/13;justify-self:end}
+@media (max-width:760px){.reach .mail,.reach .soc,.reach .loc{grid-column:1/13;justify-self:start;text-align:left}}
+
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:.01ms!important}}
+</style>
+
+<header class="hd">
+  <div class="grid">
+    <a class="who" href="#top">Sajjad Babamaleki</a>
+    <span class="what">Design and creative engineering</span>
+    <nav aria-label="Primary"><a class="ul" href="#work">Work</a><a class="ul" href="#profile">Profile</a><a class="ul" href="#disciplines">Disciplines</a></nav>
+    <a class="enq ul" href="#contact">Enquire ↗</a>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="hero-shadow" aria-hidden="true"></div>
+    <canvas id="stage" aria-hidden="true"></canvas>
+    <div class="grid hero-row fade-in">
+      <p class="intro">Independent designer and creative engineer. I make digital products with the finish of a physical object.</p>
+      <p class="status small muted">Booking projects for<br>early 2027</p>
+    </div>
+    <h1 class="name" aria-label="Sajjad Babamaleki">
+      <span class="fit one" data-t="Sajjad Babamaleki"></span>
+      <span class="fit two" data-t="Sajjad"></span>
+      <span class="fit two" data-t="Babamaleki"></span>
+    </h1>
+  </section>
+
+  <section class="profile grid" id="profile">
+    <span class="lab small muted">Profile</span>
+    <p class="txt">I design and build products for founders who care how things feel. <span>Interfaces, identities and the code behind them, made by one pair of hands so nothing gets lost in translation.</span></p>
+    <div class="meta small">
+      <div><div class="muted">Approach</div>Few projects, full attention</div>
+      <div><div class="muted">Clients</div>Founders, studios, cultural brands</div>
+      <div><div class="muted">Engagements</div>Eight to sixteen weeks</div>
+    </div>
+  </section>
+
+  <section id="work">
+    <div class="grid work-hd"><h2>Selected work</h2><span class="n small muted">(04)</span></div>
+    <div class="grid works">
+      <a class="w w1" href="#work"><div class="img"><img data-r="0" alt="Chrome sculpture, cover for Nour Private"></div>
+        <div class="cap"><h3>Nour Private</h3><span class="y">2026</span><span class="d">Wealth app, product design and motion</span></div></a>
+      <a class="w w2" href="#work"><div class="img"><img data-r="1" alt="Black ceramic sculpture, cover for Kavir Type Foundry"></div>
+        <div class="cap"><h3>Kavir Type Foundry</h3><span class="y">2025</span><span class="d">Commerce and variable-font specimens</span></div></a>
+      <a class="w w3" href="#work"><div class="img"><img data-r="2" alt="Ultramarine metal sculpture, cover for Parto Health"></div>
+        <div class="cap"><h3>Parto Health</h3><span class="y">2024</span><span class="d">Clinical dashboard, research and interface</span></div></a>
+      <a class="w w4" href="#work"><div class="img"><img data-r="3" alt="White ceramic sculpture, cover for Sarv Architects"></div>
+        <div class="cap"><h3>Sarv Architects</h3><span class="y">2023</span><span class="d">Identity, art direction and website</span></div></a>
+    </div>
+  </section>
+
+  <section class="disc grid" id="disciplines">
+    <div class="side"><h2>Disciplines</h2><p class="small muted">One person, from first sketch to production.</p></div>
+    <div class="list">
+      <div class="item"><h3>Product design</h3><div><p>Research, flows and interfaces for products people use every day.</p><ul><li>Research</li><li>UX</li><li>UI</li><li>Prototyping</li></ul></div></div>
+      <div class="item"><h3>Brand identity</h3><div><p>Marks, typography and systems that hold from app icon to façade.</p><ul><li>Identity</li><li>Type</li><li>Guidelines</li></ul></div></div>
+      <div class="item"><h3>Creative engineering</h3><div><p>WebGL, motion and frontend built to the same standard as the design.</p><ul><li>Three.js</li><li>GSAP</li><li>React</li><li>Next.js</li></ul></div></div>
+      <div class="item"><h3>Art direction</h3><div><p>3D, photography and film direction that gives a brand its own atmosphere.</p><ul><li>3D</li><li>Photography</li><li>Motion</li></ul></div></div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact">
+    <div class="grid"><div class="lab small"><span class="muted">Enquiries</span><span class="muted">Replies within two working days</span></div></div>
+    <h2 class="big"><a href="#contact" id="bigmail"><span class="fit" data-t="Start a conversation"></span></a></h2>
+    <div class="grid reach">
+      <div class="mail"><span id="email">studio@sajjadbabamaleki.com</span><button class="copy" id="copy" type="button">Copy</button></div>
+      <div class="soc"><a class="ul" href="https://www.linkedin.com/" target="_blank" rel="noopener">LinkedIn ↗</a><a class="ul" href="https://www.instagram.com/" target="_blank" rel="noopener">Instagram ↗</a><a class="ul" href="https://github.com/" target="_blank" rel="noopener">GitHub ↗</a></div>
+      <div class="loc muted">Working remotely<br>with clients worldwide</div>
+    </div>
+    <footer class="grid ft small muted"><span>© 2026 Sajjad Babamaleki</span><a class="ul" href="#top">Back to top</a></footer>
+  </section>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const mobile = matchMedia('(max-width:760px)').matches;
+
+  /* split + fit display type */
+  let idx = 0;
+  document.querySelectorAll('.name .fit').forEach(el => {
+    [...el.dataset.t].forEach(c => {
+      const m = document.createElement('span'); m.className = 'ln-mask'; m.setAttribute('aria-hidden', 'true');
+      const s = document.createElement('span'); s.className = 'ch'; s.style.setProperty('--i', idx++);
+      s.textContent = c === ' ' ? ' ' : c; m.appendChild(s); el.appendChild(m);
+    });
+  });
+  document.querySelectorAll('.big .fit').forEach(el => el.textContent = el.dataset.t);
+  const fit = () => document.querySelectorAll('.fit').forEach(el => {
+    if (!el.offsetParent) return;
+    const avail = el.parentElement.clientWidth - parseFloat(getComputedStyle(el.parentElement).paddingLeft) * 2;
+    el.style.fontSize = '100px';
+    el.style.fontSize = (100 * avail / el.scrollWidth) + 'px';
+  });
+  fit(); (document.fonts ? document.fonts.ready : Promise.resolve()).then(fit); addEventListener('resize', fit);
+  document.getElementById('bigmail').addEventListener('click', e => { e.preventDefault(); document.getElementById('copy').click(); });
+
+  /* copy */
+  const btn = document.getElementById('copy'), em = document.getElementById('email');
+  btn.addEventListener('click', () => {
+    const done = () => { btn.textContent = 'Copied'; setTimeout(() => btn.textContent = 'Copy', 1800); };
+    const sel = () => { const r = document.createRange(); r.selectNodeContents(em); const s = getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = 'Selected'; };
+    try { navigator.clipboard.writeText(em.textContent).then(done, sel); } catch (e) { sel(); }
+  });
+
+  /* ---------- liquid chrome ---------- */
+  if (!window.THREE) return finish();
+  const NOISE = `
+uniform float uT; uniform float uAmp; uniform float uFreq; uniform float uSeed;
+vec3 mod289(vec3 x){return x-floor(x*(1./289.))*289.;}
+vec4 mod289(vec4 x){return x-floor(x*(1./289.))*289.;}
+vec4 permute(vec4 x){return mod289(((x*34.)+1.)*x);}
+vec4 taylorInvSqrt(vec4 r){return 1.79284291400159-.85373472095314*r;}
+float snoise(vec3 v){
+  const vec2 C=vec2(1./6.,1./3.); const vec4 D=vec4(0.,.5,1.,2.);
+  vec3 i=floor(v+dot(v,C.yyy)); vec3 x0=v-i+dot(i,C.xxx);
+  vec3 g=step(x0.yzx,x0.xyz); vec3 l=1.-g; vec3 i1=min(g.xyz,l.zxy); vec3 i2=max(g.xyz,l.zxy);
+  vec3 x1=x0-i1+C.xxx; vec3 x2=x0-i2+C.yyy; vec3 x3=x0-D.yyy;
+  i=mod289(i);
+  vec4 p=permute(permute(permute(i.z+vec4(0.,i1.z,i2.z,1.))+i.y+vec4(0.,i1.y,i2.y,1.))+i.x+vec4(0.,i1.x,i2.x,1.));
+  float n_=.142857142857; vec3 ns=n_*D.wyz-D.xzx;
+  vec4 j=p-49.*floor(p*ns.z*ns.z); vec4 x_=floor(j*ns.z); vec4 y_=floor(j-7.*x_);
+  vec4 x=x_*ns.x+ns.yyyy; vec4 y=y_*ns.x+ns.yyyy; vec4 h=1.-abs(x)-abs(y);
+  vec4 b0=vec4(x.xy,y.xy); vec4 b1=vec4(x.zw,y.zw);
+  vec4 s0=floor(b0)*2.+1.; vec4 s1=floor(b1)*2.+1.; vec4 sh=-step(h,vec4(0.));
+  vec4 a0=b0.xzyw+s0.xzyw*sh.xxyy; vec4 a1=b1.xzyw+s1.xzyw*sh.zzww;
+  vec3 p0=vec3(a0.xy,h.x); vec3 p1=vec3(a0.zw,h.y); vec3 p2=vec3(a1.xy,h.z); vec3 p3=vec3(a1.zw,h.w);
+  vec4 norm=taylorInvSqrt(vec4(dot(p0,p0),dot(p1,p1),dot(p2,p2),dot(p3,p3)));
+  p0*=norm.x; p1*=norm.y; p2*=norm.z; p3*=norm.w;
+  vec4 m=max(.6-vec4(dot(x0,x0),dot(x1,x1),dot(x2,x2),dot(x3,x3)),0.); m=m*m;
+  return 42.*dot(m*m,vec4(dot(p0,x0),dot(p1,x1),dot(p2,x2),dot(p3,x3)));
+}
+vec3 dispP(vec3 p){
+  vec3 n=normalize(p);
+  float d=snoise(p*uFreq+vec3(uT*.16+uSeed))*uAmp+snoise(p*uFreq*2.2-vec3(uT*.11-uSeed))*uAmp*.12;
+  return p+n*d;
+}
+`;
+  function liquid(material, u) {
+    material.onBeforeCompile = sh => {
+      Object.assign(sh.uniforms, u);
+      sh.vertexShader = NOISE + sh.vertexShader
+        .replace('#include <beginnormal_vertex>', `
+          vec3 p0=position; vec3 nn=normalize(p0); float R=length(p0);
+          vec3 tt=normalize(cross(nn, abs(nn.y)<.99?vec3(0.,1.,0.):vec3(1.,0.,0.))); vec3 bb=cross(nn,tt);
+          vec3 P=dispP(p0);
+          vec3 Pt=dispP(normalize(p0+tt*.008)*R); vec3 Pb=dispP(normalize(p0+bb*.008)*R);
+          vec3 objectNormal=normalize(cross(Pt-P,Pb-P));`)
+        .replace('#include <begin_vertex>', 'vec3 transformed=P;');
+    };
+    return material;
+  }
+  function studio(renderer) {
+    const s = new THREE.Scene();
+    const room = new THREE.Mesh(new THREE.BoxGeometry(12, 8, 12), new THREE.MeshBasicMaterial({ color: new THREE.Color(0x141417), side: THREE.BackSide }));
+    s.add(room);
+    const panel = (w, h, pos, rot, c, k) => { const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ color: new THREE.Color(c).multiplyScalar(k), side: THREE.DoubleSide })); m.position.set(...pos); m.rotation.set(...rot); s.add(m); };
+    panel(6, 1.4, [0, 3.9, 0], [Math.PI / 2, 0, 0], 0xffffff, 7);
+    panel(1.1, 6, [-5.9, 0.5, -1], [0, Math.PI / 2, 0], 0xffffff, 5);
+    panel(0.5, 6, [5.9, 0.2, 1.5], [0, -Math.PI / 2, 0], 0xffffff, 6);
+    panel(4, 3, [0, 0, -5.9], [0, 0, 0], 0xcfd3ff, 1.4);
+    panel(12, 12, [0, -3.95, 0], [-Math.PI / 2, 0, 0], 0xe7e7ea, 1.1);
+    panel(0.6, 0.6, [3, 2.5, -5.8], [0, 0, 0], 0x2b39ff, 10);
+    const pm = new THREE.PMREMGenerator(renderer);
+    const tex = pm.fromScene(s, 0.02).texture; pm.dispose();
+    return tex;
+  }
+  const geo = new THREE.IcosahedronGeometry(1.25, mobile ? 40 : 72);
+
+  /* hero */
+  const stage = document.getElementById('stage');
+  const R = new THREE.WebGLRenderer({ canvas: stage, antialias: true, alpha: true, powerPreference: 'high-performance' });
+  R.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+  R.outputEncoding = THREE.sRGBEncoding; R.toneMapping = THREE.ACESFilmicToneMapping; R.toneMappingExposure = 1.05;
+  const scene = new THREE.Scene(); scene.environment = studio(R);
+  const cam = new THREE.PerspectiveCamera(28, 1, .1, 50); cam.position.set(0, 0, 7.2);
+  const U = { uT: { value: 0 }, uAmp: { value: .22 }, uFreq: { value: .75 }, uSeed: { value: 3.1 } };
+  const blob = new THREE.Mesh(geo, liquid(new THREE.MeshPhysicalMaterial({ color: 0xffffff, metalness: 1, roughness: .07 }), U));
+  const pivot = new THREE.Group(); pivot.add(blob); scene.add(pivot);
+  const size = () => { const w = stage.clientWidth, h = stage.clientHeight; R.setSize(w, h, false); cam.aspect = w / h; cam.updateProjectionMatrix(); const s = Math.min(.74, w / h * .6); pivot.scale.setScalar(Math.max(.4, s)); pivot.position.y = mobile ? .45 : .3; };
+  size(); addEventListener('resize', size);
+
+  let mx = 0, my = 0, tx = 0, ty = 0, vel = 0, lastX = 0, lastY = 0, scrollK = 0, run = true;
+  addEventListener('pointermove', e => {
+    tx = e.clientX / innerWidth - .5; ty = e.clientY / innerHeight - .5;
+    vel = Math.min(1, vel + Math.hypot(e.clientX - lastX, e.clientY - lastY) / 400); lastX = e.clientX; lastY = e.clientY;
+  }, { passive: true });
+
+  const clock = new THREE.Clock();
+  const frame = () => {
+    const dt = Math.min(clock.getDelta(), .05);
+    U.uT.value += dt * (1 + vel * 2.5);
+    vel *= .94;
+    U.uAmp.value = .22 + vel * .14;
+    mx += (tx - mx) * .05; my += (ty - my) * .05;
+    blob.rotation.y += dt * .12;
+    pivot.rotation.x = my * .5 + scrollK * .8; pivot.rotation.z = -mx * .25;
+    pivot.rotation.y = mx * .6 + scrollK * 1.4;
+    R.render(scene, cam);
+  };
+  if (reduce) { U.uT.value = 2; frame(); }
+  else {
+    const loop = () => { if (!run) return; frame(); requestAnimationFrame(loop); };
+    new IntersectionObserver(([e]) => { run = e.isIntersecting; if (run) { clock.getDelta(); loop(); } }).observe(stage);
+    if (window.gsap) gsap.from(pivot.scale, { x: .2, y: .2, z: .2, duration: 2.2, ease: 'expo.out', delay: .1 });
+  }
+
+  /* studio stills for the work covers */
+  const offCanvas = document.createElement('canvas');
+  const O = new THREE.WebGLRenderer({ canvas: offCanvas, antialias: true, preserveDrawingBuffer: true });
+  O.outputEncoding = THREE.sRGBEncoding; O.toneMapping = THREE.ACESFilmicToneMapping; O.toneMappingExposure = 1.05;
+  const oScene = new THREE.Scene(); oScene.environment = studio(O);
+  const oCam = new THREE.PerspectiveCamera(26, 1, .1, 50);
+  const looks = [
+    { w: 1120, h: 1400, bg: 0xd6d6db, mat: { color: 0xffffff, metalness: 1, roughness: .05 }, amp: .3, freq: .7, seed: 11, rot: [.3, .6, .1], z: 10 },
+    { w: 1050, h: 1400, bg: 0xb9b9c0, mat: { color: 0x0c0c0e, metalness: 0, roughness: .12, clearcoat: 1, clearcoatRoughness: .05 }, amp: .36, freq: 1.05, seed: 27, rot: [-.2, 1.2, .3], z: 10.5 },
+    { w: 1200, h: 1200, bg: 0x0e0e12, mat: { color: 0x3b49ff, metalness: 1, roughness: .18 }, amp: .26, freq: 1.3, seed: 5, rot: [.9, .2, -.4], z: 9 },
+    { w: 1120, h: 1400, bg: 0x2a2a2f, mat: { color: 0xf1f0ee, metalness: 0, roughness: .45, clearcoat: .3 }, amp: .42, freq: .6, seed: 41, rot: [.1, 2.4, .2], z: 10.5 }
+  ];
+  const imgs = document.querySelectorAll('.w img');
+  looks.forEach((L, i) => {
+    const u = { uT: { value: 0 }, uAmp: { value: L.amp }, uFreq: { value: L.freq }, uSeed: { value: L.seed } };
+    const m = new THREE.Mesh(geo, liquid(new THREE.MeshPhysicalMaterial(L.mat), u));
+    m.rotation.set(...L.rot); oScene.add(m);
+    oScene.background = new THREE.Color(L.bg);
+    O.setPixelRatio(1); O.setSize(L.w, L.h, false);
+    oCam.aspect = L.w / L.h; oCam.position.set(0, 0, L.z); oCam.updateProjectionMatrix();
+    O.render(oScene, oCam);
+    imgs[i].src = offCanvas.toDataURL('image/jpeg', .9);
+    oScene.remove(m); m.material.dispose();
+  });
+  O.dispose();
+
+  finish(pivot, v => scrollK = v);
+
+  function finish(pv, setScroll) {
+    let lenis = null;
+    if (!reduce && window.Lenis) {
+      try { lenis = new Lenis({ lerp: .09 });
+        if (window.gsap) { gsap.ticker.add(t => lenis.raf(t * 1000)); gsap.ticker.lagSmoothing(0); }
+      } catch (e) { lenis = null; }
+    }
+    document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
+      const id = a.getAttribute('href'); if (id === '#contact' && a.id === 'bigmail') return;
+      const el = id === '#top' ? document.body : document.querySelector(id); if (!el) return;
+      e.preventDefault(); lenis ? lenis.scrollTo(id === '#top' ? 0 : el) : el.scrollIntoView();
+    }));
+    if (!window.gsap || !window.ScrollTrigger || reduce) return;
+    gsap.registerPlugin(ScrollTrigger);
+    if (lenis) lenis.on('scroll', ScrollTrigger.update);
+    if (pv && setScroll) {
+      ScrollTrigger.create({ trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true, onUpdate: s => setScroll(s.progress) });
+      gsap.to(pv.position, { y: '+=1.2', ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+    }
+    gsap.to('.name', { yPercent: 18, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+    gsap.utils.toArray('.w .img').forEach(el => {
+      gsap.fromTo(el, { clipPath: 'inset(12% 8% 12% 8%)' }, { clipPath: 'inset(0% 0% 0% 0%)', ease: 'none', scrollTrigger: { trigger: el, start: 'top 95%', end: 'top 45%', scrub: true } });
+      gsap.fromTo(el.querySelector('img'), { yPercent: -6, scale: 1.12 }, { yPercent: 6, scale: 1.12, ease: 'none', scrollTrigger: { trigger: el, start: 'top bottom', end: 'bottom top', scrub: true } });
+    });
+    gsap.utils.toArray('.profile .txt, .item').forEach(el => gsap.from(el, { y: 40, opacity: .15, duration: 1.3, ease: 'expo.out', scrollTrigger: { trigger: el, start: 'top 88%' } }));
+  }
+
+})();
+</script>
+
+</body>
+</html>
