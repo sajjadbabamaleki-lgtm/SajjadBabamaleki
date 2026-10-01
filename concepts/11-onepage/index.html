@@ -97,8 +97,38 @@ button{font:inherit;color:inherit}
 [data-menu="overlay"].menu-open .menu-btn i::before{transform:translateY(3.5px) rotate(20deg)}
 [data-menu="overlay"].menu-open .menu-btn i::after{transform:translateY(-3.5px) rotate(-20deg)}
 
+/* icon bar forms (menu = icons) */
+[data-bar="dock"] .nav,[data-bar="expand"] .nav{display:flex;width:auto;gap:4px;padding:6px;background:rgba(20,22,28,.74);border:1px solid var(--border);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:inset 0 1px 0 rgba(255,255,255,.05),0 16px 40px -20px rgba(0,0,0,.8)}
+[data-bar="dock"] .topbar,[data-bar="expand"] .topbar,[data-bar="tiles"] .topbar{padding-block:10px}
+[data-bar="dock"] .rule,[data-bar="expand"] .rule,[data-bar="tiles"] .rule,[data-bar="glow"] .rule{opacity:0}
+[data-bar] .tab + .tab::before{display:var(--divider,block)}
+[data-bar="dock"],[data-bar="expand"],[data-bar="glow"],[data-bar="tiles"]{--divider:none}
+[data-bar="dock"] .tab::after,[data-bar="expand"] .tab::after,[data-bar="tiles"] .tab::after{display:none}
+[data-bar="dock"] .nav{border-radius:22px}
+[data-bar="dock"] .tab{width:76px;min-height:64px;padding:8px 2px;border-radius:16px;transition:background-color .35s var(--ease),color .35s var(--ease)}
+[data-bar="dock"] .tab[aria-selected="true"]{background:rgba(155,176,255,.14);box-shadow:inset 0 0 0 1px rgba(155,176,255,.25)}
+@media (max-width:560px){[data-bar="dock"] .tab{width:64px}[data-bar="dock"] .tab .lbl{font-size:9.5px;letter-spacing:.06em}}
+[data-bar="expand"] .nav{border-radius:999px}
+[data-bar="expand"] .tab{display:inline-flex;align-items:center;gap:0;min-height:48px;padding:0 14px;border-radius:999px;transition:background-color .45s var(--ease),color .45s var(--ease)}
+[data-bar="expand"] .tab .lbl{max-width:0;overflow:hidden;opacity:0;margin-left:0;font-size:12px;letter-spacing:.1em;transition:max-width .5s var(--ease),opacity .35s var(--ease),margin .5s var(--ease)}
+[data-bar="expand"] .tab[aria-selected="true"]{background:var(--text);color:var(--bg)}
+[data-bar="expand"] .tab[aria-selected="true"] .lbl{max-width:120px;opacity:1;margin-left:8px}
+[data-bar="glow"] .tab[aria-selected="true"]{color:var(--text)}
+[data-bar="glow"] .tab[aria-selected="true"] .icon{color:var(--primary);filter:drop-shadow(0 0 10px rgba(155,176,255,.75))}
+[data-bar="glow"] .tab::after{content:"";top:2px;bottom:auto;left:50%;right:auto;width:5px;height:5px;border-radius:50%;translate:-50% 0;transform:scale(0);box-shadow:0 0 12px 2px rgba(155,176,255,.7);transition:transform .45s var(--ease)}
+[data-bar="glow"] .tab[aria-selected="true"]::after{transform:scale(1)}
+[data-bar="tiles"] .nav{gap:8px;padding-inline:8px}
+[data-bar="tiles"] .tab{border:1px solid var(--border);border-radius:14px;background:rgba(20,22,28,.55);min-height:68px;transition:border-color .35s var(--ease),background-color .35s var(--ease),color .35s var(--ease)}
+[data-bar="tiles"] .tab[aria-selected="true"]{border-color:rgba(155,176,255,.6);background:rgba(155,176,255,.1)}
+@media (max-width:560px){[data-bar="tiles"] .nav{gap:5px;padding-inline:6px}[data-bar="tiles"] .tab .lbl{font-size:9.5px;letter-spacing:.04em}}
+
 /* style picker */
-.picker{position:fixed;z-index:60;right:12px;top:50%;translate:0 -50%;display:grid;gap:10px;padding:12px;border-radius:16px;background:rgba(20,22,28,.9);border:1px solid var(--border);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 20px 40px -20px rgba(0,0,0,.8);width:176px}
+.picker{position:fixed;z-index:60;right:12px;top:50%;translate:0 -50%;display:grid;gap:10px;padding:12px;max-height:calc(100% - 24px);overflow:auto;touch-action:pan-y;overscroll-behavior:contain;border-radius:16px;background:rgba(20,22,28,.9);border:1px solid var(--border);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 20px 40px -20px rgba(0,0,0,.8);width:236px}
+@media (max-width:700px){.picker:not(.closed){left:12px;right:12px;top:auto;bottom:12px;translate:none;width:auto;max-height:70%}}
+.pk-icons{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.pk-icons button{display:grid;place-items:center;height:42px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer}
+.pk-icons button[aria-pressed="true"]{border-color:var(--primary);color:var(--primary);background:rgba(155,176,255,.1)}
+.pk-icons .icon{width:22px;height:22px}
 .picker.closed{width:auto;padding:0;background:none;border:0;box-shadow:none}
 .picker.closed .pk-body{display:none}
 .pk-toggle{justify-self:end;display:grid;place-items:center;min-width:44px;height:44px;padding:0 12px;border-radius:12px;border:1px solid var(--border);background:rgba(20,22,28,.9);color:var(--text);cursor:pointer;font-size:13px;letter-spacing:.04em}
@@ -193,6 +223,22 @@ h2{font-size:clamp(38px,4.6vw,60px);line-height:1}
   <symbol id="i-trend" viewBox="0 0 24 24"><path d="M22 7 13.5 15.5 8.5 10.5 2 17"/><path d="M16 7h6v6"/></symbol>
   <symbol id="i-rocket" viewBox="0 0 24 24"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></symbol>
   <symbol id="i-copy" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></symbol>
+  <symbol id="i-circle-user" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="10" r="3"/><path d="M7 20.662V19a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v1.662"/></symbol>
+  <symbol id="i-idcard" viewBox="0 0 24 24"><path d="M16 10h2"/><path d="M16 14h2"/><path d="M6.17 15a3 3 0 0 1 5.66 0"/><circle cx="9" cy="11" r="2"/><rect x="2" y="5" width="20" height="14" rx="2"/></symbol>
+  <symbol id="i-crown" viewBox="0 0 24 24"><path d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z"/><path d="M5 21h14"/></symbol>
+  <symbol id="i-sparkles" viewBox="0 0 24 24"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></symbol>
+  <symbol id="i-scroll" viewBox="0 0 24 24"><path d="M15 12h-5"/><path d="M15 8h-5"/><path d="M19 17V5a2 2 0 0 0-2-2H4"/><path d="M8 21h12a2 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v2a1 1 0 0 0 1 1h3"/></symbol>
+  <symbol id="i-award" viewBox="0 0 24 24"><path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"/><circle cx="12" cy="8" r="6"/></symbol>
+  <symbol id="i-history" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l4 2"/></symbol>
+  <symbol id="i-milestone" viewBox="0 0 24 24"><path d="M12 13v8"/><path d="M12 3v3"/><path d="M4 6a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h13a2 2 0 0 0 1.152-.365l3.424-2.317a1 1 0 0 0 0-1.635l-3.424-2.318A2 2 0 0 0 17 6z"/></symbol>
+  <symbol id="i-gem" viewBox="0 0 24 24"><path d="M6 3h12l4 6-10 13L2 9Z"/><path d="M11 3 8 9l4 13 4-13-3-6"/><path d="M2 9h20"/></symbol>
+  <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-.9 1.5-2.2 1.5-3.5A6 6 0 0 0 6 8c0 1 .2 2.2 1.5 3.5.7.7 1.3 1.5 1.5 2.5"/><path d="M9 18h6"/><path d="M10 22h4"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></symbol>
+  <symbol id="i-news" viewBox="0 0 24 24"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></symbol>
+  <symbol id="i-feather" viewBox="0 0 24 24"><path d="M12.67 19a2 2 0 0 0 1.416-.588l6.154-6.172a6 6 0 0 0-8.49-8.49L5.586 9.914A2 2 0 0 0 5 11.328V18a1 1 0 0 0 1 1z"/><path d="M16 8 2 22"/><path d="M17.5 15H9"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></symbol>
+  <symbol id="i-at" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-4 8"/></symbol>
+  <symbol id="i-bubble" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></symbol>
   <symbol id="i-up" viewBox="0 0 24 24"><path d="m18 15-6-6-6 6"/></symbol>
   <symbol id="i-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
 </svg>
@@ -200,10 +246,18 @@ h2{font-size:clamp(38px,4.6vw,60px);line-height:1}
 <div class="picker" id="picker">
   <button class="pk-toggle" id="pkToggle" type="button" aria-expanded="true" aria-controls="pkBody">Style</button>
   <div class="pk-body" id="pkBody">
-    <b>Font</b>
-    <div class="pk-row" data-attr="font"><button type="button" data-v="playfair" style="font-family:'Playfair Display',serif">Playfair</button><button type="button" data-v="bodoni" style="font-family:'Bodoni Moda',serif">Bodoni</button><button type="button" data-v="cinzel" style="font-family:Cinzel,serif">Cinzel</button><button type="button" data-v="grotesk" style="font-family:'Space Grotesk',sans-serif">Grotesk</button></div>
-    <b>Menu</b>
-    <div class="pk-row" data-attr="menu"><button type="button" data-v="classic">Classic</button><button type="button" data-v="icons">Icons</button><button type="button" data-v="pill">Pill</button><button type="button" data-v="overlay">Overlay</button></div>
+    <b>Bar style</b>
+    <div class="pk-row" data-attr="bar"><button type="button" data-v="lines">Lines</button><button type="button" data-v="dock">Dock</button><button type="button" data-v="expand">Expand</button><button type="button" data-v="glow">Glow</button><button type="button" data-v="tiles">Tiles</button></div>
+    <b>About icon</b>
+    <div class="pk-icons" data-tab="0"><button type="button" data-v="i-user" aria-label="About icon 1"><svg class="icon" aria-hidden="true"><use href="#i-user"/></svg></button><button type="button" data-v="i-circle-user" aria-label="About icon 2"><svg class="icon" aria-hidden="true"><use href="#i-circle-user"/></svg></button><button type="button" data-v="i-idcard" aria-label="About icon 3"><svg class="icon" aria-hidden="true"><use href="#i-idcard"/></svg></button><button type="button" data-v="i-crown" aria-label="About icon 4"><svg class="icon" aria-hidden="true"><use href="#i-crown"/></svg></button><button type="button" data-v="i-sparkles" aria-label="About icon 5"><svg class="icon" aria-hidden="true"><use href="#i-sparkles"/></svg></button></div>
+    <b>Résumé icon</b>
+    <div class="pk-icons" data-tab="1"><button type="button" data-v="i-file" aria-label="Résumé icon 1"><svg class="icon" aria-hidden="true"><use href="#i-file"/></svg></button><button type="button" data-v="i-scroll" aria-label="Résumé icon 2"><svg class="icon" aria-hidden="true"><use href="#i-scroll"/></svg></button><button type="button" data-v="i-award" aria-label="Résumé icon 3"><svg class="icon" aria-hidden="true"><use href="#i-award"/></svg></button><button type="button" data-v="i-history" aria-label="Résumé icon 4"><svg class="icon" aria-hidden="true"><use href="#i-history"/></svg></button><button type="button" data-v="i-milestone" aria-label="Résumé icon 5"><svg class="icon" aria-hidden="true"><use href="#i-milestone"/></svg></button></div>
+    <b>Ventures icon</b>
+    <div class="pk-icons" data-tab="2"><button type="button" data-v="i-briefcase" aria-label="Ventures icon 1"><svg class="icon" aria-hidden="true"><use href="#i-briefcase"/></svg></button><button type="button" data-v="i-building" aria-label="Ventures icon 2"><svg class="icon" aria-hidden="true"><use href="#i-building"/></svg></button><button type="button" data-v="i-rocket" aria-label="Ventures icon 3"><svg class="icon" aria-hidden="true"><use href="#i-rocket"/></svg></button><button type="button" data-v="i-gem" aria-label="Ventures icon 4"><svg class="icon" aria-hidden="true"><use href="#i-gem"/></svg></button><button type="button" data-v="i-trend" aria-label="Ventures icon 5"><svg class="icon" aria-hidden="true"><use href="#i-trend"/></svg></button></div>
+    <b>Insights icon</b>
+    <div class="pk-icons" data-tab="3"><button type="button" data-v="i-chat" aria-label="Insights icon 1"><svg class="icon" aria-hidden="true"><use href="#i-chat"/></svg></button><button type="button" data-v="i-bulb" aria-label="Insights icon 2"><svg class="icon" aria-hidden="true"><use href="#i-bulb"/></svg></button><button type="button" data-v="i-book" aria-label="Insights icon 3"><svg class="icon" aria-hidden="true"><use href="#i-book"/></svg></button><button type="button" data-v="i-news" aria-label="Insights icon 4"><svg class="icon" aria-hidden="true"><use href="#i-news"/></svg></button><button type="button" data-v="i-feather" aria-label="Insights icon 5"><svg class="icon" aria-hidden="true"><use href="#i-feather"/></svg></button></div>
+    <b>Contact icon</b>
+    <div class="pk-icons" data-tab="4"><button type="button" data-v="i-mail" aria-label="Contact icon 1"><svg class="icon" aria-hidden="true"><use href="#i-mail"/></svg></button><button type="button" data-v="i-send" aria-label="Contact icon 2"><svg class="icon" aria-hidden="true"><use href="#i-send"/></svg></button><button type="button" data-v="i-phone" aria-label="Contact icon 3"><svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg></button><button type="button" data-v="i-at" aria-label="Contact icon 4"><svg class="icon" aria-hidden="true"><use href="#i-at"/></svg></button><button type="button" data-v="i-bubble" aria-label="Contact icon 5"><svg class="icon" aria-hidden="true"><use href="#i-bubble"/></svg></button></div>
   </div>
 </div>
 <canvas id="stage" aria-hidden="true"></canvas>
@@ -307,7 +361,15 @@ h2{font-size:clamp(38px,4.6vw,60px);line-height:1}
   /* style picker: font and menu presentation, remembered per viewer */
   const root = document.documentElement;
   const getPref = (k, d) => { try { return localStorage.getItem('sb-' + k) || d; } catch (e) { return d; } };
-  root.dataset.font = getPref('font', 'playfair'); root.dataset.menu = getPref('menu', 'classic');
+  root.dataset.font = 'playfair'; root.dataset.menu = 'icons'; root.dataset.bar = getPref('bar', 'lines');
+  const DEF_ICONS = ['i-user', 'i-file', 'i-briefcase', 'i-chat', 'i-mail'];
+  const tabUses = [...document.querySelectorAll('.tab .icon use')];
+  document.querySelectorAll('.pk-icons').forEach(row => {
+    const k = +row.dataset.tab, btns = [...row.querySelectorAll('button')];
+    const set = v => { tabUses[k].setAttribute('href', '#' + v); btns.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === v))); };
+    btns.forEach(b => b.addEventListener('click', () => { set(b.dataset.v); try { localStorage.setItem('sb-icon' + k, b.dataset.v); } catch (e) {} }));
+    set(getPref('icon' + k, DEF_ICONS[k]));
+  });
   document.querySelectorAll('.pk-row').forEach(row => {
     const attr = row.dataset.attr, btns = [...row.querySelectorAll('button')];
     const mark = () => btns.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === root.dataset[attr])));
@@ -345,11 +407,11 @@ h2{font-size:clamp(38px,4.6vw,60px);line-height:1}
   next.addEventListener('click', () => go(idx + 1));
   document.querySelectorAll('[data-go]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); go(+a.dataset.go); }));
   let acc = 0;
-  addEventListener('wheel', e => { e.preventDefault(); if (performance.now() < lock) { acc = 0; return; } acc += e.deltaY; if (Math.abs(acc) > 40) { go(idx + Math.sign(acc)); acc = 0; } }, { passive: false });
+  addEventListener('wheel', e => { if (e.target.closest && e.target.closest('.picker')) return; e.preventDefault(); if (performance.now() < lock) { acc = 0; return; } acc += e.deltaY; if (Math.abs(acc) > 40) { go(idx + Math.sign(acc)); acc = 0; } }, { passive: false });
   const drag = { on: false, x: 0, y: 0, vx: 0, vy: 0, idle: 0 };
   let g0 = null;
   addEventListener('pointerdown', e => {
-    if (e.target.closest('a,button')) return;
+    if (e.target.closest('a,button,.picker')) return;
     g0 = { x: e.clientX, y: e.clientY, lx: e.clientX, ly: e.clientY, mode: e.pointerType === 'mouse' ? 'rot' : null, t: performance.now() };
   });
   addEventListener('pointermove', e => {
