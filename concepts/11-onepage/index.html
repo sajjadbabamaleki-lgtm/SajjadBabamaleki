@@ -36,7 +36,7 @@ button{font:inherit;color:inherit}
 .veil{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(150% 110% at 50% 45%,transparent 60%,rgba(10,11,14,.8) 100%)}
 
 /* app shell: tab bar on top, one chapter frame below */
-.app{position:relative;z-index:2;height:100%;display:grid;grid-template-rows:auto minmax(0,1fr);padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.app{position:relative;z-index:2;height:100%;display:grid;grid-template-rows:auto minmax(0,1fr)}
 .tabs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));position:relative;width:100%;max-width:920px;margin:0 auto;padding-inline:12px}
 .tab{position:relative;display:grid;justify-items:center;gap:6px;padding:14px 4px;min-height:72px;border:0;background:none;color:var(--muted);cursor:pointer;font-size:12px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;transition:color .18s var(--ease)}
 .tab + .tab::before{content:"";position:absolute;left:0;top:18px;bottom:18px;width:1px;background:var(--border)}
@@ -51,9 +51,11 @@ button{font:inherit;color:inherit}
 .slot{grid-column:2;grid-row:1;align-self:stretch;min-height:0}
 .copy{grid-column:1;grid-row:1;position:relative;min-height:0;align-self:center}
 @media (max-width:860px){
-  .frame{grid-template-columns:1fr;grid-template-rows:minmax(0,1fr) auto;align-items:end;gap:8px;padding-bottom:76px}
-  .slot{grid-column:1;grid-row:1}
-  .copy{grid-column:1;grid-row:2}
+  .frame{display:block;padding:0}
+  .slot{position:absolute;inset:0}
+  .copy{position:absolute;left:16px;right:16px;bottom:76px}
+  .copy::before{content:"";position:absolute;left:-16px;right:-16px;top:-48px;bottom:-76px;z-index:-1;background:linear-gradient(transparent,rgba(10,11,14,.82) 48px,rgba(10,11,14,.92))}
+  #about.chapter::before{display:none}
 }
 
 /* chapters: only the active one is shown, the others wait offscreen */
@@ -98,7 +100,7 @@ h2{font-weight:600;font-size:clamp(32px,4vw,52px);line-height:1}
 .status{min-height:20px;font-size:14px;color:var(--success);margin:0}
 
 /* chapter controls */
-.pager{position:absolute;left:clamp(16px,4vw,48px);right:clamp(16px,4vw,48px);bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.pager{position:absolute;z-index:2;left:clamp(16px,4vw,48px);right:clamp(16px,4vw,48px);bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:16px}
 .count{font-family:var(--font-display);font-size:14px;color:var(--muted);font-variant-numeric:tabular-nums}
 .count b{color:var(--text);font-weight:600}
 .bars{display:flex;gap:6px;flex:1;max-width:220px}
@@ -155,8 +157,7 @@ h2{font-weight:600;font-size:clamp(32px,4vw,52px);line-height:1}
       <section class="chapter" id="about" role="tabpanel" aria-labelledby="t-about">
         <h1>Sajjad Babamaleki</h1>
         <span class="typed" style="--i:1" aria-label="Founder and investor"><span class="tw" aria-hidden="true"></span><span class="caret" aria-hidden="true"></span></span>
-        <p class="lede" style="--i:2">I build and back companies in logistics, capital and real estate that are made to last for decades.</p>
-        <nav class="socials" style="--i:3" aria-label="Social profiles">
+        <nav class="socials" style="--i:2" aria-label="Social profiles">
           <a href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
           <a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a>
           <a href="https://t.me/" target="_blank" rel="noopener" aria-label="Telegram"><svg class="icon" aria-hidden="true"><use href="#i-send"/></svg></a>
@@ -450,9 +451,12 @@ h2{font-weight:600;font-size:clamp(32px,4vw,52px);line-height:1}
   const slot = document.getElementById('slot');
   hooks.frame = () => {
     const W = innerWidth, H = innerHeight, r = slot.getBoundingClientRect();
-    cam.setViewOffset(W, H, W / 2 - (r.left + r.width / 2), H / 2 - (r.top + r.height / 2), W, H);
     const k = Math.round(Math.min(4, Math.max(0, state.morph)));
-    const s = Math.min((r.height * .9) / H * VIEW_H / SIZE[k][1], (r.width * .92) / H * VIEW_H / SIZE[k][0], k === 4 ? 1.7 : 1.35);
+    const narrow = W <= 860;
+    const cy = narrow ? r.top + r.height * (k === 0 ? .4 : k === 2 ? .24 : .3) : r.top + r.height / 2;
+    const hFrac = narrow ? (k === 0 ? .78 : .5) : .9;
+    cam.setViewOffset(W, H, W / 2 - (r.left + r.width / 2), H / 2 - cy, W, H);
+    const s = Math.min((r.height * hFrac) / H * VIEW_H / SIZE[k][1], (r.width * .96) / H * VIEW_H / SIZE[k][0], k === 4 ? 1.9 : 1.6);
     group.scale.setScalar(group.scale.x + (s - group.scale.x) * .12);
   };
 })();
