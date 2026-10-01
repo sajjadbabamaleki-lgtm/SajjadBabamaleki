@@ -1,0 +1,556 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+</head>
+<body>
+<title>Sajjad Babamaleki</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=Mrs+Saint+Delafield&display=swap">
+<style>
+/* vCard layout (UI/UX Pro Max: Portfolio + Finance founder + Spatial 3D).
+   Header with name and typed role, icon tab bar with five sections, a black-and-white portrait card,
+   and the approved particle scene behind it all: every tab re-forms the particles into its own shape.
+   Scale 1.25, 8px spacing, radius 14px, one accent. Dark and light themes. */
+:root{
+  --bg:#0A0B0E;--surface:#13151B;--surface-2:#1A1D25;--text:#EEF0F5;--muted:#A1A7B6;--border:#252934;--control:#737A8A;
+  --primary:#9BB0FF;--on-primary:#0A0B0E;--success:#6FD3A5;--scrim:rgba(10,11,14,.86);
+  --font-display:"Space Grotesk",ui-sans-serif,system-ui,sans-serif;
+  --font-text:"Inter",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --r:14px;--ease:cubic-bezier(.22,1,.36,1);
+  --shadow:0 1px 2px rgba(0,0,0,.35),0 18px 40px -22px rgba(0,0,0,.7);
+  color-scheme:dark;
+}
+:root[data-theme="light"]{
+  --bg:#F2F3F6;--surface:#FFFFFF;--surface-2:#F0F2F6;--text:#0E1016;--muted:#535A69;--border:#DCDFE6;--control:#7A8090;
+  --primary:#3446D4;--on-primary:#FFFFFF;--success:#137A4E;--scrim:rgba(242,243,246,.9);
+  --shadow:0 1px 2px rgba(20,24,40,.06),0 18px 40px -24px rgba(20,24,40,.25);
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{background:var(--bg);scroll-padding-top:150px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font-text);font-size:16px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background-color .3s var(--ease),color .3s var(--ease)}
+::selection{background:var(--primary);color:var(--on-primary)}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--primary);outline-offset:3px;border-radius:8px}
+.icon{width:22px;height:22px;flex:none;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.wrap{width:100%;max-width:1240px;margin-inline:auto;padding-inline:clamp(16px,3vw,32px)}
+
+#stage{position:fixed;inset:0;width:100%;height:100%;z-index:0;display:block;pointer-events:none}
+.veil{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(120% 90% at 70% 40%,transparent 35%,var(--bg) 100%);opacity:.9}
+.app{position:relative;z-index:2}
+
+/* header */
+.head{position:sticky;top:0;z-index:20;background:var(--scrim);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding-top:env(safe-area-inset-top,0px)}
+.head-row{display:flex;align-items:center;justify-content:space-between;gap:16px;height:76px}
+.id{display:grid;gap:2px;min-width:0}
+.id b{white-space:nowrap;font-family:var(--font-display);font-weight:600;font-size:20px;letter-spacing:-.01em;line-height:1.1}
+.typed{font-family:var(--font-display);font-size:15px;color:var(--primary);min-height:1.3em;white-space:nowrap}
+.caret{display:inline-block;width:.55em;height:2px;background:currentColor;margin-left:2px;vertical-align:-1px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.tools{display:flex;align-items:center;gap:8px}
+.ibtn{display:grid;place-items:center;width:44px;height:44px;border-radius:12px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;transition:border-color .18s var(--ease),color .18s var(--ease),transform .12s var(--ease)}
+.ibtn:hover{border-color:var(--control);color:var(--primary)}
+.ibtn:active{transform:scale(.95)}
+.ibtn .moon{display:none}
+:root[data-theme="light"] .ibtn .sun{display:none}
+:root[data-theme="light"] .ibtn .moon{display:block}
+
+
+/* tabs */
+.tabs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));position:relative;border-top:1px solid var(--border)}
+.tab{position:relative;display:grid;justify-items:center;gap:6px;padding:12px 4px 14px;min-height:72px;border:0;background:none;color:var(--muted);cursor:pointer;font-size:12px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;transition:color .18s var(--ease),background-color .18s var(--ease)}
+.tab + .tab::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:1px;background:var(--border)}
+.tab:hover{color:var(--text);background:color-mix(in srgb,var(--surface-2) 60%,transparent)}
+.tab[aria-selected="true"]{color:var(--primary)}
+.tab .icon{width:24px;height:24px;transition:transform .3s var(--ease)}
+.tab[aria-selected="true"] .icon{transform:translateY(-2px)}
+.ink{position:absolute;bottom:-1px;left:0;height:2px;width:20%;background:var(--primary);border-radius:2px;transition:transform .35s var(--ease)}
+@media (max-width:420px){.tab{font-size:10.5px;letter-spacing:.04em}}
+
+/* layout */
+.main{display:grid;grid-template-columns:minmax(0,1fr);gap:24px;padding-block:24px 64px}
+@media (min-width:1024px){.main{grid-template-columns:380px minmax(0,1fr);align-items:start;gap:32px;padding-top:32px}}
+
+/* profile card */
+.profile{border-radius:var(--r);overflow:hidden;background:var(--surface);border:1px solid var(--border);box-shadow:var(--shadow)}
+@media (min-width:1024px){.profile{position:sticky;top:180px}}
+@media (max-width:1023px){body:not([data-tab="about"]) .profile{display:none}}
+.photo{position:relative;aspect-ratio:4/5;overflow:hidden;background:#111}
+.photo img{width:100%;height:100%;object-fit:cover;object-position:50% 25%;display:block;transform:scale(1.04);transition:transform 1.2s var(--ease)}
+.profile:hover .photo img{transform:scale(1)}
+.photo::after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 45%,rgba(10,11,14,.25) 62%,rgba(10,11,14,.92) 100%)}
+.nameplate{position:absolute;left:0;right:0;bottom:0;z-index:1;padding:24px;text-align:center;color:#F2F3F7}
+.nameplate h1{margin:0;font-family:var(--font-display);font-weight:700;font-size:clamp(34px,4.4vw,44px);line-height:1;letter-spacing:-.03em}
+.nameplate .typed{display:inline-block;margin-top:8px;font-size:19px;color:#C8D3FF;font-weight:600}
+.socials{display:flex;justify-content:center;gap:8px;padding:16px}
+.socials a{display:grid;place-items:center;width:44px;height:44px;border-radius:12px;color:var(--muted);transition:color .18s var(--ease),background-color .18s var(--ease),transform .12s var(--ease)}
+.socials a:hover{color:var(--primary);background:var(--surface-2)}
+.socials a:active{transform:scale(.94)}
+
+/* panels */
+.panel{min-width:0}
+.panel[hidden]{display:none!important}
+.panel.enter{animation:panelIn .32s var(--ease)}
+@keyframes panelIn{from{opacity:0;transform:translateY(10px)}}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--shadow);padding:clamp(20px,3vw,32px)}
+.stack{display:grid;gap:16px}
+.ptitle{display:flex;align-items:center;gap:12px;margin:0 0 20px;font-family:var(--font-display);font-weight:600;font-size:clamp(25px,2.6vw,31px);letter-spacing:-.02em}
+.ptitle::after{content:"";flex:1;height:1px;background:var(--border)}
+h3{margin:0;font-family:var(--font-display);font-weight:600;font-size:20px;letter-spacing:-.015em;line-height:1.25}
+p{margin:0}
+.muted{color:var(--muted)}
+.bio{display:grid;gap:12px;max-width:62ch;color:var(--muted)}
+.bio strong{color:var(--text);font-weight:500}
+
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:620px){.grid2{grid-template-columns:1fr}}
+.feature{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;padding:18px;border-radius:12px;background:var(--surface-2)}
+.feature .ic,.row .ic{display:grid;place-items:center;width:44px;height:44px;border-radius:12px;background:var(--surface);border:1px solid var(--border);color:var(--primary)}
+.feature p{font-size:14px;color:var(--muted);margin-top:4px}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:0}
+.facts div{padding:16px;border-radius:12px;border:1px solid var(--border)}
+.facts dt{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.facts dd{margin:4px 0 0;font-weight:500}
+@media (max-width:620px){.facts{grid-template-columns:1fr}}
+
+/* resume timeline */
+.timeline{list-style:none;margin:0;padding:0;position:relative}
+.timeline::before{content:"";position:absolute;left:21px;top:8px;bottom:8px;width:1px;background:var(--border)}
+.timeline li{position:relative;display:grid;grid-template-columns:44px minmax(0,1fr);gap:16px;padding-bottom:24px}
+.timeline li:last-child{padding-bottom:0}
+.timeline .ic{position:relative;z-index:1;display:grid;place-items:center;width:44px;height:44px;border-radius:12px;background:var(--surface-2);border:1px solid var(--border);color:var(--primary)}
+.when{font-size:13px;font-weight:500;color:var(--primary);font-variant-numeric:tabular-nums}
+.timeline p{color:var(--muted);margin-top:6px;max-width:58ch}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;min-height:36px;padding:0 14px;border-radius:999px;border:1px solid var(--border);font-size:14px;color:var(--text);background:var(--surface-2)}
+
+/* ventures */
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px}
+.filter{min-height:44px;padding:0 16px;border-radius:12px;border:1px solid var(--border);background:var(--surface);color:var(--muted);cursor:pointer;font-size:14px;font-weight:500;transition:all .18s var(--ease)}
+.filter:hover{color:var(--text);border-color:var(--control)}
+.filter[aria-pressed="true"]{background:var(--primary);border-color:var(--primary);color:var(--on-primary)}
+.vgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+@media (max-width:620px){.vgrid{grid-template-columns:1fr}}
+.vcard{overflow:hidden;padding:0;display:flex;flex-direction:column;transition:transform .25s var(--ease),border-color .2s var(--ease)}
+.vcard:hover{transform:translateY(-3px);border-color:var(--control)}
+.vcard.wide{grid-column:1/-1}
+.vcard .media{aspect-ratio:16/9;overflow:hidden;background:#111}
+.vcard.wide .media{aspect-ratio:21/9}
+.vcard img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .8s var(--ease)}
+.vcard:hover img{transform:scale(1.04)}
+.vcard .body{padding:20px;display:grid;gap:8px}
+.vcard .meta{display:flex;justify-content:space-between;gap:12px;font-size:13px;color:var(--muted)}
+.vcard .meta b{color:var(--primary);font-weight:500}
+.vcard.hide{display:none}
+
+/* insights */
+.rows{display:grid}
+.row{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:16px;padding:16px 8px;border-radius:12px;transition:background-color .18s var(--ease)}
+.row + .row{border-top:1px solid var(--border)}
+.row:hover{background:var(--surface-2)}
+.row small{color:var(--muted);font-size:13px}
+.row .go{color:var(--muted);transition:transform .18s var(--ease),color .18s var(--ease)}
+.row:hover .go{transform:translate(2px,-2px);color:var(--primary)}
+
+/* contact */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 20px;border-radius:12px;border:1px solid transparent;font-size:15px;font-weight:500;cursor:pointer;white-space:nowrap;transition:background-color .18s var(--ease),border-color .18s var(--ease),transform .12s var(--ease)}
+.btn:active{transform:scale(.98)}
+.btn .icon{width:18px;height:18px}
+.btn-primary{background:var(--primary);color:var(--on-primary)}
+.btn-primary:hover{filter:brightness(1.08)}
+.btn-secondary{border-color:var(--control);background:var(--surface);color:var(--text)}
+.btn-secondary:hover{border-color:var(--text)}
+.btn.cv{display:none}
+@media (min-width:720px){.btn.cv{display:inline-flex}}
+.contact-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:760px){.contact-grid{grid-template-columns:1fr}}
+.cbox{display:grid;gap:10px;padding:20px;border-radius:12px;background:var(--surface-2);border:1px solid var(--border)}
+.cbox .ic{color:var(--primary)}
+.cbox small{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.cbox span{font-weight:500;overflow-wrap:anywhere}
+.cta{display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.status{min-height:22px;font-size:14px;color:var(--success)}
+
+.foot{padding:24px 0 40px;color:var(--muted);font-size:14px;text-align:center}
+.nogl #stage{display:none}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition-duration:.01ms!important}}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 0 0-16 0"/></symbol>
+  <symbol id="i-file" viewBox="0 0 24 24"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M8 13h8"/><path d="M8 17h8"/><path d="M8 9h2"/></symbol>
+  <symbol id="i-briefcase" viewBox="0 0 24 24"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2z"/><path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></symbol>
+  <symbol id="i-linkedin" viewBox="0 0 24 24"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></symbol>
+  <symbol id="i-instagram" viewBox="0 0 24 24"><rect width="20" height="20" x="2" y="2" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><path d="M17.5 6.5h.01"/></symbol>
+  <symbol id="i-send" viewBox="0 0 24 24"><path d="M14.54 21.69a.5.5 0 0 0 .94-.03l6.5-19a.5.5 0 0 0-.64-.63l-19 6.5a.5.5 0 0 0-.02.93l7.93 3.18a2 2 0 0 1 1.11 1.11z"/><path d="m21.85 2.15-10.94 10.94"/></symbol>
+  <symbol id="i-rocket" viewBox="0 0 24 24"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></symbol>
+  <symbol id="i-trend" viewBox="0 0 24 24"><path d="M22 7 13.5 15.5 8.5 10.5 2 17"/><path d="M16 7h6v6"/></symbol>
+  <symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-2.12 6.36-6.36 2.12 2.12-6.36 6.36-2.12z"/></symbol>
+  <symbol id="i-building" viewBox="0 0 24 24"><path d="M6 22V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v18Z"/><path d="M6 12H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2"/><path d="M18 9h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-2"/><path d="M10 6h4"/><path d="M10 10h4"/><path d="M10 14h4"/><path d="M10 18h4"/></symbol>
+  <symbol id="i-ship" viewBox="0 0 24 24"><path d="M2 21c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1 .6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M19.38 20A11.6 11.6 0 0 0 21 14l-9-4-9 4c0 2.9.94 5.34 2.81 7.76"/><path d="M19 13V7a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v6"/><path d="M12 10v4"/><path d="M12 2v3"/></symbol>
+  <symbol id="i-landmark" viewBox="0 0 24 24"><path d="M3 22h18"/><path d="M6 18v-7"/><path d="M10 18v-7"/><path d="M14 18v-7"/><path d="M18 18v-7"/><path d="M12 2 20 7H4z"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+</svg>
+
+<canvas id="stage" aria-hidden="true"></canvas>
+<div class="veil" aria-hidden="true"></div>
+
+<div class="app">
+  <header class="head">
+    <div class="wrap head-row">
+      <div class="id"><b>Sajjad Babamaleki</b><span class="typed" aria-label="Founder and investor"><span class="tw" aria-hidden="true"></span><span class="caret" aria-hidden="true"></span></span></div>
+      <div class="tools">
+        <a class="btn btn-secondary cv" href="#resume" data-goto="resume"><svg class="icon" aria-hidden="true"><use href="#i-download"/></svg>Résumé</a>
+        <button class="ibtn" id="theme" type="button" aria-label="Switch to light theme"><svg class="icon sun" aria-hidden="true"><use href="#i-sun"/></svg><svg class="icon moon" aria-hidden="true"><use href="#i-moon"/></svg></button>
+      </div>
+    </div>
+    <div class="wrap">
+      <div class="tabs" role="tablist" aria-label="Sections">
+        <button class="tab" role="tab" id="t-about" aria-controls="about" aria-selected="true" data-tab="about" data-shape="0"><svg class="icon" aria-hidden="true"><use href="#i-user"/></svg>About</button>
+        <button class="tab" role="tab" id="t-resume" aria-controls="resume" aria-selected="false" tabindex="-1" data-tab="resume" data-shape="3"><svg class="icon" aria-hidden="true"><use href="#i-file"/></svg>Résumé</button>
+        <button class="tab" role="tab" id="t-ventures" aria-controls="ventures" aria-selected="false" tabindex="-1" data-tab="ventures" data-shape="2"><svg class="icon" aria-hidden="true"><use href="#i-briefcase"/></svg>Ventures</button>
+        <button class="tab" role="tab" id="t-insights" aria-controls="insights" aria-selected="false" tabindex="-1" data-tab="insights" data-shape="1"><svg class="icon" aria-hidden="true"><use href="#i-chat"/></svg>Insights</button>
+        <button class="tab" role="tab" id="t-contact" aria-controls="contact" aria-selected="false" tabindex="-1" data-tab="contact" data-shape="4"><svg class="icon" aria-hidden="true"><use href="#i-mail"/></svg>Contact</button>
+        <span class="ink" id="ink" aria-hidden="true"></span>
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap main">
+    <aside class="profile" aria-label="Profile">
+      <div class="photo">
+        <img src="img/portrait.jpg" alt="Portrait of Sajjad Babamaleki" width="1100" height="1375">
+        <div class="nameplate"><h1>Sajjad Babamaleki</h1><span class="typed" aria-hidden="true"><span class="tw"></span><span class="caret"></span></span></div>
+      </div>
+      <nav class="socials" aria-label="Social profiles">
+        <a href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
+        <a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a>
+        <a href="https://t.me/" target="_blank" rel="noopener" aria-label="Telegram"><svg class="icon" aria-hidden="true"><use href="#i-send"/></svg></a>
+        <a href="#contact" data-goto="contact" aria-label="Email"><svg class="icon" aria-hidden="true"><use href="#i-mail"/></svg></a>
+      </nav>
+    </aside>
+
+    <div>
+      <section class="panel stack" id="about" role="tabpanel" aria-labelledby="t-about">
+        <div class="card">
+          <h2 class="ptitle">About me</h2>
+          <div class="bio">
+            <p><strong>I build companies that are meant to last for decades, not quarters.</strong></p>
+            <p>As a founder and investor I work across logistics, capital and real estate, mostly in the markets between the Gulf, Central Asia and Europe that larger investors tend to overlook.</p>
+            <p>I prefer small teams of exceptional operators, patient capital, and businesses with real customers and real margins from day one.</p>
+          </div>
+        </div>
+        <div class="card">
+          <h2 class="ptitle">What I do</h2>
+          <div class="grid2">
+            <div class="feature"><span class="ic"><svg class="icon" aria-hidden="true"><use href="#i-rocket"/></svg></span><div><h3>Founding</h3><p>Starting companies from a blank page and running them to scale.</p></div></div>
+            <div class="feature"><span class="ic"><svg class="icon" aria-hidden="true"><use href="#i-trend"/></svg></span><div><h3>Investing</h3><p>Backing founders with capital, introductions and long patience.</p></div></div>
+            <div class="feature"><span class="ic"><svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg></span><div><h3>Advisory</h3><p>Helping boards and founders enter new markets and corridors.</p></div></div>
+            <div class="feature"><span class="ic"><svg class="icon" aria-hidden="true"><use href="#i-building"/></svg></span><div><h3>Real estate</h3><p>Commercial property held for the long term in growing cities.</p></div></div>
+          </div>
+        </div>
+        <div class="card">
+          <dl class="facts">
+            <div><dt>Focus</dt><dd>Logistics, capital, property</dd></div>
+            <div><dt>Markets</dt><dd>Gulf, Central Asia, Europe</dd></div>
+            <div><dt>Languages</dt><dd>Persian, English</dd></div>
+          </dl>
+        </div>
+      </section>
+
+      <section class="panel stack" id="resume" role="tabpanel" aria-labelledby="t-resume" hidden>
+        <div class="card">
+          <h2 class="ptitle">Experience</h2>
+          <ol class="timeline">
+            <li><span class="ic"><svg class="icon" aria-hidden="true"><use href="#i-building"/></svg></span><div><span class="when">2022 to present</span><h3>Co-founder, Arvand Holdings</h3><p>Commercial real estate in cities on the rise, held for decades rather than flipped.</p></div></li>
+            <li><span class="ic"><svg class="icon" aria-hidden="true"><use href="#i-landmark"/></svg></span><div><span class="when">2019 to present</span><h3>Managing partner, Sepehr Capital</h3><p>An emerging-market fund backing founders with patient capital and a long horizon.</p></div></li>
+            <li><span class="ic"><svg class="icon" aria-hidden="true"><use href="#i-ship"/></svg></span><div><span class="when">2016 to present</span><h3>Founder and chairman, Tirgan Logistics</h3><p>Cross-border freight between the Gulf, Central Asia and Europe.</p></div></li>
+          </ol>
+        </div>
+        <div class="card">
+          <h2 class="ptitle">Strengths</h2>
+          <div class="chips"><span class="chip">Strategy</span><span class="chip">Capital allocation</span><span class="chip">Operations</span><span class="chip">Negotiation</span><span class="chip">Market entry</span><span class="chip">Team building</span></div>
+        </div>
+      </section>
+
+      <section class="panel" id="ventures" role="tabpanel" aria-labelledby="t-ventures" hidden>
+        <div class="card">
+          <h2 class="ptitle">Ventures</h2>
+          <div class="filters" role="group" aria-label="Filter ventures">
+            <button class="filter" type="button" aria-pressed="true" data-f="all">All</button>
+            <button class="filter" type="button" aria-pressed="false" data-f="logistics">Logistics</button>
+            <button class="filter" type="button" aria-pressed="false" data-f="capital">Capital</button>
+            <button class="filter" type="button" aria-pressed="false" data-f="property">Real estate</button>
+          </div>
+          <div class="vgrid">
+            <article class="card vcard wide" data-cat="logistics"><div class="media"><img src="img/port.jpg" alt="Aerial view of a container port" loading="lazy"></div><div class="body"><div class="meta"><b>Logistics</b><span>Since 2016</span></div><h3>Tirgan Logistics</h3><p class="muted">Cross-border freight built on one promise: it arrives when we say it will.</p></div></article>
+            <article class="card vcard" data-cat="capital"><div class="media"><img src="img/earth.jpg" alt="City lights across the earth at night" loading="lazy"></div><div class="body"><div class="meta"><b>Capital</b><span>Since 2019</span></div><h3>Sepehr Capital</h3><p class="muted">Patient capital for founders in emerging markets.</p></div></article>
+            <article class="card vcard" data-cat="property"><div class="media"><img src="img/towers.jpg" alt="Glass towers seen from street level" loading="lazy"></div><div class="body"><div class="meta"><b>Real estate</b><span>Since 2022</span></div><h3>Arvand Holdings</h3><p class="muted">Commercial property held for decades, not flipped for quarters.</p></div></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel" id="insights" role="tabpanel" aria-labelledby="t-insights" hidden>
+        <div class="card">
+          <h2 class="ptitle">Insights</h2>
+          <div class="rows">
+            <a class="row" href="#insights"><span class="ic"><svg class="icon" aria-hidden="true"><use href="#i-trend"/></svg></span><span><h3>Why patient capital wins in frontier markets</h3><small>Investing · 6 min read</small></span><svg class="icon go" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+            <a class="row" href="#insights"><span class="ic"><svg class="icon" aria-hidden="true"><use href="#i-ship"/></svg></span><span><h3>The new trade corridor between the Gulf and Central Asia</h3><small>Logistics · 8 min read</small></span><svg class="icon go" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+            <a class="row" href="#insights"><span class="ic"><svg class="icon" aria-hidden="true"><use href="#i-rocket"/></svg></span><span><h3>Small teams, owner economics</h3><small>Leadership · 5 min read</small></span><svg class="icon go" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel stack" id="contact" role="tabpanel" aria-labelledby="t-contact" hidden>
+        <div class="card stack">
+          <h2 class="ptitle" style="margin-bottom:4px">Get in touch</h2>
+          <p class="muted" style="max-width:56ch">For partnerships, investments and introductions, write to me directly. I reply within two working days.</p>
+          <div class="contact-grid">
+            <div class="cbox"><svg class="icon ic" aria-hidden="true"><use href="#i-mail"/></svg><small>Email</small><span id="email">office@sajjadbabamaleki.com</span></div>
+            <div class="cbox"><svg class="icon ic" aria-hidden="true"><use href="#i-send"/></svg><small>Telegram</small><span>@sajjadbabamaleki</span></div>
+            <div class="cbox"><svg class="icon ic" aria-hidden="true"><use href="#i-clock"/></svg><small>Response time</small><span>Within two working days</span></div>
+          </div>
+          <div class="cta">
+            <button class="btn btn-primary" id="copy" type="button"><svg class="icon" aria-hidden="true"><use href="#i-copy"/></svg><span>Copy email</span></button>
+            <a class="btn btn-secondary" href="https://www.linkedin.com/" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg>LinkedIn</a>
+          </div>
+          <p class="status" id="status" aria-live="polite"></p>
+        </div>
+      </section>
+    </div>
+  </div>
+  <p class="foot">© 2026 Sajjad Babamaleki</p>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(() => {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const wide = matchMedia('(min-width: 821px)').matches;
+  const root = document.documentElement;
+  const hooks = {};
+
+  /* theme */
+  const themeBtn = document.getElementById('theme');
+  const setTheme = t => { root.dataset.theme = t; themeBtn.setAttribute('aria-label', t === 'light' ? 'Switch to dark theme' : 'Switch to light theme'); try { localStorage.setItem('sb-theme', t); } catch (e) {} if (hooks.theme) hooks.theme(t === 'light'); };
+  let saved = 'dark'; try { saved = localStorage.getItem('sb-theme') || 'dark'; } catch (e) {}
+  setTheme(saved);
+  themeBtn.addEventListener('click', () => setTheme(root.dataset.theme === 'light' ? 'dark' : 'light'));
+
+  /* typed role */
+  const ROLES = ['Founder', 'Investor', 'Builder of lasting companies'];
+  const tws = [...document.querySelectorAll('.tw')];
+  if (reduce) tws.forEach(t => t.textContent = 'Founder and investor');
+  else { let r = 0, i = 0, del = false;
+    const tick = () => { const w = ROLES[r]; i += del ? -1 : 1; tws.forEach(t => t.textContent = w.slice(0, i));
+      let wait = del ? 35 : 75;
+      if (!del && i === w.length) { del = true; wait = 1800; } else if (del && i === 0) { del = false; r = (r + 1) % ROLES.length; wait = 350; }
+      setTimeout(tick, wait); };
+    setTimeout(tick, 400); }
+
+  /* tabs: ARIA tabs pattern, deep links, ink indicator, particle shape per tab */
+  const tabs = [...document.querySelectorAll('.tab')], ink = document.getElementById('ink');
+  const select = (name, focus, push) => {
+    const t = tabs.find(x => x.dataset.tab === name) || tabs[0];
+    tabs.forEach(x => { const on = x === t; x.setAttribute('aria-selected', String(on)); x.tabIndex = on ? 0 : -1; const p = document.getElementById(x.dataset.tab); p.hidden = !on; if (on) { p.classList.remove('enter'); void p.offsetWidth; p.classList.add('enter'); } });
+    ink.style.transform = `translateX(${tabs.indexOf(t) * 100}%)`;
+    document.body.dataset.tab = t.dataset.tab;
+    if (focus) t.focus();
+    if (push) history.replaceState(null, '', '#' + t.dataset.tab);
+    if (hooks.state) hooks.state.target = +t.dataset.shape;
+    if (innerWidth < 1024 && push) scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' });
+  };
+  tabs.forEach((t, i) => {
+    t.addEventListener('click', () => select(t.dataset.tab, false, true));
+    t.addEventListener('keydown', e => {
+      let k = null; if (e.key === 'ArrowRight') k = (i + 1) % tabs.length; if (e.key === 'ArrowLeft') k = (i - 1 + tabs.length) % tabs.length; if (e.key === 'Home') k = 0; if (e.key === 'End') k = tabs.length - 1;
+      if (k !== null) { e.preventDefault(); select(tabs[k].dataset.tab, true, true); }
+    });
+  });
+  document.querySelectorAll('[data-goto]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); select(a.dataset.goto, false, true); }));
+  const fromHash = () => select((location.hash || '#about').slice(1), false, false);
+  addEventListener('hashchange', fromHash);
+  fromHash();
+
+  /* venture filters */
+  const filters = [...document.querySelectorAll('.filter')], vcards = [...document.querySelectorAll('.vcard')];
+  filters.forEach(f => f.addEventListener('click', () => {
+    filters.forEach(x => x.setAttribute('aria-pressed', String(x === f)));
+    vcards.forEach(c => c.classList.toggle('hide', f.dataset.f !== 'all' && c.dataset.cat !== f.dataset.f));
+    vcards.forEach(c => c.classList.toggle('wide', f.dataset.f === 'all' && c.dataset.cat === 'logistics'));
+  }));
+
+  /* copy email */
+  const copyBtn = document.getElementById('copy'), status = document.getElementById('status'), email = document.getElementById('email');
+  copyBtn.addEventListener('click', () => {
+    const ok = () => { status.style.color = ''; status.textContent = 'Email copied to clipboard.'; copyBtn.querySelector('span').textContent = 'Copied'; setTimeout(() => { copyBtn.querySelector('span').textContent = 'Copy email'; status.textContent = ''; }, 2400); };
+    const fail = () => { const r = document.createRange(); r.selectNodeContents(email); const s = getSelection(); s.removeAllRanges(); s.addRange(r); status.style.color = 'var(--muted)'; status.textContent = 'Email selected. Press Ctrl+C or Cmd+C to copy.'; };
+    try { navigator.clipboard.writeText(email.textContent).then(ok, fail); } catch (e) { fail(); }
+  });
+
+  function smooth(st) { if (st) { hooks.state = st; st.target = +(tabs.find(t => t.getAttribute('aria-selected') === 'true') || tabs[0]).dataset.shape; } }
+
+  /* ---------- particle shapes ---------- */
+  const N = wide ? 30000 : 12000;
+  const R = Math.random;
+  const gauss = () => (R() + R() + R() + R() - 2) / 2;
+  const side = 0;
+  function shape(fill) { const a = new Float32Array(N * 3); for (let i = 0; i < N; i++) { const p = fill(i); a[i * 3] = p[0]; a[i * 3 + 1] = p[1]; a[i * 3 + 2] = p[2]; } return a; }
+
+  // 0 galaxy: three spiral arms, tilted
+  const galaxy = shape(() => {
+    const arm = Math.floor(R() * 3), r = Math.pow(R(), .55) * 4.6, a = arm * 2.094 + r * 1.25 + gauss() * .35;
+    let x = Math.cos(a) * r, z = Math.sin(a) * r, y = gauss() * .22 * (1.2 - r / 4.6);
+    if (R() < .12) { const rr = R() * .7; const t = R() * 6.283; x = Math.cos(t) * rr; z = Math.sin(t) * rr; y = gauss() * .25; }
+    const tilt = .5, yy = y * Math.cos(tilt) - z * Math.sin(tilt), zz = y * Math.sin(tilt) + z * Math.cos(tilt);
+    return [x, yy + .3, zz];
+  });
+  // 1 globe with trade routes
+  const RG = 2.25, city = () => { const u = R() * 2 - 1, t = R() * 6.283, s = Math.sqrt(1 - u * u); return [s * Math.cos(t), u * .8, s * Math.sin(t)]; };
+  const routes = Array.from({ length: 26 }, () => { const a = city(), b = city(); const la = Math.hypot(...a), lb = Math.hypot(...b); return [a.map(v => v / la), b.map(v => v / lb)]; });
+  const globe = shape(i => {
+    const k = R(); let p;
+    if (k < .6) { const t = i / N; const y = 1 - 2 * ((i * 7919) % N) / N; const r = Math.sqrt(1 - y * y); const th = i * 2.39996; p = [Math.cos(th) * r * RG, y * RG, Math.sin(th) * r * RG]; }
+    else if (k < .74) { const t = R() * 6.283, rr = RG * 1.55 + gauss() * .04; p = [Math.cos(t) * rr, gauss() * .02, Math.sin(t) * rr]; const tl = .35; p = [p[0], p[1] * Math.cos(tl) - p[2] * Math.sin(tl), p[1] * Math.sin(tl) + p[2] * Math.cos(tl)]; }
+    else { const [a, b] = routes[Math.floor(R() * routes.length)], t = R(); const v = [a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t, a[2] + (b[2] - a[2]) * t]; const l = Math.hypot(...v) || 1, h = RG * (1 + .32 * Math.sin(Math.PI * t)); p = v.map(c => c / l * h); }
+    return [p[0] + side, p[1], p[2]];
+  });
+  // 2 skyline: wireframe towers on a dotted ground
+  const towers = []; for (let gx = -4; gx <= 4; gx++) for (let gz = -3; gz <= 3; gz++) { if (R() < .22) continue; const h = .25 + Math.pow(R(), 2.4) * 3.6 * (1 - Math.hypot(gx, gz) / 7); towers.push([gx * .62, gz * .62, .22 + R() * .12, Math.max(.2, h)]); }
+  const skyline = shape(() => {
+    const k = R();
+    if (k < .18) return [((R() - .5) * 6) * .8 - side * .85, -1.35, (R() - .5) * 4.6 * .8];
+    const [x, z, w, h] = towers[Math.floor(R() * towers.length)];
+    let px2, py2, pz2;
+    if (R() < .62) { const e = Math.floor(R() * 4), sx = e & 1 ? w : -w, sz = e & 2 ? w : -w; px2 = x + sx; pz2 = z + sz; py2 = R() * h; }
+    else { const f = Math.floor(R() * 4), u = (R() * 2 - 1) * w; px2 = x + (f === 0 ? w : f === 1 ? -w : u); pz2 = z + (f === 2 ? w : f === 3 ? -w : u); py2 = Math.floor(R() * h / .16) * .16; }
+    return [px2 * .8 - side * .85, py2 * .8 - 1.35, pz2 * .8];
+  });
+  // 3 double helix with rungs
+  const helix = shape(() => {
+    const t = R(), a = t * 6.283 * 2.6, y = (t - .5) * 6.2, r = 1.15;
+    if (R() < .22) { const s = R() * 2 - 1, aa = Math.floor(t * 40) / 40 * 6.283 * 2.6; return [Math.cos(aa) * r * s + side * .9, (Math.floor(t * 40) / 40 - .5) * 6.2, Math.sin(aa) * r * s]; }
+    const off = R() < .5 ? 0 : Math.PI;
+    return [Math.cos(a + off) * r + gauss() * .05 + side * .9, y + gauss() * .03, Math.sin(a + off) * r + gauss() * .05];
+  });
+  // 4 signature, sampled from rendered script lettering
+  function signature() {
+    const c = document.createElement('canvas'); c.width = 1400; c.height = 420; const g = c.getContext('2d');
+    g.fillStyle = '#fff'; g.textBaseline = 'middle'; g.textAlign = 'center';
+    g.font = '300px "Mrs Saint Delafield", "Brush Script MT", cursive'; g.fillText('Sajjad', 700, 200);
+    const d = g.getImageData(0, 0, 1400, 420).data, pts = [];
+    for (let y = 0; y < 420; y += 2) for (let x = 0; x < 1400; x += 2) if (d[(y * 1400 + x) * 4 + 3] > 120) pts.push([x, y]);
+    if (!pts.length) pts.push([700, 210]);
+    const sc = (wide ? 7.4 : 5) / 1400;
+    return shape(() => { const [x, y] = pts[Math.floor(R() * pts.length)]; return [(x - 700) * sc + gauss() * .02, -(y - 210) * sc + .3, gauss() * .08]; });
+  }
+
+  /* ---------- WebGL stage ---------- */
+  let gl = null;
+  try { if (window.THREE) gl = new THREE.WebGLRenderer({ canvas: document.getElementById('stage'), antialias: false, alpha: false, powerPreference: 'high-performance' }); } catch (e) { gl = null; }
+  if (!gl) { document.documentElement.classList.add('nogl'); smooth(); return; }
+  gl.setPixelRatio(Math.min(devicePixelRatio || 1, 1.75)); gl.setClearColor(0x0A0B0E, 1);
+  const scene = new THREE.Scene();
+  const cam = new THREE.PerspectiveCamera(42, 1, .1, 100); cam.position.set(0, 0, wide ? 9.5 : 12);
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.BufferAttribute(galaxy, 3));
+  geo.setAttribute('pB', new THREE.BufferAttribute(globe, 3));
+  geo.setAttribute('pC', new THREE.BufferAttribute(skyline, 3));
+  geo.setAttribute('pD', new THREE.BufferAttribute(helix, 3));
+  const sigAttr = new THREE.BufferAttribute(signature(), 3); geo.setAttribute('pE', sigAttr);
+  const rnd = new Float32Array(N); for (let i = 0; i < N; i++) rnd[i] = R(); geo.setAttribute('rnd', new THREE.BufferAttribute(rnd, 1));
+  const U = { uMorph: { value: 0 }, uTime: { value: 0 }, uSize: { value: wide ? 26 : 34 }, uPix: { value: gl.getPixelRatio() }, uMouse: { value: new THREE.Vector2(9, 9) }, uAspect: { value: 1 }, uIn: { value: 0 }, uLight: { value: 0 } };
+  const mat = new THREE.ShaderMaterial({
+    uniforms: U, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
+    vertexShader: `
+      attribute vec3 pB; attribute vec3 pC; attribute vec3 pD; attribute vec3 pE; attribute float rnd;
+      uniform float uMorph, uTime, uSize, uPix, uAspect, uIn; uniform vec2 uMouse;
+      varying float vA; varying float vC;
+      float seg(float k){ return smoothstep(0., 1., clamp((uMorph - k) * 1.7 - rnd * .7, 0., 1.)); }
+      void main(){
+        float s0 = seg(0.), s1 = seg(1.), s2 = seg(2.), s3 = seg(3.);
+        vec3 p = mix(position, pB, s0); p = mix(p, pC, s1); p = mix(p, pD, s2); p = mix(p, pE, s3);
+        float fly = sin(3.1416 * s0) + sin(3.1416 * s1) + sin(3.1416 * s2) + sin(3.1416 * s3);
+        vec3 sw = vec3(sin(rnd * 40. + uTime * .7 + p.y * 1.3), cos(rnd * 31. + uTime * .6 + p.x * 1.1), sin(rnd * 17. + uTime * .5 + p.z));
+        p += sw * (fly * 1.1 + .02);
+        p *= mix(2.6, 1., uIn);
+        vec4 mv = modelViewMatrix * vec4(p, 1.);
+        gl_Position = projectionMatrix * mv;
+        vec2 ndc = gl_Position.xy / gl_Position.w;
+        vec2 d = (ndc - uMouse) * vec2(uAspect, 1.);
+        float l = length(d);
+        ndc += normalize(d + 1e-5) / vec2(uAspect, 1.) * .07 * smoothstep(.28, 0., l);
+        gl_Position.xy = ndc * gl_Position.w;
+        gl_PointSize = uSize * uPix * (.45 + rnd * .9) / -mv.z;
+        vA = (.55 + .45 * sin(uTime * 1.4 + rnd * 60.)) * uIn;
+        vC = step(.88, rnd);
+      }`,
+    fragmentShader: `
+      uniform float uLight; varying float vA; varying float vC;
+      void main(){
+        float d = length(gl_PointCoord - .5); if (d > .5) discard;
+        float a = smoothstep(.5, 0., d); a *= a;
+        vec3 col = mix(vec3(.84, .87, .95), vec3(.61, .69, 1.), vC);
+        col = mix(col, mix(vec3(.12, .14, .2), vec3(.2, .27, .83), vC), uLight);
+        gl_FragColor = vec4(col, a * vA * mix(.62, .5, uLight));
+      }`
+  });
+  const pts = new THREE.Points(geo, mat); pts.frustumCulled = false;
+  const group = new THREE.Group(); group.add(pts); scene.add(group);
+
+  const size = () => { const w = innerWidth, h = innerHeight; gl.setSize(w, h, false); cam.aspect = w / h; cam.updateProjectionMatrix(); U.uAspect.value = w / h; };
+  size(); addEventListener('resize', size);
+
+  // re-sample the signature once the script face has loaded
+  if (document.fonts && document.fonts.load) document.fonts.load('300px "Mrs Saint Delafield"').then(() => { sigAttr.array.set(signature()); sigAttr.needsUpdate = true; }).catch(() => {});
+
+  let mx = 0, my = 0, tmx = 0, tmy = 0;
+  addEventListener('pointermove', e => { tmx = e.clientX / innerWidth * 2 - 1; tmy = -(e.clientY / innerHeight * 2 - 1); }, { passive: true });
+  document.addEventListener('pointerleave', () => { tmx = 9; tmy = 9; });
+
+  const state = { target: 0, morph: 0 };
+  const clock = new THREE.Clock();
+  let t = 0, ang = 0;
+  const frame = () => {
+    const dt = Math.min(clock.getDelta(), .05); t += dt;
+    U.uTime.value = t;
+    U.uIn.value += (1 - U.uIn.value) * (reduce ? 1 : .025);
+    state.morph += (state.target - state.morph) * (reduce ? 1 : .08);
+    U.uMorph.value = state.morph;
+    const far = Math.abs(tmx) > 2;
+    mx += ((far ? 0 : tmx) - mx) * .05; my += ((far ? 0 : tmy) - my) * .05;
+    U.uMouse.value.set(far ? 9 : tmx, far ? 9 : tmy);
+    if (state.morph > 3.2) { const tgt = Math.round(ang / 6.2832) * 6.2832; ang += (tgt - ang) * .06; }
+    else if (!reduce) ang += dt * .06;
+    group.rotation.y = ang + mx * .25;
+    group.rotation.x = .1 + my * .12 + .2 * Math.max(0, 1 - Math.abs(state.morph - 2) * 1.6);
+    gl.render(scene, cam);
+  };
+  if (reduce) { U.uIn.value = 1; frame(); }
+  else { const loop = () => { frame(); requestAnimationFrame(loop); }; loop(); }
+
+  smooth(state, () => { if (reduce) frame(); });
+
+
+  hooks.theme = light => {
+    U.uLight.value = light ? 1 : 0;
+    mat.blending = light ? THREE.NormalBlending : THREE.AdditiveBlending; mat.needsUpdate = true;
+    gl.setClearColor(light ? 0xF2F3F6 : 0x0A0B0E, 1);
+  };
+  hooks.theme(root.dataset.theme === 'light');
+})();
+</script>
+
+</body>
+</html>
