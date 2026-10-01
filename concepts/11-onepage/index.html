@@ -625,8 +625,8 @@ h2{font-size:clamp(38px,4.6vw,60px);line-height:1}
     const W = innerWidth, H = innerHeight, r = slot.getBoundingClientRect();
     const k = Math.round(Math.min(4, Math.max(0, state.morph)));
     const narrow = W <= 860;
-    const cy = narrow ? r.top + r.height * (k === 0 ? .4 : k === 2 ? .24 : .3) : r.top + r.height / 2;
-    const hFrac = narrow ? (k === 0 ? .78 : .5) : .9;
+    const cy = narrow ? r.top + r.height * (k === 0 ? .31 : k === 2 ? .24 : .3) : r.top + r.height / 2;
+    const hFrac = narrow ? (k === 0 ? .72 : .5) : .9;
     cam.setViewOffset(W, H, W / 2 - (r.left + r.width / 2), H / 2 - cy, W, H);
     const s = Math.min((r.height * hFrac) / H * VIEW_H / SIZE[k][1], (r.width * .96) / H * VIEW_H / SIZE[k][0], k === 4 ? 1.9 : 1.6);
     group.scale.setScalar(group.scale.x + (s - group.scale.x) * .12);
