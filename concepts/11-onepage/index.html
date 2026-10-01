@@ -181,6 +181,26 @@ h2{font-size:clamp(38px,4.6vw,60px);line-height:1}
 .list a{display:contents}
 .list li:has(a):hover b{color:var(--primary)}
 
+/* mobile: lists collapse into a row of three glass tiles so the shape stays in view */
+@media (max-width:860px){
+  .chapter{gap:14px}
+  h2{font-size:34px}
+  #ventures .lede{display:none}
+  #contact .lede{font-size:14px;max-width:34ch}
+  .list{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;text-align:center}
+  .list li{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:8px;padding:14px 8px 12px;border-radius:16px;background:rgba(18,20,26,.55);border:1px solid rgba(255,255,255,.07);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
+  .list li + li{border-top:1px solid rgba(255,255,255,.07)}
+  .list .ic{width:34px;height:34px;border-radius:10px;background:rgba(155,176,255,.08);border-color:rgba(155,176,255,.18)}
+  .list .ic .icon{width:18px;height:18px}
+  .list b{font-size:13px;line-height:1.25;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+  .list small{display:none}
+  #resume .list small{display:block;font-size:11px;line-height:1.35;margin-top:4px}
+  .list .end{order:-1;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--primary);opacity:.85}
+  .list .ic{order:-2}
+  .copy{bottom:72px}
+  .copy::before{top:-24px;bottom:-72px;background:linear-gradient(transparent,rgba(10,11,14,.55) 40px,rgba(10,11,14,.75))}
+}
+
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 22px;border-radius:999px;border:1px solid transparent;font-family:var(--font-text);font-size:15px;letter-spacing:.01em;font-weight:500;cursor:pointer;white-space:nowrap;transition:filter .18s var(--ease),border-color .18s var(--ease),transform .12s var(--ease)}
 .btn:active{transform:scale(.98)}
 .btn .icon{width:18px;height:18px}
@@ -306,9 +326,9 @@ h2{font-size:clamp(38px,4.6vw,60px);line-height:1}
       <section class="chapter" id="resume" role="tabpanel" aria-labelledby="t-resume" hidden>
         <h2>Résumé</h2>
         <ul class="list" style="--i:1">
-          <li><span class="ic"><svg class="icon" aria-hidden="true"><use href="#i-building"/></svg></span><span><b>Co-founder, Arvand Holdings</b><small>Commercial real estate</small></span><span class="end">2022</span></li>
-          <li><span class="ic"><svg class="icon" aria-hidden="true"><use href="#i-landmark"/></svg></span><span><b>Managing partner, Sepehr Capital</b><small>Emerging-market venture fund</small></span><span class="end">2019</span></li>
-          <li><span class="ic"><svg class="icon" aria-hidden="true"><use href="#i-ship"/></svg></span><span><b>Founder and chairman, Tirgan Logistics</b><small>Cross-border freight</small></span><span class="end">2016</span></li>
+          <li><span class="ic"><svg class="icon" aria-hidden="true"><use href="#i-building"/></svg></span><span><b>Arvand Holdings</b><small>Co-founder · Real estate</small></span><span class="end">2022</span></li>
+          <li><span class="ic"><svg class="icon" aria-hidden="true"><use href="#i-landmark"/></svg></span><span><b>Sepehr Capital</b><small>Managing partner · Venture</small></span><span class="end">2019</span></li>
+          <li><span class="ic"><svg class="icon" aria-hidden="true"><use href="#i-ship"/></svg></span><span><b>Tirgan Logistics</b><small>Founder and chairman</small></span><span class="end">2016</span></li>
         </ul>
       </section>
 
@@ -625,8 +645,8 @@ h2{font-size:clamp(38px,4.6vw,60px);line-height:1}
     const W = innerWidth, H = innerHeight, r = slot.getBoundingClientRect();
     const k = Math.round(Math.min(4, Math.max(0, state.morph)));
     const narrow = W <= 860;
-    const cy = narrow ? r.top + r.height * (k === 0 ? .31 : k === 2 ? .24 : .3) : r.top + r.height / 2;
-    const hFrac = narrow ? (k === 0 ? .72 : .5) : .9;
+    const cy = narrow ? r.top + r.height * (k === 0 ? .31 : k === 4 ? .3 : .34) : r.top + r.height / 2;
+    const hFrac = narrow ? (k === 0 ? .72 : k === 4 ? .5 : .56) : .9;
     cam.setViewOffset(W, H, W / 2 - (r.left + r.width / 2), H / 2 - cy, W, H);
     const s = Math.min((r.height * hFrac) / H * VIEW_H / SIZE[k][1], (r.width * .96) / H * VIEW_H / SIZE[k][0], k === 4 ? 1.9 : 1.6) * (k === 0 ? .9 : 1);
     group.scale.setScalar(group.scale.x + (s - group.scale.x) * .12);
