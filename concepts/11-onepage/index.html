@@ -181,25 +181,64 @@ h2{font-size:clamp(38px,4.6vw,60px);line-height:1}
 .list a{display:contents}
 .list li:has(a):hover b{color:var(--primary)}
 
-/* mobile: lists collapse into a row of three glass tiles so the shape stays in view */
+/* mobile: compact list presentations, switchable while the client chooses */
 @media (max-width:860px){
   .chapter{gap:14px}
   h2{font-size:34px}
   #ventures .lede{display:none}
   #contact .lede{font-size:14px;max-width:34ch}
-  .list{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;text-align:center}
-  .list li{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:8px;padding:14px 8px 12px;border-radius:16px;background:rgba(18,20,26,.55);border:1px solid rgba(255,255,255,.07);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
-  .list li + li{border-top:1px solid rgba(255,255,255,.07)}
-  .list .ic{width:34px;height:34px;border-radius:10px;background:rgba(155,176,255,.08);border-color:rgba(155,176,255,.18)}
-  .list .ic .icon{width:18px;height:18px}
-  .list b{font-size:13px;line-height:1.25;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
-  .list small{display:none}
-  #resume .list small{display:block;font-size:11px;line-height:1.35;margin-top:4px}
-  .list .end{order:-1;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--primary);opacity:.85}
-  .list .ic{order:-2}
   .copy{bottom:72px}
-  .copy::before{top:-24px;bottom:-72px;background:linear-gradient(transparent,rgba(10,11,14,.55) 40px,rgba(10,11,14,.75))}
+  .copy::before{top:-24px;bottom:-72px;background:linear-gradient(transparent,rgba(10,11,14,.55) 40px,rgba(10,11,14,.78))}
+  .list li + li{border-top:0}
+  .list small{display:none}
+
+  /* A · tiles */
+  [data-list="tiles"] .list{grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;text-align:center}
+  [data-list="tiles"] .list li{display:flex;flex-direction:column;align-items:center;gap:8px;padding:14px 8px 12px;border-radius:16px;background:rgba(18,20,26,.55);border:1px solid rgba(255,255,255,.07);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+  [data-list="tiles"] .list .ic{order:-2;width:34px;height:34px;border-radius:10px}
+  [data-list="tiles"] .list .ic .icon{width:18px;height:18px}
+  [data-list="tiles"] .list b{font-size:13px;line-height:1.25}
+  [data-list="tiles"] .list .end{order:-1;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--primary)}
+
+  /* B · timeline: one hairline, three glowing stops */
+  [data-list="timeline"] .list{position:relative;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;text-align:center;padding-top:4px}
+  [data-list="timeline"] .list::before{content:"";position:absolute;top:8px;left:16.6%;right:16.6%;height:1px;background:linear-gradient(90deg,rgba(155,176,255,.15),rgba(155,176,255,.6),rgba(155,176,255,.15))}
+  [data-list="timeline"] .list li{display:flex;flex-direction:column;align-items:center;gap:6px;padding:0 4px}
+  [data-list="timeline"] .list li::before{content:"";order:-2;width:9px;height:9px;border-radius:50%;background:var(--primary);box-shadow:0 0 0 4px #0A0B0E,0 0 14px 2px rgba(155,176,255,.7);margin-bottom:6px}
+  [data-list="timeline"] .list .ic{display:none}
+  [data-list="timeline"] .list .end{order:-1;font-family:var(--font-display);font-style:italic;font-size:17px;color:var(--text)}
+  [data-list="timeline"] .list b{font-size:13px;line-height:1.3;color:var(--muted);font-weight:400}
+
+  /* C · numbered columns, no boxes */
+  [data-list="numbered"] .list{grid-template-columns:repeat(3,minmax(0,1fr));text-align:center;counter-reset:n}
+  [data-list="numbered"] .list li{display:flex;flex-direction:column;align-items:center;gap:6px;padding:4px 10px;counter-increment:n}
+  [data-list="numbered"] .list li + li{border-left:1px solid rgba(255,255,255,.1)}
+  [data-list="numbered"] .list li::before{content:counter(n,decimal-leading-zero);order:-2;font-family:var(--font-display);font-style:italic;font-size:30px;line-height:1;color:var(--primary)}
+  [data-list="numbered"] .list .ic{display:none}
+  [data-list="numbered"] .list b{font-size:13px;line-height:1.3}
+  [data-list="numbered"] .list .end{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
+
+  /* D · chips: one glass pill per item */
+  [data-list="chips"] .list{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}
+  [data-list="chips"] .list li{display:inline-flex;align-items:center;gap:8px;padding:6px 14px 6px 6px;border-radius:999px;background:rgba(18,20,26,.6);border:1px solid rgba(255,255,255,.09);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+  [data-list="chips"] .list .ic{width:28px;height:28px;border-radius:50%;border:0;background:rgba(155,176,255,.12)}
+  [data-list="chips"] .list .ic .icon{width:15px;height:15px}
+  [data-list="chips"] .list b{font-size:13px;white-space:nowrap}
+  [data-list="chips"] .list .end{display:none}
+
+  /* E · ledger: editorial rows with a serif index */
+  [data-list="ledger"] .list{max-width:340px;margin-inline:auto}
+  [data-list="ledger"] .list li{display:grid;grid-template-columns:72px minmax(0,1fr);align-items:baseline;gap:14px;padding:9px 0}
+  [data-list="ledger"] .list li + li{border-top:1px solid rgba(255,255,255,.08)}
+  [data-list="ledger"] .list .ic{display:none}
+  [data-list="ledger"] .list .end{order:-1;text-align:right;font-family:var(--font-display);font-style:italic;font-size:16px;color:var(--primary)}
+  [data-list="ledger"] .list b{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+  .lstpick{position:fixed;z-index:60;left:12px;right:12px;top:92px;display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
+  .lstpick button{min-height:34px;padding:0 11px;border-radius:999px;border:1px solid var(--border);background:rgba(20,22,28,.85);color:var(--muted);font-size:12px;cursor:pointer}
+  .lstpick button[aria-pressed="true"]{background:var(--text);color:var(--bg);border-color:var(--text)}
 }
+@media (min-width:861px){.lstpick{display:none}}
 
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 22px;border-radius:999px;border:1px solid transparent;font-family:var(--font-text);font-size:15px;letter-spacing:.01em;font-weight:500;cursor:pointer;white-space:nowrap;transition:filter .18s var(--ease),border-color .18s var(--ease),transform .12s var(--ease)}
 .btn:active{transform:scale(.98)}
@@ -309,6 +348,7 @@ h2{font-size:clamp(38px,4.6vw,60px);line-height:1}
     <div class="rule" aria-hidden="true"></div>
   </div>
 
+  <div class="lstpick" id="lstpick" role="group" aria-label="List style"><button type="button" data-l="tiles">A</button><button type="button" data-l="timeline">B</button><button type="button" data-l="numbered">C</button><button type="button" data-l="chips">D</button><button type="button" data-l="ledger">E</button></div>
   <main class="frame">
     <div class="slot" id="slot" aria-hidden="true"></div>
     <div class="copy">
@@ -391,6 +431,9 @@ h2{font-size:clamp(38px,4.6vw,60px);line-height:1}
   /* style picker: font and menu presentation, remembered per viewer */
   const root = document.documentElement;
   root.dataset.font = 'playfair'; root.dataset.menu = 'icons'; root.dataset.bar = 'glow';
+  { const pk = document.getElementById('lstpick'); let v = 'timeline'; try { v = localStorage.getItem('sb-list') || v; } catch (e) {}
+    const set = l => { root.dataset.list = l; pk.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b.dataset.l === l)); try { localStorage.setItem('sb-list', l); } catch (e) {} };
+    pk.addEventListener('click', e => { const b = e.target.closest('button'); if (b) set(b.dataset.l); }); set(v); }
   const menuBtn = document.getElementById('menuBtn'), menuLbl = document.getElementById('menuLbl');
   menuBtn.addEventListener('click', () => { const o = root.classList.toggle('menu-open'); menuBtn.setAttribute('aria-expanded', String(o)); menuLbl.textContent = o ? 'Close' : 'Menu'; });
   addEventListener('keydown', e => { if (e.key === 'Escape' && root.classList.contains('menu-open')) menuBtn.click(); });
@@ -419,11 +462,11 @@ h2{font-size:clamp(38px,4.6vw,60px);line-height:1}
   next.addEventListener('click', () => go(idx + 1));
   document.querySelectorAll('[data-go]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); go(+a.dataset.go); }));
   let acc = 0;
-  addEventListener('wheel', e => { if (e.target.closest && e.target.closest('.picker')) return; e.preventDefault(); if (performance.now() < lock) { acc = 0; return; } acc += e.deltaY; if (Math.abs(acc) > 40) { go(idx + Math.sign(acc)); acc = 0; } }, { passive: false });
+  addEventListener('wheel', e => { if (e.target.closest && e.target.closest('.picker,.lstpick')) return; e.preventDefault(); if (performance.now() < lock) { acc = 0; return; } acc += e.deltaY; if (Math.abs(acc) > 40) { go(idx + Math.sign(acc)); acc = 0; } }, { passive: false });
   const drag = { on: false, x: 0, y: 0, vx: 0, vy: 0, idle: 0 };
   let g0 = null;
   addEventListener('pointerdown', e => {
-    if (e.target.closest('a,button,.picker')) return;
+    if (e.target.closest('a,button,.picker,.lstpick')) return;
     g0 = { x: e.clientX, y: e.clientY, lx: e.clientX, ly: e.clientY, mode: e.pointerType === 'mouse' ? 'rot' : null, t: performance.now() };
   });
   addEventListener('pointermove', e => {
@@ -502,10 +545,10 @@ h2{font-size:clamp(38px,4.6vw,60px);line-height:1}
   });
   // 3 double helix with rungs
   const helix = shape(() => {
-    const t = R(), a = t * 6.283 * 2.6, y = (t - .5) * 6.2, r = 1.15;
-    if (R() < .22) { const s = R() * 2 - 1, aa = Math.floor(t * 40) / 40 * 6.283 * 2.6; return [Math.cos(aa) * r * s + side * .9, (Math.floor(t * 40) / 40 - .5) * 6.2, Math.sin(aa) * r * s]; }
+    const t = R(), a = t * 6.283 * 2.6, x = (t - .5) * 6.2, r = 1.15;
+    if (R() < .22) { const s = R() * 2 - 1, q = Math.floor(t * 40) / 40, aa = q * 6.283 * 2.6; return [(q - .5) * 6.2 + side * .9, Math.cos(aa) * r * s, Math.sin(aa) * r * s]; }
     const off = R() < .5 ? 0 : Math.PI;
-    return [Math.cos(a + off) * r + gauss() * .05 + side * .9, y + gauss() * .03, Math.sin(a + off) * r + gauss() * .05];
+    return [x + gauss() * .03 + side * .9, Math.cos(a + off) * r + gauss() * .05, Math.sin(a + off) * r + gauss() * .05];
   });
   // 4 signature, sampled from rendered script lettering
   function signature() {
@@ -543,7 +586,8 @@ h2{font-size:clamp(38px,4.6vw,60px);line-height:1}
       float seg(float k){ return smoothstep(0., 1., clamp((uMorph - k) * 1.7 - rnd * .7, 0., 1.)); }
       void main(){
         float s0 = seg(0.), s1 = seg(1.), s2 = seg(2.), s3 = seg(3.);
-        vec3 p = mix(position, pB, s0); p = mix(p, pC, s1); p = mix(p, pD, s2); p = mix(p, pE, s3);
+        float hc = cos(uTime * .45), hs = sin(uTime * .45); vec3 hb = vec3(pB.x, pB.y * hc - pB.z * hs, pB.y * hs + pB.z * hc);
+        vec3 p = mix(position, hb, s0); p = mix(p, pC, s1); p = mix(p, pD, s2); p = mix(p, pE, s3);
         float fly = sin(3.1416 * s0) + sin(3.1416 * s1) + sin(3.1416 * s2) + sin(3.1416 * s3);
         vec3 sw = vec3(sin(rnd * 40. + uTime * .7 + p.y * 1.3), cos(rnd * 31. + uTime * .6 + p.x * 1.1), sin(rnd * 17. + uTime * .5 + p.z));
         p += sw * (fly * 1.1 + .02);
@@ -593,7 +637,7 @@ h2{font-size:clamp(38px,4.6vw,60px);line-height:1}
     const far = Math.abs(tmx) > 2;
     mx += ((far ? 0 : tmx) - mx) * .05; my += ((far ? 0 : tmy) - my) * .05;
     U.uMouse.value.set(9, 9);
-    if (state.morph > 3.2) { const tgt = Math.round(ang / 6.2832) * 6.2832; ang += (tgt - ang) * .06; }
+    if (state.morph > 3.2 || Math.abs(state.morph - 1) < .45) { const tgt = Math.round(ang / 6.2832) * 6.2832; ang += (tgt - ang) * .06; }
     else if (state.morph < .6) { const tgt = Math.round(ang / 6.2832) * 6.2832; ang += (tgt - ang) * .06; }
     else if (!reduce) ang += dt * .06;
     if (!drag.on) {
@@ -639,7 +683,7 @@ h2{font-size:clamp(38px,4.6vw,60px);line-height:1}
 
   /* frame the active shape inside the slot */
   const VIEW_H = 2 * cam.position.z * Math.tan(THREE.MathUtils.degToRad(cam.fov / 2));
-  const SIZE = [[5.6, 6.2], [2.6, 6.4], [6.4, 4.6], [7.2, 5.6], [wide ? 7.4 : 5.2, 2.6]];
+  const SIZE = [[5.6, 6.2], [8, 2.8], [6.4, 4.6], [7.2, 5.6], [wide ? 7.4 : 5.2, 2.6]];
   const slot = document.getElementById('slot');
   hooks.frame = () => {
     const W = innerWidth, H = innerHeight, r = slot.getBoundingClientRect();
