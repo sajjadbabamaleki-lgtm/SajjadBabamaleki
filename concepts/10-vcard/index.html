@@ -40,7 +40,7 @@ button{font:inherit;color:inherit}
 .wrap{width:100%;max-width:1240px;margin-inline:auto;padding-inline:clamp(16px,3vw,32px)}
 
 #stage{position:fixed;inset:0;width:100%;height:100%;z-index:0;display:block;pointer-events:none}
-.veil{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(120% 90% at 70% 40%,transparent 35%,var(--bg) 100%);opacity:.9}
+.veil{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(150% 110% at 50% 40%,transparent 60%,var(--bg) 100%);opacity:.7}
 .app{position:relative;z-index:2}
 
 /* header */
@@ -91,6 +91,12 @@ button{font:inherit;color:inherit}
 .socials a:hover{color:var(--primary);background:var(--surface-2)}
 .socials a:active{transform:scale(.94)}
 
+/* stage band: a clear window at the top of every tab where the 3D shape lives */
+.stage-band{position:relative;height:clamp(300px,50vh,500px);display:flex;align-items:flex-end;padding:0 4px 24px;margin-bottom:8px}
+.band-text{display:grid;gap:8px;max-width:30ch;text-shadow:0 2px 18px var(--bg)}
+.band-text h2{margin:0;font-family:var(--font-display);font-weight:600;font-size:clamp(36px,4.2vw,56px);line-height:1;letter-spacing:-.03em}
+.band-text p{color:var(--muted);font-size:16px}
+@media (min-width:1024px){.stage-band{height:clamp(320px,52vh,520px)}}
 /* panels */
 .panel{min-width:0}
 .panel[hidden]{display:none!important}
@@ -243,8 +249,9 @@ p{margin:0}
 
     <div>
       <section class="panel stack" id="about" role="tabpanel" aria-labelledby="t-about">
+        <div class="stage-band" data-band><div class="band-text"><h2>About</h2><p>Founder and investor building companies made to last.</p></div></div>
         <div class="card">
-          <h2 class="ptitle">About me</h2>
+          <h2 class="ptitle">My story</h2>
           <div class="bio">
             <p><strong>I build companies that are meant to last for decades, not quarters.</strong></p>
             <p>As a founder and investor I work across logistics, capital and real estate, mostly in the markets between the Gulf, Central Asia and Europe that larger investors tend to overlook.</p>
@@ -270,6 +277,7 @@ p{margin:0}
       </section>
 
       <section class="panel stack" id="resume" role="tabpanel" aria-labelledby="t-resume" hidden>
+        <div class="stage-band" data-band><div class="band-text"><h2>Résumé</h2><p>A decade of building in logistics, capital and property.</p></div></div>
         <div class="card">
           <h2 class="ptitle">Experience</h2>
           <ol class="timeline">
@@ -285,8 +293,8 @@ p{margin:0}
       </section>
 
       <section class="panel" id="ventures" role="tabpanel" aria-labelledby="t-ventures" hidden>
+        <div class="stage-band" data-band><div class="band-text"><h2>Ventures</h2><p>Companies I founded, lead or back.</p></div></div>
         <div class="card">
-          <h2 class="ptitle">Ventures</h2>
           <div class="filters" role="group" aria-label="Filter ventures">
             <button class="filter" type="button" aria-pressed="true" data-f="all">All</button>
             <button class="filter" type="button" aria-pressed="false" data-f="logistics">Logistics</button>
@@ -302,8 +310,8 @@ p{margin:0}
       </section>
 
       <section class="panel" id="insights" role="tabpanel" aria-labelledby="t-insights" hidden>
+        <div class="stage-band" data-band><div class="band-text"><h2>Insights</h2><p>Notes on markets, capital and building teams.</p></div></div>
         <div class="card">
-          <h2 class="ptitle">Insights</h2>
           <div class="rows">
             <a class="row" href="#insights"><span class="ic"><svg class="icon" aria-hidden="true"><use href="#i-trend"/></svg></span><span><h3>Why patient capital wins in frontier markets</h3><small>Investing · 6 min read</small></span><svg class="icon go" aria-hidden="true"><use href="#i-arrow"/></svg></a>
             <a class="row" href="#insights"><span class="ic"><svg class="icon" aria-hidden="true"><use href="#i-ship"/></svg></span><span><h3>The new trade corridor between the Gulf and Central Asia</h3><small>Logistics · 8 min read</small></span><svg class="icon go" aria-hidden="true"><use href="#i-arrow"/></svg></a>
@@ -313,8 +321,8 @@ p{margin:0}
       </section>
 
       <section class="panel stack" id="contact" role="tabpanel" aria-labelledby="t-contact" hidden>
+        <div class="stage-band" data-band><div class="band-text"><h2>Get in touch</h2><p>Partnerships, investments and introductions.</p></div></div>
         <div class="card stack">
-          <h2 class="ptitle" style="margin-bottom:4px">Get in touch</h2>
           <p class="muted" style="max-width:56ch">For partnerships, investments and introductions, write to me directly. I reply within two working days.</p>
           <div class="contact-grid">
             <div class="cbox"><svg class="icon ic" aria-hidden="true"><use href="#i-mail"/></svg><small>Email</small><span id="email">office@sajjadbabamaleki.com</span></div>
@@ -470,7 +478,7 @@ p{margin:0}
   geo.setAttribute('pD', new THREE.BufferAttribute(helix, 3));
   const sigAttr = new THREE.BufferAttribute(signature(), 3); geo.setAttribute('pE', sigAttr);
   const rnd = new Float32Array(N); for (let i = 0; i < N; i++) rnd[i] = R(); geo.setAttribute('rnd', new THREE.BufferAttribute(rnd, 1));
-  const U = { uMorph: { value: 0 }, uTime: { value: 0 }, uSize: { value: wide ? 26 : 34 }, uPix: { value: gl.getPixelRatio() }, uMouse: { value: new THREE.Vector2(9, 9) }, uAspect: { value: 1 }, uIn: { value: 0 }, uLight: { value: 0 } };
+  const U = { uMorph: { value: 0 }, uTime: { value: 0 }, uSize: { value: wide ? 30 : 40 }, uPix: { value: gl.getPixelRatio() }, uMouse: { value: new THREE.Vector2(9, 9) }, uAspect: { value: 1 }, uIn: { value: 0 }, uLight: { value: 0 } };
   const mat = new THREE.ShaderMaterial({
     uniforms: U, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
     vertexShader: `
@@ -503,7 +511,7 @@ p{margin:0}
         float a = smoothstep(.5, 0., d); a *= a;
         vec3 col = mix(vec3(.84, .87, .95), vec3(.61, .69, 1.), vC);
         col = mix(col, mix(vec3(.12, .14, .2), vec3(.2, .27, .83), vC), uLight);
-        gl_FragColor = vec4(col, a * vA * mix(.62, .5, uLight));
+        gl_FragColor = vec4(col, a * vA * mix(.95, .7, uLight));
       }`
   });
   const pts = new THREE.Points(geo, mat); pts.frustumCulled = false;
@@ -535,6 +543,7 @@ p{margin:0}
     else if (!reduce) ang += dt * .06;
     group.rotation.y = ang + mx * .25;
     group.rotation.x = .1 + my * .12 + .2 * Math.max(0, 1 - Math.abs(state.morph - 2) * 1.6);
+    if (hooks.frame) hooks.frame();
     gl.render(scene, cam);
   };
   if (reduce) { U.uIn.value = 1; frame(); }
@@ -549,6 +558,22 @@ p{margin:0}
     gl.setClearColor(light ? 0xF2F3F6 : 0x0A0B0E, 1);
   };
   hooks.theme(root.dataset.theme === 'light');
+  // keep the shape centred and sized inside the visible band of the active tab
+  const VIEW_H = 2 * cam.position.z * Math.tan(THREE.MathUtils.degToRad(cam.fov / 2));
+  const SHAPE_H = { 0: 5.2, 1: 5.4, 2: 4.6, 3: 6.4, 4: 2.6 };
+  hooks.frame = () => {
+    const band = document.querySelector('.panel:not([hidden]) [data-band]');
+    const W = innerWidth, H = innerHeight;
+    if (!band) { cam.clearViewOffset(); return; }
+    const r = band.getBoundingClientRect();
+    const deskX = innerWidth >= 1024 ? .62 : .5;
+    const ax = r.left + r.width * deskX, ay = r.top + r.height * (innerWidth >= 1024 ? .46 : .4);
+    cam.setViewOffset(W, H, W / 2 - ax, H / 2 - ay, W, H);
+    const k = Math.round(Math.min(4, Math.max(0, state.morph)));
+    const fitH = (r.height * .82) / H * VIEW_H, fitW = (r.width * .9) / H * VIEW_H;
+    const target = Math.min(fitH / SHAPE_H[k], fitW / (k === 4 ? (wide ? 7.4 : 5.2) : 9.6), k === 4 ? 1.6 : 1.15);
+    group.scale.setScalar(group.scale.x + (target - group.scale.x) * .12);
+  };
 })();
 </script>
 
