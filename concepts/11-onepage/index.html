@@ -181,7 +181,7 @@ h2{font-size:clamp(38px,4.6vw,60px);line-height:1}
 .list a{display:contents}
 .list li:has(a):hover b{color:var(--primary)}
 
-/* mobile: compact list presentations, switchable while the client chooses */
+/* mobile: lists become a horizontal timeline (B); other presentations kept for reference */
 @media (max-width:860px){
   .chapter{gap:14px}
   h2{font-size:34px}
@@ -234,11 +234,7 @@ h2{font-size:clamp(38px,4.6vw,60px);line-height:1}
   [data-list="ledger"] .list .end{order:-1;text-align:right;font-family:var(--font-display);font-style:italic;font-size:16px;color:var(--primary)}
   [data-list="ledger"] .list b{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 
-  .lstpick{position:fixed;z-index:60;left:12px;right:12px;top:92px;display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
-  .lstpick button{min-height:34px;padding:0 11px;border-radius:999px;border:1px solid var(--border);background:rgba(20,22,28,.85);color:var(--muted);font-size:12px;cursor:pointer}
-  .lstpick button[aria-pressed="true"]{background:var(--text);color:var(--bg);border-color:var(--text)}
 }
-@media (min-width:861px){.lstpick{display:none}}
 
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 22px;border-radius:999px;border:1px solid transparent;font-family:var(--font-text);font-size:15px;letter-spacing:.01em;font-weight:500;cursor:pointer;white-space:nowrap;transition:filter .18s var(--ease),border-color .18s var(--ease),transform .12s var(--ease)}
 .btn:active{transform:scale(.98)}
@@ -348,7 +344,6 @@ h2{font-size:clamp(38px,4.6vw,60px);line-height:1}
     <div class="rule" aria-hidden="true"></div>
   </div>
 
-  <div class="lstpick" id="lstpick" role="group" aria-label="List style"><button type="button" data-l="tiles">A</button><button type="button" data-l="timeline">B</button><button type="button" data-l="numbered">C</button><button type="button" data-l="chips">D</button><button type="button" data-l="ledger">E</button></div>
   <main class="frame">
     <div class="slot" id="slot" aria-hidden="true"></div>
     <div class="copy">
@@ -431,9 +426,7 @@ h2{font-size:clamp(38px,4.6vw,60px);line-height:1}
   /* style picker: font and menu presentation, remembered per viewer */
   const root = document.documentElement;
   root.dataset.font = 'playfair'; root.dataset.menu = 'icons'; root.dataset.bar = 'glow';
-  { const pk = document.getElementById('lstpick'); let v = 'timeline'; try { v = localStorage.getItem('sb-list') || v; } catch (e) {}
-    const set = l => { root.dataset.list = l; pk.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', b.dataset.l === l)); try { localStorage.setItem('sb-list', l); } catch (e) {} };
-    pk.addEventListener('click', e => { const b = e.target.closest('button'); if (b) set(b.dataset.l); }); set(v); }
+  root.dataset.list = 'timeline';
   const menuBtn = document.getElementById('menuBtn'), menuLbl = document.getElementById('menuLbl');
   menuBtn.addEventListener('click', () => { const o = root.classList.toggle('menu-open'); menuBtn.setAttribute('aria-expanded', String(o)); menuLbl.textContent = o ? 'Close' : 'Menu'; });
   addEventListener('keydown', e => { if (e.key === 'Escape' && root.classList.contains('menu-open')) menuBtn.click(); });
@@ -462,11 +455,11 @@ h2{font-size:clamp(38px,4.6vw,60px);line-height:1}
   next.addEventListener('click', () => go(idx + 1));
   document.querySelectorAll('[data-go]').forEach(a => a.addEventListener('click', e => { e.preventDefault(); go(+a.dataset.go); }));
   let acc = 0;
-  addEventListener('wheel', e => { if (e.target.closest && e.target.closest('.picker,.lstpick')) return; e.preventDefault(); if (performance.now() < lock) { acc = 0; return; } acc += e.deltaY; if (Math.abs(acc) > 40) { go(idx + Math.sign(acc)); acc = 0; } }, { passive: false });
+  addEventListener('wheel', e => { if (e.target.closest && e.target.closest('.picker')) return; e.preventDefault(); if (performance.now() < lock) { acc = 0; return; } acc += e.deltaY; if (Math.abs(acc) > 40) { go(idx + Math.sign(acc)); acc = 0; } }, { passive: false });
   const drag = { on: false, x: 0, y: 0, vx: 0, vy: 0, idle: 0 };
   let g0 = null;
   addEventListener('pointerdown', e => {
-    if (e.target.closest('a,button,.picker,.lstpick')) return;
+    if (e.target.closest('a,button,.picker')) return;
     g0 = { x: e.clientX, y: e.clientY, lx: e.clientX, ly: e.clientY, mode: e.pointerType === 'mouse' ? 'rot' : null, t: performance.now() };
   });
   addEventListener('pointermove', e => {
