@@ -73,7 +73,7 @@ button{font:inherit;color:inherit}
 
 /* layout */
 .main{display:grid;grid-template-columns:minmax(0,1fr);gap:24px;padding-block:24px 64px}
-@media (min-width:1024px){.main{grid-template-columns:380px minmax(0,1fr);align-items:start;gap:32px;padding-top:32px}}
+@media (min-width:1024px){.main{max-width:1080px;padding-top:8px}}
 
 /* profile card */
 .profile{border-radius:var(--r);overflow:hidden;background:var(--surface);border:1px solid var(--border);box-shadow:var(--shadow)}
@@ -97,6 +97,12 @@ button{font:inherit;color:inherit}
 .band-text h2{margin:0;font-family:var(--font-display);font-weight:600;font-size:clamp(36px,4.2vw,56px);line-height:1;letter-spacing:-.03em}
 .band-text p{color:var(--muted);font-size:16px}
 @media (min-width:1024px){.stage-band{height:clamp(320px,52vh,520px)}}
+.hero-band{height:clamp(480px,74vh,720px)}
+.hero-name{margin:0;font-family:var(--font-display);font-weight:700;font-size:clamp(40px,5.6vw,72px);line-height:.95;letter-spacing:-.035em}
+.hero-typed{font-size:clamp(18px,1.8vw,22px);font-weight:600;margin-top:4px}
+.hero-band .socials{justify-content:flex-start;padding:10px 0 0;margin-left:-10px}
+.hero-band .band-text{max-width:none}
+@media (max-width:1023px){.hero-band .band-text{width:100%;justify-items:center;text-align:center}.hero-band .socials{justify-content:center;margin-left:0}}
 /* panels */
 .panel{min-width:0}
 .panel[hidden]{display:none!important}
@@ -234,22 +240,19 @@ p{margin:0}
   </header>
 
   <div class="wrap main">
-    <aside class="profile" aria-label="Profile">
-      <div class="photo">
-        <img src="img/portrait.jpg" alt="Portrait of Sajjad Babamaleki" width="1100" height="1375">
-        <div class="nameplate"><h1>Sajjad Babamaleki</h1><span class="typed" aria-hidden="true"><span class="tw"></span><span class="caret"></span></span></div>
-      </div>
-      <nav class="socials" aria-label="Social profiles">
-        <a href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
-        <a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a>
-        <a href="https://t.me/" target="_blank" rel="noopener" aria-label="Telegram"><svg class="icon" aria-hidden="true"><use href="#i-send"/></svg></a>
-        <a href="#contact" data-goto="contact" aria-label="Email"><svg class="icon" aria-hidden="true"><use href="#i-mail"/></svg></a>
-      </nav>
-    </aside>
 
     <div>
       <section class="panel stack" id="about" role="tabpanel" aria-labelledby="t-about">
-        <div class="stage-band" data-band><div class="band-text"><h2>About</h2><p>Founder and investor building companies made to last.</p></div></div>
+        <div class="stage-band hero-band" data-band><div class="band-text">
+          <h1 class="hero-name">Sajjad Babamaleki</h1>
+          <span class="typed hero-typed" aria-hidden="true"><span class="tw"></span><span class="caret"></span></span>
+          <nav class="socials" aria-label="Social profiles">
+            <a href="https://www.linkedin.com/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"/></svg></a>
+            <a href="https://www.instagram.com/" target="_blank" rel="noopener" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="#i-instagram"/></svg></a>
+            <a href="https://t.me/" target="_blank" rel="noopener" aria-label="Telegram"><svg class="icon" aria-hidden="true"><use href="#i-send"/></svg></a>
+            <a href="#contact" data-goto="contact" aria-label="Email"><svg class="icon" aria-hidden="true"><use href="#i-mail"/></svg></a>
+          </nav>
+        </div></div>
         <div class="card">
           <h2 class="ptitle">My story</h2>
           <div class="bio">
@@ -540,6 +543,7 @@ p{margin:0}
     mx += ((far ? 0 : tmx) - mx) * .05; my += ((far ? 0 : tmy) - my) * .05;
     U.uMouse.value.set(far ? 9 : tmx, far ? 9 : tmy);
     if (state.morph > 3.2) { const tgt = Math.round(ang / 6.2832) * 6.2832; ang += (tgt - ang) * .06; }
+    else if (state.morph < .6) { const tgt = Math.round(ang / 6.2832) * 6.2832; ang += (tgt - ang) * .06; }
     else if (!reduce) ang += dt * .06;
     group.rotation.y = ang + mx * .25;
     group.rotation.x = .1 + my * .12 + .2 * Math.max(0, 1 - Math.abs(state.morph - 2) * 1.6);
@@ -558,20 +562,44 @@ p{margin:0}
     gl.setClearColor(light ? 0xF2F3F6 : 0x0A0B0E, 1);
   };
   hooks.theme(root.dataset.theme === 'light');
+  const face = new Image();
+  face.onload = () => {
+    const cw = 240, ch = Math.round(240 * face.naturalHeight / face.naturalWidth);
+    const c = document.createElement('canvas'); c.width = cw; c.height = ch;
+    const g = c.getContext('2d'); g.drawImage(face, 0, 0, cw, ch);
+    let data; try { data = g.getImageData(0, 0, cw, ch).data; } catch (e) { return; }
+    const H = 6.2, sc = H / ch, arr = new Float32Array(N * 3);
+    const lum = (x, y) => { const i = (y * cw + x) * 4; return (data[i] * .2126 + data[i + 1] * .7152 + data[i + 2] * .0722) / 255; };
+    let n = 0, guard = 0;
+    while (n < N && guard++ < N * 60) {
+      const x = Math.random() * cw | 0, y = Math.random() * ch | 0, l = lum(x, y);
+      const w = Math.pow(Math.min(1, Math.max(0, (l - .14) / .8)), 1.25);
+      if (Math.random() > w) continue;
+      arr[n * 3] = (x - cw / 2 + Math.random() - .5) * sc;
+      arr[n * 3 + 1] = -(y - ch / 2 + Math.random() - .5) * sc;
+      arr[n * 3 + 2] = (l - .45) * 1.1 + (Math.random() - .5) * .06;
+      n++;
+    }
+    for (; n < N; n++) { const k = Math.random() * n | 0; arr[n * 3] = arr[k * 3]; arr[n * 3 + 1] = arr[k * 3 + 1]; arr[n * 3 + 2] = arr[k * 3 + 2]; }
+    const pos = geo.attributes.position; pos.array.set(arr); pos.needsUpdate = true;
+    if (!reduce) U.uIn.value = 0;
+  };
+  face.src = 'img/portrait.jpg';
   // keep the shape centred and sized inside the visible band of the active tab
   const VIEW_H = 2 * cam.position.z * Math.tan(THREE.MathUtils.degToRad(cam.fov / 2));
-  const SHAPE_H = { 0: 5.2, 1: 5.4, 2: 4.6, 3: 6.4, 4: 2.6 };
+  const SHAPE_H = { 0: 6.2, 1: 5.4, 2: 4.6, 3: 6.4, 4: 2.6 };
   hooks.frame = () => {
     const band = document.querySelector('.panel:not([hidden]) [data-band]');
     const W = innerWidth, H = innerHeight;
     if (!band) { cam.clearViewOffset(); return; }
     const r = band.getBoundingClientRect();
     const deskX = innerWidth >= 1024 ? .62 : .5;
-    const ax = r.left + r.width * deskX, ay = r.top + r.height * (innerWidth >= 1024 ? .46 : .4);
+    const isHero = band.classList.contains('hero-band');
+    const ax = r.left + r.width * (isHero && innerWidth >= 1024 ? .7 : deskX), ay = r.top + r.height * (isHero ? (innerWidth >= 1024 ? .5 : .36) : (innerWidth >= 1024 ? .46 : .4));
     cam.setViewOffset(W, H, W / 2 - ax, H / 2 - ay, W, H);
     const k = Math.round(Math.min(4, Math.max(0, state.morph)));
-    const fitH = (r.height * .82) / H * VIEW_H, fitW = (r.width * .9) / H * VIEW_H;
-    const target = Math.min(fitH / SHAPE_H[k], fitW / (k === 4 ? (wide ? 7.4 : 5.2) : 9.6), k === 4 ? 1.6 : 1.15);
+    const fitH = (r.height * (isHero && innerWidth < 1024 ? .6 : .86)) / H * VIEW_H, fitW = (r.width * .9) / H * VIEW_H;
+    const target = Math.min(fitH / SHAPE_H[k], fitW / (k === 4 ? (wide ? 7.4 : 5.2) : k === 0 ? 5 : 9.6), k === 4 ? 1.6 : 1.3);
     group.scale.setScalar(group.scale.x + (target - group.scale.x) * .12);
   };
 })();
