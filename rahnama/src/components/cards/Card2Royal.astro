@@ -1,0 +1,69 @@
+---
+// طرح ۲ — «کارت شاهانه»: تمام سرمه‌ای، قاب داخلی ظریف، ستاره‌های گوشه، مثل کارت ویزیت لوکس
+import Icon from '../Icon.astro';
+import ShareButton from './ShareButton.astro';
+import { cardData } from './props';
+import type { Business } from '../../lib/data';
+interface Props { business: Business }
+const d = cardData(Astro.props.business);
+const { b } = d;
+---
+<article class:list={['c2', { featured: d.featured }]}>
+  <div class="frame">
+    <span class="corner tl" aria-hidden="true"></span><span class="corner tr" aria-hidden="true"></span>
+    <span class="corner bl" aria-hidden="true"></span><span class="corner br" aria-hidden="true"></span>
+    <header>
+      {d.featured ? <span class="flag"><Icon name="star" size={14} />ویژه · آگهی</span> : <span class="flag plain">{d.city}</span>}
+      <ShareButton url={d.url} title={b.nameFa} class="share" />
+    </header>
+    <div class="mono" aria-hidden="true"><span>{d.letter}</span></div>
+    <p class="cat">{d.category.name}</p>
+    <h3><a href={d.url}>{b.nameFa}</a></h3>
+    <p class="en" dir="ltr">{b.nameEn}</p>
+    <div class="orn" aria-hidden="true"><i></i><b></b><i></i></div>
+    <dl>
+      <div><dt>محله</dt><dd>{b.neighborhood}</dd></div>
+      <div><dt>زبان</dt><dd>{b.languages.slice(0, 2).join('، ')}</dd></div>
+    </dl>
+    {b.verified && <p class="ver"><Icon name="badge-check" size={16} />اطلاعات تأییدشده</p>}
+    <div class="actions">
+      <a class="call" href={d.tel}><Icon name="phone" />تماس</a>
+      {d.wa && <a class="wa" href={d.wa} rel="noopener"><Icon name="message-circle" />واتساپ</a>}
+    </div>
+  </div>
+</article>
+<style>
+  .c2 { --line: rgb(169 188 232 / 45%); --hi: #a9bce8; width: 340px; max-width: 100%; position: relative; padding: 10px; border-radius: 26px; background: var(--color-primary-strong) url('/tile-dark.svg') 0 0 / 80px 80px; color: #fff; box-shadow: 0 30px 60px -28px rgb(11 18 41 / 60%); }
+  .c2.featured { --line: #c9a54a; --hi: #f0d68e; }
+  .frame { position: relative; border: 1px solid var(--line); border-radius: 18px; padding: 20px 22px 22px; display: grid; justify-items: center; text-align: center; gap: 4px; background: radial-gradient(120% 70% at 50% 0%, rgb(255 255 255 / 7%), transparent 70%); }
+  .corner { position: absolute; width: 14px; height: 14px; background: var(--hi); clip-path: var(--shape-star); }
+  .tl { top: -7px; right: -7px; } .tr { top: -7px; left: -7px; } .bl { bottom: -7px; right: -7px; } .br { bottom: -7px; left: -7px; }
+  header { width: 100%; display: flex; align-items: center; justify-content: space-between; }
+  .flag { display: inline-flex; align-items: center; gap: 4px; padding: 3px 12px; border-radius: 99px; background: linear-gradient(135deg, #f3dfa2, #c9a54a); color: #3d2a00; font-size: .8rem; font-weight: 800; }
+  .flag.plain { background: rgb(255 255 255 / 10%); color: var(--hi); font-weight: 700; }
+  .c2 :global(.share) { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); background: transparent; color: #fff; display: grid; place-items: center; cursor: pointer; }
+  .c2 :global(.share):hover { background: rgb(255 255 255 / 10%); }
+  .mono { margin: 14px 0 10px; width: 112px; height: 112px; background: var(--hi); clip-path: var(--shape-star); display: grid; place-items: center; }
+  .mono span { width: 96px; height: 96px; clip-path: var(--shape-star); background: var(--color-primary-strong); display: grid; place-items: center; color: var(--hi); font-size: 2.8rem; font-weight: 900; line-height: 1; padding-top: 6px; }
+  .cat { margin: 0; color: var(--hi); font-weight: 700; font-size: .9rem; letter-spacing: .02em; }
+  h3 { margin: 0; font-size: 1.65rem; font-weight: 900; }
+  h3 a { color: #fff; text-decoration: none; }
+  h3 a::after { content: ''; position: absolute; inset: 0; }
+  .en { margin: 0; color: rgb(255 255 255 / 70%); font-size: .9rem; }
+  .orn { display: flex; align-items: center; gap: 8px; width: 70%; margin: 12px 0; }
+  .orn i { flex: 1; height: 1px; background: var(--line); }
+  .orn b { width: 10px; height: 10px; background: var(--hi); clip-path: var(--shape-star); }
+  dl { margin: 0; width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  dl div { border: 1px solid var(--line); border-radius: 12px; padding: 6px 8px; }
+  dt { font-size: .75rem; color: rgb(255 255 255 / 65%); }
+  dd { margin: 0; font-weight: 700; font-size: .95rem; }
+  .ver { margin: 10px 0 0; display: inline-flex; gap: 4px; align-items: center; color: var(--hi); font-size: .85rem; font-weight: 700; }
+  .actions { position: relative; z-index: 1; width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 16px; }
+  .actions a { display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 50px; border-radius: 99px; font-weight: 800; text-decoration: none; }
+  .call { background: #fff; color: var(--color-primary-strong); }
+  .call:hover { background: var(--color-primary-soft); color: var(--color-primary-strong); }
+  .featured .call { background: linear-gradient(135deg, #f3dfa2, #c9a54a); color: #3d2a00; }
+  .wa { border: 1px solid var(--line); color: #fff; }
+  .wa:hover { background: rgb(255 255 255 / 10%); color: #fff; }
+  .actions a:only-child { grid-column: 1 / -1; }
+</style>

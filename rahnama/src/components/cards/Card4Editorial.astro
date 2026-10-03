@@ -1,0 +1,62 @@
+---
+// طرح ۴ — «مجله‌ای»: تایپوگرافی درشت، خط‌کشی ظریف، مثل صفحه‌ی یک مجله
+import Icon from '../Icon.astro';
+import ShareButton from './ShareButton.astro';
+import { cardData } from './props';
+import type { Business } from '../../lib/data';
+interface Props { business: Business; index?: number }
+const d = cardData(Astro.props.business);
+const { b } = d;
+const n = (Astro.props.index ?? 1).toLocaleString('fa-IR', { minimumIntegerDigits: 2 });
+---
+<article class:list={['c4', { featured: d.featured }]}>
+  <header>
+    <span class="num" aria-hidden="true">{n}</span>
+    <div class="kicker">
+      <span class="cat"><Icon name={d.category.icon} size={16} />{d.category.name}</span>
+      <span class="city">{d.city}</span>
+    </div>
+    <ShareButton url={d.url} title={b.nameFa} class="share" />
+  </header>
+  {d.featured && <p class="flag"><Icon name="star" size={14} />ویژه · آگهی</p>}
+  <h3><a href={d.url}>{b.nameFa}</a></h3>
+  <p class="en" dir="ltr">{b.nameEn}</p>
+  <p class="desc">{b.description}</p>
+  <dl>
+    <div><dt>محله</dt><dd>{b.neighborhood}</dd></div>
+    <div><dt>زبان‌ها</dt><dd>{b.languages.length.toLocaleString('fa-IR')} زبان</dd></div>
+    <div><dt>وضعیت</dt><dd>{b.verified ? <span class="ver"><Icon name="badge-check" size={15} />تأیید</span> : 'ثبت پایه'}</dd></div>
+  </dl>
+  <div class="actions">
+    <a class="call" href={d.tel}><span>تماس بگیرید</span><Icon name="arrow-left" /></a>
+    {d.wa && <a class="wa" href={d.wa} rel="noopener" aria-label="واتساپ"><Icon name="message-circle" /></a>}
+  </div>
+</article>
+<style>
+  .c4 { width: 340px; max-width: 100%; position: relative; padding: 22px 24px 24px; background: var(--color-bg); border-top: 6px solid var(--color-primary-strong); border-radius: 4px 4px 22px 22px; box-shadow: 0 0 0 1px var(--color-border), 0 30px 60px -32px rgb(11 18 41 / 35%); display: grid; gap: 8px; }
+  .c4.featured { border-top-color: var(--color-featured); background: linear-gradient(var(--color-featured-soft), var(--color-bg) 55%); }
+  header { display: flex; align-items: center; gap: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--color-text); }
+  .num { font-size: 2.4rem; font-weight: 900; line-height: 1; color: var(--color-primary-soft); background: var(--color-primary); padding: 6px 10px 2px; border-radius: 12px; color: #fff; }
+  .featured .num { background: var(--color-featured); }
+  .kicker { display: grid; flex: 1; min-width: 0; }
+  .cat { display: inline-flex; gap: 4px; align-items: center; font-weight: 800; color: var(--color-text); }
+  .city { font-size: .85rem; color: var(--color-muted); }
+  .c4 :global(.share) { width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--color-border); background: transparent; color: var(--color-text); display: grid; place-items: center; cursor: pointer; }
+  .flag { margin: 6px 0 0; justify-self: start; display: inline-flex; align-items: center; gap: 4px; font-size: .8rem; font-weight: 800; color: var(--color-featured-text); }
+  h3 { margin: 6px 0 0; font-size: 2.1rem; line-height: 1.25; font-weight: 900; letter-spacing: -0.01em; }
+  h3 a { color: var(--color-text); text-decoration: none; }
+  h3 a::after { content: ''; position: absolute; inset: 0; }
+  .en { margin: 0; color: var(--color-muted); font-size: .9rem; text-align: start; }
+  .desc { margin: 8px 0 4px; color: var(--color-text); font-size: .95rem; line-height: 1.9; }
+  dl { margin: 0; display: grid; grid-template-columns: repeat(3, 1fr); border-block: 1px solid var(--color-border); }
+  dl div { padding: 10px 8px; }
+  dl div + div { border-inline-start: 1px solid var(--color-border); }
+  dt { font-size: .75rem; color: var(--color-muted); }
+  dd { margin: 0; font-weight: 800; font-size: .92rem; }
+  .ver { display: inline-flex; gap: 3px; align-items: center; color: var(--color-primary); }
+  .actions { position: relative; z-index: 1; display: flex; gap: 8px; margin-top: 10px; }
+  .call { flex: 1; display: flex; align-items: center; justify-content: space-between; padding: 0 20px; min-height: 54px; border-radius: 14px; background: var(--color-primary-strong); color: #fff; font-weight: 800; text-decoration: none; font-size: 1.05rem; }
+  .call:hover { background: var(--color-primary); color: #fff; }
+  .featured .call { background: var(--color-text); }
+  .wa { width: 54px; height: 54px; flex: none; display: grid; place-items: center; border-radius: 14px; border: 1.5px solid var(--color-text); color: var(--color-text); }
+</style>

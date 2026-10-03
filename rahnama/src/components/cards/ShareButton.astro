@@ -1,0 +1,21 @@
+---
+import Icon from '../Icon.astro';
+interface Props { url: string; title: string; class?: string }
+const { url, title, class: cls } = Astro.props;
+---
+<button type="button" class:list={['share-btn', cls]} data-share-url={url} data-share-title={title} aria-label={`اشتراک‌گذاری ${title}`}>
+  <Icon name="share-2" size={20} />
+</button>
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-share-url]').forEach((btn) => {
+    if (btn.dataset.bound) return;
+    btn.dataset.bound = '1';
+    btn.addEventListener('click', async () => {
+      const url = new URL(btn.dataset.shareUrl!, location.origin).href;
+      try {
+        if (navigator.share) await navigator.share({ title: btn.dataset.shareTitle, url });
+        else { await navigator.clipboard.writeText(url); btn.setAttribute('aria-label', 'لینک کپی شد'); }
+      } catch {}
+    });
+  });
+</script>
