@@ -1,0 +1,51 @@
+---
+// انتخابگر موقت رنگ. بعد از انتخاب پالت نهایی، این کامپوننت و خطش در Base.astro حذف می‌شوند.
+const themes = [
+  { id: '', name: 'فیروزه‌ای کاشی', a: '#0a7273', b: '#0f5c5d' },
+  { id: 'royal', name: 'آبی درباری', a: '#1f3c88', b: '#14275e' },
+  { id: 'lapis', name: 'لاجوردی', a: '#2350a8', b: '#173a7e' },
+  { id: 'midnight', name: 'سرمه‌ای شاهانه', a: '#1b2f6b', b: '#0b1229' },
+  { id: 'navyturq', name: 'سرمه‌ای و فیروزه‌ای', a: '#1a3270', b: '#0a7273' },
+];
+---
+<div class="picker" id="theme-picker">
+  <p class="title">رنگ سایت (آزمایشی)</p>
+  <div class="opts" role="radiogroup" aria-label="رنگ سایت">
+    {themes.map((t) => (
+      <button type="button" role="radio" aria-checked="false" data-theme-id={t.id} aria-label={t.name} title={t.name} style={`--a:${t.a};--b:${t.b}`}>
+        <span class="sw" aria-hidden="true"></span>
+      </button>
+    ))}
+  </div>
+  <p class="current" aria-live="polite"></p>
+</div>
+<script>
+  const root = document.documentElement;
+  const btns = document.querySelectorAll<HTMLButtonElement>('#theme-picker [data-theme-id]');
+  const label = document.querySelector('#theme-picker .current')!;
+  function apply(id: string) {
+    if (id) root.dataset.theme = id; else delete root.dataset.theme;
+    btns.forEach((b) => {
+      const on = b.dataset.themeId === id;
+      b.setAttribute('aria-checked', String(on));
+      if (on) label.textContent = b.title;
+    });
+  }
+  apply(root.dataset.theme || '');
+  btns.forEach((b) => b.addEventListener('click', () => {
+    const id = b.dataset.themeId || '';
+    apply(id);
+    try { localStorage.setItem('theme', id); } catch {}
+  }));
+</script>
+<style>
+  .picker { position: fixed; z-index: 50; inset-inline-start: var(--space-3); bottom: calc(88px + env(safe-area-inset-bottom)); background: var(--color-bg); border: 1px solid var(--color-border); border-radius: var(--radius-lg); box-shadow: var(--shadow-lift); padding: var(--space-2) var(--space-3); }
+  @media (min-width: 768px) { .picker { bottom: var(--space-4); } }
+  .title, .current { margin: 0; font-size: .75rem; color: var(--color-muted); text-align: center; line-height: 1.6; }
+  .current { color: var(--color-text); font-weight: 700; }
+  .opts { display: flex; gap: var(--space-1); }
+  button { width: 44px; height: 44px; display: grid; place-items: center; border: 0; background: none; padding: 0; cursor: pointer; border-radius: 50%; }
+  .sw { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, var(--a) 50%, var(--b) 50%); box-shadow: 0 0 0 2px #fff, 0 0 0 3px var(--color-border); transition: transform var(--dur-fast); }
+  button[aria-checked='true'] .sw { box-shadow: 0 0 0 2px #fff, 0 0 0 4px var(--color-text); transform: scale(1.1); }
+  button:hover .sw { transform: scale(1.1); }
+</style>

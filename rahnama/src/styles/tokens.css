@@ -61,3 +61,42 @@
   /* ستاره‌ی هشت‌پر کاشی (برای قاب آواتارها) */
   --shape-star: polygon(50% 4.2%, 63.4% 17.6%, 82.4% 17.6%, 82.4% 36.6%, 95.8% 50%, 82.4% 63.4%, 82.4% 82.4%, 63.4% 82.4%, 50% 95.8%, 36.6% 82.4%, 17.6% 82.4%, 17.6% 63.4%, 4.2% 50%, 17.6% 36.6%, 17.6% 17.6%, 36.6% 17.6%);
 }
+
+/* رنگ دوم (برای ستاره‌ها و برچسب‌های کوچک) و نقش کاشی — پیش‌فرض: فیروزه‌ای */
+:root {
+  --color-accent: var(--color-primary);
+  --tile-light: url('/tile-light.svg');
+}
+
+/* ---------- پالت‌های آزمایشی (موقت، برای انتخاب رنگ) ----------
+   بعد از انتخاب نهایی، مقدارهای پالت برنده به :root بالا منتقل و بقیه حذف می‌شوند. */
+
+/* آبی درباری */
+:root[data-theme='royal'] {
+  --color-primary: #1f3c88; --color-primary-strong: #14275e; --color-primary-soft: #e7ecf7;
+  --color-surface: #f3f5fa; --color-border: #dbe1ee;
+  --color-ink: #101a33; --color-ink-accent: #8fb0f0;
+  --tile-light: url('/tile-light-royal.svg');
+}
+/* لاجوردی */
+:root[data-theme='lapis'] {
+  --color-primary: #2350a8; --color-primary-strong: #173a7e; --color-primary-soft: #e6edfa;
+  --color-surface: #f3f6fc; --color-border: #d9e2f2;
+  --color-ink: #0f1b33; --color-ink-accent: #8db4ff;
+  --tile-light: url('/tile-light-lapis.svg');
+}
+/* سرمه‌ای شاهانه */
+:root[data-theme='midnight'] {
+  --color-primary: #1b2f6b; --color-primary-strong: #111d45; --color-primary-soft: #e8ebf4;
+  --color-surface: #f4f5f9; --color-border: #dcdfea; --color-text: #161f33;
+  --color-ink: #0b1229; --color-ink-accent: #a9bce8;
+  --tile-light: url('/tile-light-midnight.svg');
+}
+/* سرمه‌ای با فیروزه‌ای */
+:root[data-theme='navyturq'] {
+  --color-primary: #1a3270; --color-primary-strong: #101f4a; --color-primary-soft: #e5f2f1;
+  --color-accent: #0a7273;
+  --color-surface: #f3f7f7; --color-border: #d9e3e6;
+  --color-ink: #0e1730; --color-ink-accent: #5fc4be;
+  --tile-light: url('/tile-light-navyturq.svg');
+}

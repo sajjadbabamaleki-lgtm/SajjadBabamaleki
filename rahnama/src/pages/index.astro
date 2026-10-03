@@ -154,7 +154,7 @@ const ordered = [...publishedCities, ...cities.filter((c) => !c.published)];
 <style>
   .hero { position: relative; overflow: hidden; background: var(--color-surface); border-bottom: 1px solid var(--color-border); }
   .tiles { position: absolute; inset: 0; opacity: .9; mask-image: radial-gradient(120% 90% at 0% 50%, #000 20%, transparent 70%); -webkit-mask-image: radial-gradient(120% 90% at 0% 50%, #000 20%, transparent 70%); }
-  .medallion { position: absolute; inset-inline-end: -120px; top: 50%; width: 340px; height: 340px; translate: 0 -50%; background: var(--color-primary); clip-path: var(--shape-star); display: none; place-items: center; }
+  .medallion { position: absolute; inset-inline-end: -120px; top: 50%; width: 340px; height: 340px; translate: 0 -50%; background: var(--color-accent); clip-path: var(--shape-star); display: none; place-items: center; }
   .medallion span { width: 62%; height: 62%; background: var(--color-surface); clip-path: var(--shape-star); }
   .hero-inner { position: relative; padding-block: var(--space-7) var(--space-7); }
   .finder { display: grid; gap: var(--space-5); max-width: 46rem; }
@@ -193,7 +193,7 @@ const ordered = [...publishedCities, ...cities.filter((c) => !c.published)];
   .soon .cname { color: var(--color-text); font-size: var(--text-lg); }
   .soon .tag { position: absolute; top: var(--space-3); inset-inline-end: var(--space-3); font-size: .75rem; font-weight: 700; padding: 0 var(--space-2); border-radius: var(--radius-pill); background: var(--color-surface); }
   .suggest a { display: grid; align-content: end; gap: 2px; height: 100%; min-height: 128px; padding: var(--space-4); border-radius: inherit; background: var(--color-primary-soft); color: var(--color-primary-strong); text-decoration: none; transition: background-color var(--dur-fast); }
-  .suggest a:hover { background: #d3e9e7; color: var(--color-primary-strong); }
+  .suggest a:hover { background: color-mix(in srgb, var(--color-primary-soft), var(--color-primary) 10%); color: var(--color-primary-strong); }
   .suggest .cname { font-size: var(--text-lg); }
   @media (min-width: 768px) {
     .cities { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 140px; }

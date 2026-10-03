@@ -4,6 +4,7 @@ import '../styles/tokens.css';
 import '../styles/base.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import ThemePicker from '../components/ThemePicker.astro';
 import Breadcrumb, { type Crumb } from '../components/Breadcrumb.astro';
 import { SITE_NAME } from '../lib/site';
 
@@ -25,6 +26,7 @@ const fullTitle = title === SITE_NAME ? title : `${title} | ${SITE_NAME}`;
     {description && <meta name="description" content={description} />}
     {noindex && <meta name="robots" content="noindex, follow" />}
     <meta name="theme-color" content="#0a7273" />
+    <script is:inline>try{const t=localStorage.getItem('theme');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   </head>
   <body>
@@ -35,6 +37,7 @@ const fullTitle = title === SITE_NAME ? title : `${title} | ${SITE_NAME}`;
       <slot />
     </main>
     <Footer />
+    <ThemePicker />
   </body>
 </html>
 <style>
