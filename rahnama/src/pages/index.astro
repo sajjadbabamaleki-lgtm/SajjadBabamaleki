@@ -1,0 +1,15 @@
+---
+import Base from '../layouts/Base.astro';
+import { SITE_NAME } from '../lib/site';
+import { cities } from '../lib/data';
+---
+<Base title={SITE_NAME} description="دایرکتوری فارسی کسب‌وکارها و متخصصان ایرانی در ۸ شهر.">
+  <h1>{SITE_NAME}</h1>
+  <p>کسب‌وکارها و متخصصان ایرانی در شهر خودتان را پیدا کنید.</p>
+  <h2>شهرها</h2>
+  <ul>
+    {cities.map((c) => (
+      <li>{c.published ? <a href={`/${c.slug}/`}>{c.name}</a> : <span>{c.name} (به‌زودی)</span>}</li>
+    ))}
+  </ul>
+</Base>

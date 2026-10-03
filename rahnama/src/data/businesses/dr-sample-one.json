@@ -1,0 +1,34 @@
+{
+  "slug": "dr-sample-one",
+  "nameFa": "دکتر اول نمونه",
+  "nameEn": "Dr. Sample One",
+  "city": "istanbul",
+  "categories": [
+    "dentist"
+  ],
+  "description": "مطب دندانپزشکی نمونه برای تست سایت.",
+  "services": [
+    "معاینه و جرم‌گیری",
+    "ایمپلنت",
+    "ارتودنسی",
+    "سفید کردن دندان"
+  ],
+  "address": "آدرس نمونه، شیشلی، استانبول",
+  "neighborhood": "شیشلی",
+  "hours": "شنبه تا پنجشنبه ۹ تا ۱۸",
+  "phone": "+90 212 000 00 01",
+  "whatsapp": "+90 500 000 00 01",
+  "email": "",
+  "website": "https://example.com",
+  "instagram": "",
+  "languages": [
+    "فارسی",
+    "ترکی",
+    "انگلیسی"
+  ],
+  "logo": "",
+  "photos": [],
+  "verified": true,
+  "featuredUntil": "2027-12-31",
+  "sample": true
+}

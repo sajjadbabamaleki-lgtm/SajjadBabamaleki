@@ -1,0 +1,19 @@
+/* همه‌ی رنگ‌ها و فونت‌ها فقط همین‌جا هستند. وقتی برند بوک آماده شد، فقط این فایل عوض می‌شود. */
+:root {
+  --color-bg: #ffffff;
+  --color-surface: #f5f8f9;
+  --color-text: #1f2a37;
+  --color-muted: #5b6776;
+  --color-border: #dfe5ea;
+  --color-primary: #0b7a7a; /* فیروزه‌ای کاشی ایرانی */
+  --color-primary-dark: #075e5e;
+  --color-on-primary: #ffffff;
+  --color-featured: #b8860b; /* طلایی، فقط برای «ویژه» */
+  --color-featured-bg: #fdf7e7;
+
+  --font-body: 'Vazirmatn Variable', Tahoma, sans-serif;
+
+  --radius: 10px;
+  --space: 1rem;
+  --max-width: 72rem;
+}

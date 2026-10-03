@@ -1,0 +1,82 @@
+[
+  {
+    "slug": "real-estate",
+    "name": "مشاور املاک",
+    "core": true
+  },
+  {
+    "slug": "lawyer",
+    "name": "وکیل",
+    "core": true
+  },
+  {
+    "slug": "accountant",
+    "name": "حسابدار و مالیات",
+    "core": true
+  },
+  {
+    "slug": "doctor",
+    "name": "پزشک",
+    "core": true
+  },
+  {
+    "slug": "dentist",
+    "name": "دندانپزشک",
+    "core": true
+  },
+  {
+    "slug": "immigration",
+    "name": "مشاور مهاجرت",
+    "core": true
+  },
+  {
+    "slug": "translator",
+    "name": "مترجم رسمی",
+    "core": true
+  },
+  {
+    "slug": "restaurant",
+    "name": "رستوران ایرانی",
+    "core": true
+  },
+  {
+    "slug": "grocery",
+    "name": "سوپرمارکت ایرانی",
+    "core": true
+  },
+  {
+    "slug": "beauty-salon",
+    "name": "سالن زیبایی",
+    "core": true
+  },
+  {
+    "slug": "company-formation",
+    "name": "ثبت شرکت",
+    "core": false
+  },
+  {
+    "slug": "residency-visa",
+    "name": "اقامت و ویزا",
+    "core": false
+  },
+  {
+    "slug": "language-school",
+    "name": "آموزش زبان",
+    "core": false
+  },
+  {
+    "slug": "mortgage",
+    "name": "مشاور وام مسکن",
+    "core": false
+  },
+  {
+    "slug": "insurance",
+    "name": "بیمه",
+    "core": false
+  },
+  {
+    "slug": "financial-advisor",
+    "name": "مشاور مالی",
+    "core": false
+  }
+]

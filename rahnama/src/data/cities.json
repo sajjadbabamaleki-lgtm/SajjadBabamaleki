@@ -1,0 +1,117 @@
+[
+  {
+    "slug": "istanbul",
+    "name": "استانبول",
+    "country": "ترکیه",
+    "countryCode": "TR",
+    "published": true,
+    "extraCategories": [
+      "company-formation",
+      "residency-visa",
+      "language-school"
+    ],
+    "featuredPrice": "۳۰ تا ۵۰",
+    "guide": "متن راهنمای شهر (۸۰۰ تا ۱۵۰۰ کلمه، بعداً نوشته می‌شود)",
+    "categoryIntros": {}
+  },
+  {
+    "slug": "dubai",
+    "name": "دبی",
+    "country": "امارات",
+    "countryCode": "AE",
+    "published": false,
+    "extraCategories": [
+      "company-formation",
+      "residency-visa",
+      "language-school"
+    ],
+    "featuredPrice": "۳۰ تا ۵۰",
+    "guide": "متن راهنمای شهر (۸۰۰ تا ۱۵۰۰ کلمه، بعداً نوشته می‌شود)",
+    "categoryIntros": {}
+  },
+  {
+    "slug": "muscat",
+    "name": "مسقط",
+    "country": "عمان",
+    "countryCode": "OM",
+    "published": false,
+    "extraCategories": [
+      "company-formation",
+      "residency-visa",
+      "language-school"
+    ],
+    "featuredPrice": "۳۰ تا ۵۰",
+    "guide": "متن راهنمای شهر (۸۰۰ تا ۱۵۰۰ کلمه، بعداً نوشته می‌شود)",
+    "categoryIntros": {}
+  },
+  {
+    "slug": "toronto",
+    "name": "تورنتو",
+    "country": "کانادا",
+    "countryCode": "CA",
+    "published": false,
+    "extraCategories": [
+      "mortgage",
+      "insurance"
+    ],
+    "featuredPrice": "۵۰ تا ۸۰",
+    "guide": "متن راهنمای شهر (۸۰۰ تا ۱۵۰۰ کلمه، بعداً نوشته می‌شود)",
+    "categoryIntros": {}
+  },
+  {
+    "slug": "vancouver",
+    "name": "ونکوور",
+    "country": "کانادا",
+    "countryCode": "CA",
+    "published": false,
+    "extraCategories": [
+      "mortgage",
+      "insurance"
+    ],
+    "featuredPrice": "۵۰ تا ۸۰",
+    "guide": "متن راهنمای شهر (۸۰۰ تا ۱۵۰۰ کلمه، بعداً نوشته می‌شود)",
+    "categoryIntros": {}
+  },
+  {
+    "slug": "losangeles",
+    "name": "لس‌آنجلس",
+    "country": "آمریکا",
+    "countryCode": "US",
+    "published": false,
+    "extraCategories": [
+      "insurance",
+      "financial-advisor"
+    ],
+    "featuredPrice": "۵۰ تا ۸۰",
+    "guide": "متن راهنمای شهر (۸۰۰ تا ۱۵۰۰ کلمه، بعداً نوشته می‌شود)",
+    "categoryIntros": {}
+  },
+  {
+    "slug": "london",
+    "name": "لندن",
+    "country": "بریتانیا",
+    "countryCode": "GB",
+    "published": false,
+    "extraCategories": [
+      "insurance",
+      "financial-advisor"
+    ],
+    "featuredPrice": "۵۰ تا ۸۰",
+    "guide": "متن راهنمای شهر (۸۰۰ تا ۱۵۰۰ کلمه، بعداً نوشته می‌شود)",
+    "categoryIntros": {}
+  },
+  {
+    "slug": "hamburg",
+    "name": "هامبورگ",
+    "country": "آلمان",
+    "countryCode": "DE",
+    "published": false,
+    "extraCategories": [
+      "language-school",
+      "residency-visa"
+    ],
+    "featuredPrice": "۵۰ تا ۸۰",
+    "guide": "متن راهنمای شهر (۸۰۰ تا ۱۵۰۰ کلمه، بعداً نوشته می‌شود)",
+    "categoryIntros": {}
+  }
+]

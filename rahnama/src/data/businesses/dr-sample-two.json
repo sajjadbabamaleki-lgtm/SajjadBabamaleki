@@ -1,0 +1,31 @@
+{
+  "slug": "dr-sample-two",
+  "nameFa": "دکتر دوم نمونه",
+  "nameEn": "Dr. Sample Two",
+  "city": "istanbul",
+  "categories": [
+    "dentist"
+  ],
+  "description": "مطب دندانپزشکی نمونه برای تست سایت.",
+  "services": [
+    "معاینه و جرم‌گیری",
+    "ایمپلنت"
+  ],
+  "address": "آدرس نمونه، کادیکوی، استانبول",
+  "neighborhood": "کادیکوی",
+  "hours": "شنبه تا پنجشنبه ۹ تا ۱۸",
+  "phone": "+90 212 000 00 02",
+  "whatsapp": "+90 500 000 00 02",
+  "email": "",
+  "website": "",
+  "instagram": "",
+  "languages": [
+    "فارسی",
+    "ترکی"
+  ],
+  "logo": "",
+  "photos": [],
+  "verified": false,
+  "featuredUntil": null,
+  "sample": true
+}

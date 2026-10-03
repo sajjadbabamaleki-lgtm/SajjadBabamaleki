@@ -1,0 +1,32 @@
+{
+  "slug": "dr-sample-four",
+  "nameFa": "دکتر چهارم نمونه",
+  "nameEn": "Dr. Sample Four",
+  "city": "istanbul",
+  "categories": [
+    "dentist"
+  ],
+  "description": "مطب دندانپزشکی نمونه برای تست سایت.",
+  "services": [
+    "معاینه و جرم‌گیری",
+    "ایمپلنت",
+    "ارتودنسی"
+  ],
+  "address": "آدرس نمونه، آتاشهیر، استانبول",
+  "neighborhood": "آتاشهیر",
+  "hours": "شنبه تا پنجشنبه ۹ تا ۱۸",
+  "phone": "+90 212 000 00 04",
+  "whatsapp": "+90 500 000 00 04",
+  "email": "",
+  "website": "",
+  "instagram": "",
+  "languages": [
+    "فارسی",
+    "ترکی"
+  ],
+  "logo": "",
+  "photos": [],
+  "verified": false,
+  "featuredUntil": null,
+  "sample": true
+}

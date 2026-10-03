@@ -1,0 +1,17 @@
+---
+import Base from '../../../../layouts/Base.astro';
+import { guides, getCity, type Guide, type City } from '../../../../lib/data';
+
+export function getStaticPaths() {
+  return guides.flatMap((guide) => {
+    const city = getCity(guide.city);
+    if (!city?.published) return [];
+    return [{ params: { city: city.slug, slug: guide.slug }, props: { guide, city } }];
+  });
+}
+const { guide, city } = Astro.props as { guide: Guide; city: City };
+---
+<Base title={guide.title} breadcrumb={[{ name: city.name, href: `/${city.slug}/` }, { name: guide.title }]}>
+  <h1>{guide.title}</h1>
+  <p>{guide.body}</p>
+</Base>

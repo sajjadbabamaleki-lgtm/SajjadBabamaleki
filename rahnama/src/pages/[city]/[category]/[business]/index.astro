@@ -1,0 +1,43 @@
+---
+import Base from '../../../../layouts/Base.astro';
+import { businesses, getCity, getCategory, type Business, type City, type Category } from '../../../../lib/data';
+
+export function getStaticPaths() {
+  return businesses.flatMap((business) => {
+    const city = getCity(business.city);
+    const category = getCategory(business.categories[0]);
+    if (!city?.published || !category) return [];
+    return [{
+      params: { city: city.slug, category: category.slug, business: business.slug },
+      props: { business, city, category },
+    }];
+  });
+}
+const { business: b, city, category } = Astro.props as { business: Business; city: City; category: Category };
+const tel = (n: string) => n.replace(/[^\d+]/g, '');
+---
+<Base
+  title={`${b.nameFa} — ${category.name} ایرانی در ${city.name}`}
+  description={b.description}
+  breadcrumb={[
+    { name: city.name, href: `/${city.slug}/` },
+    { name: category.name, href: `/${city.slug}/${category.slug}/` },
+    { name: b.nameFa },
+  ]}
+>
+  <h1>{b.nameFa}</h1>
+  <p lang="en" dir="ltr">{b.nameEn}</p>
+  {b.verified && <p>✓ تأییدشده</p>}
+  <p>{b.description}</p>
+  <h2>خدمات</h2>
+  <ul>{b.services.map((s) => <li>{s}</li>)}</ul>
+  <h2>اطلاعات تماس</h2>
+  <ul>
+    <li>آدرس: {b.address}</li>
+    <li>ساعات کار: {b.hours}</li>
+    <li>تلفن: <a class="ltr" dir="ltr" href={`tel:${tel(b.phone)}`}>{b.phone}</a></li>
+    {b.whatsapp && <li>واتساپ: <a class="ltr" dir="ltr" href={`https://wa.me/${tel(b.whatsapp).replace('+', '')}`}>{b.whatsapp}</a></li>}
+    {b.website && <li>وب‌سایت: <a href={b.website} rel="noopener">{b.website}</a></li>}
+    <li>زبان‌ها: {b.languages.join('، ')}</li>
+  </ul>
+</Base>

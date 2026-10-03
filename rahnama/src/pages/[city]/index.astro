@@ -1,0 +1,25 @@
+---
+import Base from '../../layouts/Base.astro';
+import { publishedCities, categoriesForCity, businessesIn, guides, type City } from '../../lib/data';
+
+export function getStaticPaths() {
+  return publishedCities.map((city) => ({ params: { city: city.slug }, props: { city } }));
+}
+const { city } = Astro.props as { city: City };
+const cats = categoriesForCity(city).map((c) => ({ ...c, count: businessesIn(city.slug, c.slug).length }));
+const cityGuides = guides.filter((g) => g.city === city.slug);
+---
+<Base title={`کسب‌وکارهای ایرانی در ${city.name}`} breadcrumb={[{ name: city.name }]}>
+  <h1>کسب‌وکارهای ایرانی در {city.name}</h1>
+  <p>{city.guide}</p>
+  <h2>تخصص‌ها</h2>
+  <ul>
+    {cats.map((c) => <li><a href={`/${city.slug}/${c.slug}/`}>{c.name}</a> ({c.count})</li>)}
+  </ul>
+  {cityGuides.length > 0 && (
+    <>
+      <h2>راهنماهای {city.name}</h2>
+      <ul>{cityGuides.map((g) => <li><a href={`/guides/${city.slug}/${g.slug}/`}>{g.title}</a></li>)}</ul>
+    </>
+  )}
+</Base>

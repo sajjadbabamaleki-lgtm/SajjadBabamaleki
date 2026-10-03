@@ -1,0 +1,32 @@
+{
+  "slug": "sample-restaurant",
+  "nameFa": "رستوران نمونه",
+  "nameEn": "Sample Restaurant",
+  "city": "istanbul",
+  "categories": [
+    "restaurant"
+  ],
+  "description": "رستوران ایرانی نمونه برای تست سایت.",
+  "services": [
+    "چلوکباب",
+    "خورش",
+    "کترینگ"
+  ],
+  "address": "آدرس نمونه، شیشلی، استانبول",
+  "neighborhood": "شیشلی",
+  "hours": "شنبه تا پنجشنبه ۹ تا ۱۸",
+  "phone": "+90 212 000 00 06",
+  "whatsapp": "+90 500 000 00 06",
+  "email": "",
+  "website": "",
+  "instagram": "",
+  "languages": [
+    "فارسی",
+    "ترکی"
+  ],
+  "logo": "",
+  "photos": [],
+  "verified": false,
+  "featuredUntil": null,
+  "sample": true
+}

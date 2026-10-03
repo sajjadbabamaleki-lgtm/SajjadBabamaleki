@@ -1,0 +1,17 @@
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.8;
+}
+a { color: var(--color-primary); }
+a:hover { color: var(--color-primary-dark); }
+h1, h2, h3 { line-height: 1.4; }
+img { max-width: 100%; height: auto; }
+.container { max-width: var(--max-width); margin-inline: auto; padding-inline: var(--space); }
+.ltr { direction: ltr; unicode-bidi: isolate; display: inline-block; }
+:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; }

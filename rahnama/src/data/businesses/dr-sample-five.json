@@ -1,0 +1,31 @@
+{
+  "slug": "dr-sample-five",
+  "nameFa": "دکتر پنجم نمونه",
+  "nameEn": "Dr. Sample Five",
+  "city": "istanbul",
+  "categories": [
+    "dentist"
+  ],
+  "description": "مطب دندانپزشکی نمونه برای تست سایت.",
+  "services": [
+    "ارتودنسی",
+    "سفید کردن دندان"
+  ],
+  "address": "آدرس نمونه، باکرکوی، استانبول",
+  "neighborhood": "باکرکوی",
+  "hours": "شنبه تا پنجشنبه ۹ تا ۱۸",
+  "phone": "+90 212 000 00 05",
+  "whatsapp": "+90 500 000 00 05",
+  "email": "",
+  "website": "",
+  "instagram": "",
+  "languages": [
+    "فارسی",
+    "ترکی"
+  ],
+  "logo": "",
+  "photos": [],
+  "verified": false,
+  "featuredUntil": null,
+  "sample": true
+}

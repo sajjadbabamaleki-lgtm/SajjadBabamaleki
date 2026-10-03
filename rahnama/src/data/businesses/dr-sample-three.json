@@ -1,0 +1,32 @@
+{
+  "slug": "dr-sample-three",
+  "nameFa": "دکتر سوم نمونه",
+  "nameEn": "Dr. Sample Three",
+  "city": "istanbul",
+  "categories": [
+    "dentist"
+  ],
+  "description": "مطب دندانپزشکی نمونه برای تست سایت.",
+  "services": [
+    "ایمپلنت",
+    "ارتودنسی",
+    "سفید کردن دندان"
+  ],
+  "address": "آدرس نمونه، بشیکتاش، استانبول",
+  "neighborhood": "بشیکتاش",
+  "hours": "شنبه تا پنجشنبه ۹ تا ۱۸",
+  "phone": "+90 212 000 00 03",
+  "whatsapp": "+90 500 000 00 03",
+  "email": "",
+  "website": "",
+  "instagram": "",
+  "languages": [
+    "فارسی",
+    "ترکی"
+  ],
+  "logo": "",
+  "photos": [],
+  "verified": false,
+  "featuredUntil": null,
+  "sample": true
+}

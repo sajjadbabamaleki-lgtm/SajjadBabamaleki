@@ -1,0 +1,30 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { publishedCities, categoriesForCity, businessesIn, businessUrl, type City, type Category } from '../../../lib/data';
+
+export function getStaticPaths() {
+  return publishedCities.flatMap((city) =>
+    categoriesForCity(city).map((category) => ({
+      params: { city: city.slug, category: category.slug },
+      props: { city, category },
+    })),
+  );
+}
+const { city, category } = Astro.props as { city: City; category: Category };
+const list = businessesIn(city.slug, category.slug);
+const intro = city.categoryIntros[category.slug];
+---
+<Base
+  title={`${category.name} ایرانی در ${city.name}`}
+  breadcrumb={[{ name: city.name, href: `/${city.slug}/` }, { name: category.name }]}
+>
+  <h1>{category.name} ایرانی در {city.name}</h1>
+  {intro && <p>{intro}</p>}
+  {list.length > 0 ? (
+    <ul>
+      {list.map((b) => <li><a href={businessUrl(b)}>{b.nameFa}</a> — {b.neighborhood}</li>)}
+    </ul>
+  ) : (
+    <p>هنوز کسب‌وکاری در این بخش ثبت نشده. <a href="/business-add/">کسب‌وکار خود را رایگان ثبت کنید.</a></p>
+  )}
+</Base>
