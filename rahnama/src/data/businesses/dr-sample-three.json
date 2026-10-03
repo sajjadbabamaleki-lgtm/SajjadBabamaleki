@@ -25,7 +25,10 @@
     "ترکی"
   ],
   "logo": "",
-  "photos": [],
+  "photos": [
+    "/samples/dentists-team.webp",
+    "/samples/dental-mirror-exam.webp"
+  ],
   "verified": false,
   "featuredUntil": null,
   "sample": true

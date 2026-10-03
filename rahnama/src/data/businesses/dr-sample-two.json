@@ -24,7 +24,10 @@
     "ترکی"
   ],
   "logo": "",
-  "photos": [],
+  "photos": [
+    "/samples/dental-chair.webp",
+    "/samples/dentists-team.webp"
+  ],
   "verified": false,
   "featuredUntil": null,
   "sample": true

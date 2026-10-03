@@ -24,7 +24,9 @@
     "ترکی"
   ],
   "logo": "",
-  "photos": [],
+  "photos": [
+    "/samples/dental-mirror.webp"
+  ],
   "verified": false,
   "featuredUntil": null,
   "sample": true

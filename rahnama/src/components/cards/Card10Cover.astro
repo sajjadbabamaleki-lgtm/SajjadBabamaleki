@@ -1,0 +1,59 @@
+---
+// طرح ۱۰ «جلد مجله»: عکس تمام‌قد، اسم سایت مثل تیتر مجله بالای کارت، خدمات مثل تیترهای روی جلد
+import Icon from '../Icon.astro';
+import ShareButton from './ShareButton.astro';
+import { SITE_NAME } from '../../lib/site';
+import { cardData } from './props';
+import type { Business } from '../../lib/data';
+interface Props { business: Business }
+const d = cardData(Astro.props.business);
+const { b } = d;
+---
+<article class:list={['c10', { featured: d.featured }]}>
+  {d.cover ? <img class="bg" src={d.cover} alt="" width="900" height="1125" loading="lazy" /> : <div class="bg fallback" />}
+  <div class="scrim" aria-hidden="true"></div>
+  <header>
+    <p class="mast">{SITE_NAME}</p>
+    <ShareButton url={d.url} title={b.nameFa} class="share" />
+  </header>
+  <p class="issue">{d.city} <span>{d.category.name}</span></p>
+  <ul class="lines">
+    {b.services.slice(0, 3).map((s) => <li>{s}</li>)}
+  </ul>
+  {d.featured && <span class="sticker" aria-label="ویژه"><Icon name="star" size={16} />ویژه</span>}
+  <footer>
+    {b.verified && <p class="ver"><Icon name="badge-check" size={16} />تأییدشده</p>}
+    <h3><a href={d.url}>{b.nameFa}</a></h3>
+    <p class="loc">{b.neighborhood}، {d.city}</p>
+    <div class="actions">
+      <a class="call" href={d.tel}><Icon name="phone" />تماس</a>
+      {d.wa && <a class="wa" href={d.wa} rel="noopener" aria-label="واتساپ"><Icon name="message-circle" /></a>}
+    </div>
+  </footer>
+</article>
+<style>
+  .c10 { position: relative; isolation: isolate; width: 340px; max-width: 100%; aspect-ratio: 9 / 16; border-radius: 22px; overflow: hidden; color: #fff; display: flex; flex-direction: column; padding: 18px 20px 20px; box-shadow: 0 30px 60px -28px rgb(11 18 41 / 55%); }
+  .c10.featured { box-shadow: 0 0 0 3px var(--color-featured), 0 30px 60px -28px rgb(122 86 0 / 55%); }
+  .bg { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; }
+  .fallback { background: var(--color-primary-strong) url('/tile-dark.svg') 0 0 / 64px 64px; }
+  .scrim { position: absolute; inset: 0; z-index: -1; background: linear-gradient(to bottom, rgb(11 18 41 / 80%) 0%, rgb(11 18 41 / 10%) 30%, rgb(11 18 41 / 10%) 52%, rgb(11 18 41 / 92%) 82%); }
+  header { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+  .mast { margin: 0; font-size: 2.35rem; font-weight: 900; line-height: 1.05; letter-spacing: -0.03em; }
+  .c10 :global(.share) { flex: none; width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgb(255 255 255 / 35%); background: transparent; color: #fff; display: grid; place-items: center; cursor: pointer; }
+  .issue { margin: 6px 0 0; font-size: .85rem; font-weight: 700; display: flex; gap: 8px; align-items: center; }
+  .issue span { padding: 1px 10px; border: 1px solid rgb(255 255 255 / 60%); border-radius: 99px; }
+  .lines { list-style: none; padding: 0; margin: 18px 0 0; display: grid; gap: 6px; max-width: 60%; }
+  .lines li { font-weight: 800; font-size: 1rem; line-height: 1.4; padding-inline-start: 10px; border-inline-start: 3px solid #fff; text-shadow: 0 1px 8px rgb(11 18 41 / 50%); }
+  .featured .lines li { border-color: #e3c36f; }
+  .sticker { position: absolute; top: 46%; inset-inline-end: 18px; rotate: 10deg; width: 76px; height: 76px; display: grid; place-content: center; justify-items: center; background: var(--color-featured); color: #fff; clip-path: var(--shape-star); font-weight: 900; font-size: .85rem; }
+  footer { margin-top: auto; display: grid; gap: 2px; }
+  .ver { margin: 0; display: inline-flex; align-items: center; gap: 4px; color: #c9d6ff; font-weight: 700; font-size: .85rem; }
+  h3 { margin: 0; font-size: 2.2rem; font-weight: 900; line-height: 1.2; }
+  h3 a { color: #fff; text-decoration: none; }
+  h3 a::after { content: ''; position: absolute; inset: 0; }
+  .loc { margin: 0; color: rgb(255 255 255 / 80%); }
+  .actions { position: relative; z-index: 1; display: flex; gap: 8px; margin-top: 14px; }
+  .call { flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 6px; min-height: 50px; border-radius: 99px; background: #fff; color: var(--color-primary-strong); font-weight: 800; text-decoration: none; }
+  .featured .call { background: #e3c36f; color: #2b1d00; }
+  .wa { width: 50px; height: 50px; flex: none; display: grid; place-items: center; border-radius: 50%; border: 1px solid rgb(255 255 255 / 50%); color: #fff; }
+</style>

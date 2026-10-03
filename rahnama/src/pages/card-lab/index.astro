@@ -1,32 +1,32 @@
 ---
 // صفحه‌ی موقت برای انتخاب طرح کارت. بعد از انتخاب حذف می‌شود.
 import Base from '../../layouts/Base.astro';
-import Card1 from '../../components/cards/Card1Medallion.astro';
-import Card2 from '../../components/cards/Card2Royal.astro';
-import Card3 from '../../components/cards/Card3Mihrab.astro';
-import Card4 from '../../components/cards/Card4Editorial.astro';
-import Card5 from '../../components/cards/Card5Glass.astro';
+import Card6 from '../../components/cards/Card6Poster.astro';
+import Card7 from '../../components/cards/Card7Arch.astro';
+import Card8 from '../../components/cards/Card8Ticket.astro';
+import Card9 from '../../components/cards/Card9Collage.astro';
+import Card10 from '../../components/cards/Card10Cover.astro';
 import { businesses } from '../../lib/data';
 const featured = businesses.find((b) => b.slug === 'dr-sample-one')!;
-const normal = businesses.find((b) => b.slug === 'dr-sample-two')!;
+const normal = businesses.find((b) => b.slug === 'sample-restaurant')!;
 const designs = [
-  { n: '۱', id: 'd1', name: 'مدال کاشی', note: 'نیمه‌ی بالا سرمه‌ای با نقش کاشی؛ یک مدال ستاره‌ای بزرگ وسط کارت. گرم، آشنا و مناسب همه‌ی تخصص‌ها.', C: Card1 },
-  { n: '۲', id: 'd2', name: 'کارت شاهانه', note: 'تمام سرمه‌ای با قاب داخلی ظریف و ستاره‌های گوشه، مثل کارت ویزیت لوکس. برای ویژه‌ها قاب و دکمه طلایی می‌شود.', C: Card2 },
-  { n: '۳', id: 'd3', name: 'محراب', note: 'قوس جناغی ایرانی با نقش کاشی دور حرف اول. ایرانی‌ترین طرح؛ در استوری خیلی به چشم می‌آید.', C: Card3 },
-  { n: '۴', id: 'd4', name: 'مجله‌ای', note: 'تایپوگرافی درشت، شماره‌ی ردیف و خط‌کشی ظریف. مدرن و جدی؛ مناسب وکیل، حسابدار و پزشک.', C: Card4 },
-  { n: '۵', id: 'd5', name: 'شیشه روی کاشی', note: 'سرمه‌ای تیره با نور ملایم و لایه‌ی شیشه‌ای. پرزرق‌وبرق‌ترین طرح؛ برای ویژه‌ها نور طلایی می‌گیرد.', C: Card5 },
+  { n: '۶', id: 'd6', name: 'پوستر', note: 'عکس تمام‌قد و اسم درشت روی عکس، مثل یک استوری آماده. نشان سایت بالای کارت است تا هر اشتراک‌گذاری، سایت را هم معرفی کند.', C: Card6 },
+  { n: '۷', id: 'd7', name: 'پنجره‌ی محراب', note: 'عکس کسب‌وکار داخل قوس جناغی ایرانی، با قاب دولایه روی زمینه‌ی سرمه‌ای کاشی. برای ویژه‌ها قاب طلایی.', C: Card7 },
+  { n: '۸', id: 'd8', name: 'بلیت', note: 'عکس بالا و اطلاعات پایین مثل بلیت، با خط پرفراژ و دو بریدگی کنار. بازیگوش و به‌یادماندنی.', C: Card8 },
+  { n: '۹', id: 'd9', name: 'کلاژ', note: 'سه عکس کنار هم، با ستاره‌ی لوگو روی مرز عکس‌ها. برای کسب‌وکارهایی که عکس خوب دارند (رستوران، سالن زیبایی).', C: Card9 },
+  { n: '۱۰', id: 'd10', name: 'جلد مجله', note: 'اسم سایت مثل تیتر مجله، خدمات مثل تیترهای روی جلد، و برچسب ستاره‌ای برای ویژه‌ها.', C: Card10 },
 ];
 ---
 <Base title="انتخاب طرح کارت" noindex breadcrumb={[{ name: 'انتخاب طرح کارت' }]}>
   <div class="container lab">
-    <h1>۵ طرح برای کارت کسب‌وکار</h1>
+    <h1>۵ طرح تازه برای کارت کسب‌وکار</h1>
     <p class="lead">هر طرح دو بار آمده: راست کسب‌وکار <b>ویژه</b>، چپ کسب‌وکار <b>معمولی</b>. همه عمودی هستند تا در قاب استوری جا شوند.</p>
     {designs.map(({ n, id, name, note, C }) => (
       <section class="design" id={id}>
         <div class="label"><span class="n">{n}</span><div><h2>{name}</h2><p>{note}</p></div></div>
         <div class="stage">
-          <C business={featured} index={1} />
-          <C business={normal} index={2} />
+          <C business={featured} />
+          <C business={normal} />
         </div>
       </section>
     ))}

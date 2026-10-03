@@ -25,7 +25,11 @@
     "ترکی"
   ],
   "logo": "",
-  "photos": [],
+  "photos": [
+    "/samples/kebab.webp",
+    "/samples/chicken-rice.webp",
+    "/samples/tahchin.webp"
+  ],
   "verified": false,
   "featuredUntil": null,
   "sample": true

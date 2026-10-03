@@ -1,0 +1,13 @@
+---
+// نشان کوچک سایت روی کارت، تا وقتی کارت در استوری دیده می‌شود، اسم سایت هم دیده شود.
+import { SITE_NAME } from '../../lib/site';
+interface Props { tone?: 'light' | 'dark' }
+const { tone = 'light' } = Astro.props;
+---
+<span class:list={['brandmark', tone]}><i aria-hidden="true"></i>{SITE_NAME}</span>
+<style>
+  .brandmark { display: inline-flex; align-items: center; gap: 6px; font-size: .8rem; font-weight: 800; letter-spacing: -0.01em; }
+  .brandmark i { width: 14px; height: 14px; clip-path: var(--shape-star); background: currentColor; }
+  .light { color: #fff; }
+  .dark { color: var(--color-primary); }
+</style>

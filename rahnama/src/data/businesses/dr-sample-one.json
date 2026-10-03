@@ -27,7 +27,12 @@
     "انگلیسی"
   ],
   "logo": "",
-  "photos": [],
+  "photos": [
+    "/samples/dental-clinic.webp",
+    "/samples/dental-scan.webp",
+    "/samples/implant.webp",
+    "/samples/dental-chair.webp"
+  ],
   "verified": true,
   "featuredUntil": "2027-12-31",
   "sample": true

@@ -25,7 +25,9 @@
     "ترکی"
   ],
   "logo": "",
-  "photos": [],
+  "photos": [
+    "/samples/xray.webp"
+  ],
   "verified": false,
   "featuredUntil": null,
   "sample": true

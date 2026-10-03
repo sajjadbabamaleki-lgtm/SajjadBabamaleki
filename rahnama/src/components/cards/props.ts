@@ -11,5 +11,7 @@ export function cardData(b: Business) {
     tel: telHref(b.phone),
     wa: b.whatsapp ? whatsappHref(b.whatsapp) : '',
     letter: b.nameFa.replace(/^دکتر\s*/, '').trim().charAt(0),
+    cover: b.photos[0] ?? '',
+    photos: b.photos,
   };
 }
