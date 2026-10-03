@@ -1,0 +1,50 @@
+---
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+const path = Astro.url.pathname;
+const links = [
+  { href: '/istanbul/', label: 'استانبول' },
+  { href: '/featured/', label: 'ثبت ویژه' },
+  { href: '/services/', label: 'خدمات برند' },
+];
+---
+<header class="site-header">
+  <div class="container bar">
+    <Logo />
+    <nav class="desktop" aria-label="منوی اصلی">
+      {links.map((l) => <a href={l.href} aria-current={path.startsWith(l.href) ? 'page' : undefined}>{l.label}</a>)}
+      <a class="btn btn-primary" href="/business-add/"><Icon name="plus" />ثبت رایگان کسب‌وکار</a>
+    </nav>
+    <details class="mobile">
+      <summary aria-label="منو"><Icon name="menu" size={24} class="open" /><Icon name="x" size={24} class="close" /></summary>
+      <nav aria-label="منوی اصلی">
+        {links.map((l) => <a href={l.href}>{l.label}</a>)}
+        <a class="btn btn-primary" href="/business-add/"><Icon name="plus" />ثبت رایگان کسب‌وکار</a>
+      </nav>
+    </details>
+  </div>
+</header>
+<style>
+  .site-header { position: relative; z-index: 10; background: var(--color-bg); border-bottom: 1px solid var(--color-border); }
+  .bar { display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); min-height: 68px; }
+  .desktop { display: none; align-items: center; gap: var(--space-2); }
+  .desktop > a:not(.btn) { color: var(--color-text); text-decoration: none; font-weight: 600; padding: var(--space-3) var(--space-3); border-radius: var(--radius-sm); transition: background-color var(--dur-fast); }
+  .desktop > a:not(.btn):hover { background: var(--color-surface); }
+  .desktop > a[aria-current] { color: var(--color-primary); }
+  .desktop .btn { margin-inline-start: var(--space-2); min-height: 44px; padding-inline: var(--space-4); }
+
+  .mobile summary { list-style: none; width: 48px; height: 48px; display: grid; place-items: center; border-radius: var(--radius-sm); cursor: pointer; color: var(--color-text); }
+  .mobile summary::-webkit-details-marker { display: none; }
+  .mobile summary:hover { background: var(--color-surface); }
+  .mobile :global(.close) { display: none; }
+  .mobile[open] :global(.close) { display: block; }
+  .mobile[open] :global(.open) { display: none; }
+  .mobile nav { position: absolute; inset-inline: 0; top: 100%; background: var(--color-bg); border-bottom: 1px solid var(--color-border); padding: var(--space-3) var(--space-4) var(--space-5); display: grid; gap: var(--space-1); box-shadow: var(--shadow-lift); }
+  .mobile nav a:not(.btn) { color: var(--color-text); text-decoration: none; font-weight: 600; font-size: var(--text-lg); padding: var(--space-3) var(--space-2); border-bottom: 1px solid var(--color-border); }
+  .mobile nav .btn { margin-top: var(--space-4); }
+
+  @media (min-width: 900px) {
+    .desktop { display: flex; }
+    .mobile { display: none; }
+  }
+</style>

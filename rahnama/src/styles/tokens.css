@@ -1,19 +1,63 @@
-/* همه‌ی رنگ‌ها و فونت‌ها فقط همین‌جا هستند. وقتی برند بوک آماده شد، فقط این فایل عوض می‌شود. */
+/* همه‌ی رنگ‌ها، فونت‌ها و اندازه‌ها فقط همین‌جا هستند.
+   وقتی برند بوک آماده شد، فقط همین فایل عوض می‌شود.
+   همه‌ی جفت رنگ متن/پس‌زمینه کنتراست ۴.۵ یا بیشتر دارند. */
 :root {
+  /* رنگ پایه */
   --color-bg: #ffffff;
-  --color-surface: #f5f8f9;
-  --color-text: #1f2a37;
-  --color-muted: #5b6776;
-  --color-border: #dfe5ea;
-  --color-primary: #0b7a7a; /* فیروزه‌ای کاشی ایرانی */
-  --color-primary-dark: #075e5e;
-  --color-on-primary: #ffffff;
-  --color-featured: #b8860b; /* طلایی، فقط برای «ویژه» */
-  --color-featured-bg: #fdf7e7;
+  --color-surface: #f3f7f7;          /* پس‌زمینه‌ی بخش‌ها */
+  --color-text: #1b2a36;             /* آبی‌خاکستری تیره — ۱۴.۷:۱ */
+  --color-muted: #526170;            /* متن فرعی — ۶.۴:۱ */
+  --color-border: #d9e3e6;           /* خط‌های تزئینی */
+  --color-border-strong: #7f8d99;    /* لبه‌ی فیلدها — ۳.۴:۱ */
 
+  /* فیروزه‌ای کاشی ایرانی — رنگ اصلی */
+  --color-primary: #0a7273;          /* ۵.۷:۱ روی سفید */
+  --color-primary-strong: #0f5c5d;
+  --color-primary-soft: #e4f1f0;
+  --color-on-primary: #ffffff;
+
+  /* طلایی — فقط برای «ویژه» */
+  --color-featured: #b8892b;         /* قاب و ستاره */
+  --color-featured-text: #7a5600;    /* متن روی زمینه‌ی روشن — ۶:۱ */
+  --color-featured-soft: #fbf4e1;
+
+  /* بخش تیره (فوتر) */
+  --color-ink: #14212b;
+  --color-on-ink: #e9eef1;
+  --color-on-ink-muted: #9fb0bc;
+  --color-ink-accent: #5fc4be;
+
+  --color-danger: #b42318;
+
+  /* فونت */
   --font-body: 'Vazirmatn Variable', Tahoma, sans-serif;
 
-  --radius: 10px;
-  --space: 1rem;
-  --max-width: 72rem;
+  /* مقیاس تایپوگرافی ۱.۲۵ */
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.5625rem;
+  --text-2xl: 1.953rem;
+  --text-3xl: 2.441rem;
+  --text-hero: clamp(1.75rem, 1.1rem + 3.2vw, 3.25rem);
+
+  /* فاصله‌ها (پایه‌ی ۴ پیکسل) */
+  --space-1: 4px;  --space-2: 8px;  --space-3: 12px; --space-4: 16px;
+  --space-5: 24px; --space-6: 32px; --space-7: 48px; --space-8: 64px; --space-9: 96px;
+
+  /* شکل */
+  --radius-sm: 10px;
+  --radius-lg: 18px;
+  --radius-pill: 999px;
+  --shadow-lift: 0 1px 2px rgb(20 33 43 / 6%), 0 8px 24px -12px rgb(20 33 43 / 18%);
+
+  --max-width: 74rem;
+  --measure: 68ch;
+
+  --ease-out: cubic-bezier(.22, 1, .36, 1);
+  --dur-fast: 150ms;
+  --dur: 220ms;
+
+  /* ستاره‌ی هشت‌پر کاشی (برای قاب آواتارها) */
+  --shape-star: polygon(50% 4.2%, 63.4% 17.6%, 82.4% 17.6%, 82.4% 36.6%, 95.8% 50%, 82.4% 63.4%, 82.4% 82.4%, 63.4% 82.4%, 50% 95.8%, 36.6% 82.4%, 17.6% 82.4%, 17.6% 63.4%, 4.2% 50%, 17.6% 36.6%, 17.6% 17.6%, 36.6% 17.6%);
 }

@@ -1,7 +1,9 @@
 ---
-import Base from '../../layouts/Base.astro';
+import Page from '../../layouts/Page.astro';
 ---
-<Base title="Impressum" breadcrumb={[{ name: 'Impressum' }]}>
-  <h1>Impressum</h1>
-  <p>متن موقت. «متن نهایی با مشورت حقوقی»</p>
-</Base>
+<Page title="Impressum" eyebrow="صفحه‌های حقوقی" icon="id-card">
+  <div class="prose">
+    <p class="note">متن موقت — «متن نهایی با مشورت حقوقی»</p>
+    <p>اطلاعات ناشر سایت بعد از مشخص شدن کشور اقامت صاحب پروژه اینجا نوشته می‌شود.</p>
+  </div>
+</Page>

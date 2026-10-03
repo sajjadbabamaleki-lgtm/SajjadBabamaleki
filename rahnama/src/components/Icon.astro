@@ -1,0 +1,17 @@
+---
+// آیکن‌های Lucide (یک خانواده‌ی واحد). اسم آیکن‌ها: https://lucide.dev/icons
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+
+interface Props { name: string; size?: number; class?: string; label?: string }
+const { name, size = 20, class: className, label } = Astro.props;
+
+const raw = readFileSync(join(process.cwd(), 'node_modules/lucide-static/icons', `${name}.svg`), 'utf8');
+const inner = raw.replace(/<!--[\s\S]*?-->/, '').replace(/^[\s\S]*?<svg[^>]*>/, '').replace(/<\/svg>\s*$/, '');
+---
+<svg
+  xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24"
+  fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"
+  class={className} aria-hidden={label ? undefined : 'true'} role={label ? 'img' : undefined} aria-label={label}
+  set:html={inner}
+/>

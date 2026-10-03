@@ -1,0 +1,27 @@
+---
+import Icon from './Icon.astro';
+interface Props { items: { q: string; a: string }[]; title?: string }
+const { items, title = 'پرسش‌های متداول' } = Astro.props;
+---
+<section class="faq" aria-labelledby="faq-title">
+  <h2 id="faq-title">{title}</h2>
+  <div class="list">
+    {items.map((it) => (
+      <details>
+        <summary><span>{it.q}</span><Icon name="plus" class="ic" /></summary>
+        <p>{it.a}</p>
+      </details>
+    ))}
+  </div>
+</section>
+<style>
+  .faq { max-width: 52rem; }
+  .list { border-top: 1px solid var(--color-border); }
+  details { border-bottom: 1px solid var(--color-border); }
+  summary { list-style: none; display: flex; align-items: center; justify-content: space-between; gap: var(--space-4); padding: var(--space-4) 0; font-weight: 700; font-size: var(--text-lg); cursor: pointer; min-height: 56px; }
+  summary::-webkit-details-marker { display: none; }
+  summary :global(.ic) { flex: none; color: var(--color-primary); transition: transform var(--dur) var(--ease-out); }
+  details[open] summary :global(.ic) { transform: rotate(45deg); }
+  summary:hover span { color: var(--color-primary); }
+  p { color: var(--color-muted); padding-bottom: var(--space-3); max-width: var(--measure); }
+</style>

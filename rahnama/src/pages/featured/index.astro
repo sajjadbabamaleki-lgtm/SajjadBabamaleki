@@ -1,7 +1,78 @@
 ---
-import Base from '../../layouts/Base.astro';
+import Page from '../../layouts/Page.astro';
+import Icon from '../../components/Icon.astro';
+import Avatar from '../../components/Avatar.astro';
+import { cities } from '../../lib/data';
+const perks = [
+  { icon: 'arrow-up-left', t: 'بالای فهرست', d: 'در صفحه‌ی تخصص خودتان، قبل از همه نمایش داده می‌شوید.' },
+  { icon: 'star', t: 'قاب طلایی', d: 'کارت شما با قاب و برچسب طلایی از بقیه جدا می‌شود.' },
+  { icon: 'house', t: 'صفحه‌ی اصلی و شهر', d: 'در بخش «کسب‌وکارهای ویژه»ی صفحه‌ی اصلی و صفحه‌ی شهر هم دیده می‌شوید.' },
+  { icon: 'globe', t: 'لینک وب‌سایت', d: 'لینک مستقیم به سایت شما در صفحه‌ی کسب‌وکارتان.' },
+];
 ---
-<Base title="ثبت ویژه" breadcrumb={[{ name: 'ثبت ویژه' }]}>
-  <h1>ثبت ویژه</h1>
-  <p>مزایا و قیمت ثبت ویژه در مرحله‌ی ۷ نوشته می‌شود.</p>
-</Base>
+<Page title="ثبت ویژه" eyebrow="برای کسب‌وکارها" icon="star" lead="ایرانیانی که دنبال تخصص شما هستند، اول شما را ببینند.">
+  <section class="perks">
+    {perks.map((p) => <div class="perk"><span class="pi"><Icon name={p.icon} size={22} /></span><h3>{p.t}</h3><p>{p.d}</p></div>)}
+  </section>
+
+  <section class="sample-wrap">
+    <div>
+      <h2>کارت ویژه این شکلی است</h2>
+      <p class="muted">برچسب «ویژه · آگهی» همیشه روی کارت هست تا کاربر بداند تبلیغ است. این صداقت، اعتماد کاربران به سایت و به شما را بالا می‌برد.</p>
+    </div>
+    <div class="sample" aria-hidden="true">
+      <span class="badge-featured"><Icon name="star" />ویژه · آگهی</span>
+      <div class="row"><Avatar name="کسب‌وکار شما" featured /><div><strong>کسب‌وکار شما</strong><span>تخصص شما · محله</span></div></div>
+      <div class="lines"><i></i><i></i></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>قیمت ماهانه در هر شهر</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th scope="col">شهر</th><th scope="col">کشور</th><th scope="col">ماهانه (دلار)</th></tr></thead>
+        <tbody>
+          {cities.map((c) => (
+            <tr><th scope="row">{c.name}{!c.published && <span class="soon">به‌زودی</span>}</th><td>{c.country}</td><td>{c.featuredPrice}</td></tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="pay">
+    <h2>چطور ویژه شوم؟</h2>
+    <ol>
+      <li>اول کسب‌وکارتان را <a href="/business-add/">رایگان ثبت کنید</a>.</li>
+      <li>با ما تماس بگیرید تا شهر و مدت را مشخص کنیم.</li>
+      <li>بعد از پرداخت، کارت ویژه‌ی شما حداکثر تا فردا فعال می‌شود.</li>
+    </ol>
+    <p class="note">راه پرداخت در مرحله‌ی ۷ مشخص می‌شود.</p>
+  </section>
+</Page>
+<style>
+  .perks { display: grid; gap: var(--space-4); grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); }
+  .perk { padding: var(--space-5); border-radius: var(--radius-lg); background: var(--color-surface); }
+  .pi { width: 48px; height: 48px; display: grid; place-items: center; background: var(--color-featured-soft); color: var(--color-featured-text); clip-path: var(--shape-star); margin-bottom: var(--space-3); }
+  .perk p, .muted { color: var(--color-muted); margin: 0; }
+  .sample-wrap { display: grid; gap: var(--space-6); align-items: center; margin-block: var(--space-8); }
+  @media (min-width: 900px) { .sample-wrap { grid-template-columns: 1fr 1fr; } }
+  .sample { position: relative; border: 2px solid var(--color-featured); border-radius: var(--radius-lg); padding: var(--space-6) var(--space-5) var(--space-5); background: var(--color-featured-soft) url('/tile-gold.svg') 0 0 / 64px 64px; max-width: 420px; }
+  .sample .badge-featured { position: absolute; top: -14px; inset-inline-start: var(--space-5); background: var(--color-bg); }
+  .row { display: flex; gap: var(--space-4); align-items: center; }
+  .row div { display: grid; }
+  .row strong { font-size: var(--text-lg); }
+  .row span { color: var(--color-muted); font-size: var(--text-sm); }
+  .lines { display: grid; gap: var(--space-2); margin-top: var(--space-4); }
+  .lines i { height: 10px; border-radius: 5px; background: rgb(122 86 0 / 14%); }
+  .lines i:last-child { width: 60%; }
+  .table-wrap { overflow-x: auto; border: 1px solid var(--color-border); border-radius: var(--radius-lg); }
+  table { width: 100%; border-collapse: collapse; min-width: 420px; }
+  th, td { text-align: start; padding: var(--space-3) var(--space-4); border-bottom: 1px solid var(--color-border); }
+  thead th { background: var(--color-surface); font-size: var(--text-sm); color: var(--color-muted); }
+  tbody tr:last-child > * { border-bottom: 0; }
+  td:last-child { font-weight: 800; color: var(--color-featured-text); }
+  .soon { font-size: .75rem; font-weight: 600; color: var(--color-muted); background: var(--color-surface); border-radius: var(--radius-pill); padding: 0 var(--space-2); margin-inline-start: var(--space-2); }
+  .pay ol { padding-inline-start: var(--space-5); display: grid; gap: var(--space-2); }
+</style>

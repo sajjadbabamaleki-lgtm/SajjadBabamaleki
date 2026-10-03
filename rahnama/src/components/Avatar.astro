@@ -1,0 +1,16 @@
+---
+// لوگوی کسب‌وکار؛ اگر لوگو نداشت، حرف اول اسم داخل ستاره‌ی هشت‌پر کاشی.
+interface Props { name: string; logo?: string; size?: number; featured?: boolean; onTint?: boolean }
+const { name, logo, size = 64, featured = false, onTint = false } = Astro.props;
+const letter = name.replace(/^(دکتر|دکتر\s)/, '').trim().charAt(0);
+---
+{logo
+  ? <img class="avatar-img" src={logo} alt="" width={size} height={size} loading="lazy" style={`--s:${size}px`} />
+  : <span class:list={['avatar', { featured, 'on-tint': onTint }]} style={`--s:${size}px`} aria-hidden="true">{letter}</span>}
+<style>
+  .avatar, .avatar-img { width: var(--s); height: var(--s); flex: none; }
+  .avatar { display: grid; place-items: center; clip-path: var(--shape-star); background: var(--color-primary-soft); color: var(--color-primary-strong); font-weight: 900; font-size: calc(var(--s) * .38); line-height: 1; }
+  .avatar.featured { background: var(--color-featured-soft); color: var(--color-featured-text); }
+  .avatar.on-tint { background: var(--color-bg); }
+  .avatar-img { border-radius: var(--radius-sm); object-fit: cover; }
+</style>

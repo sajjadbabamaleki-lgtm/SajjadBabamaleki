@@ -1,0 +1,15 @@
+---
+// صفحه‌های ساده‌ی متنی (درباره، تماس، حقوقی، ...)
+import Base from './Base.astro';
+import PageHero from '../components/PageHero.astro';
+interface Props { title: string; description?: string; eyebrow?: string; lead?: string; icon?: string; noindex?: boolean }
+const { title, description, eyebrow, lead, icon, noindex } = Astro.props;
+---
+<Base title={title} description={description} breadcrumb={[{ name: title }]} noindex={noindex}>
+  <PageHero eyebrow={eyebrow} title={title} lead={lead} icon={icon} />
+  <div class="container section page-body"><slot /></div>
+</Base>
+<style>
+  .page-body :global(h2) { margin-top: var(--space-6); }
+  .page-body :global(.note) { background: var(--color-featured-soft); border: 1px solid var(--color-featured); color: var(--color-featured-text); border-radius: var(--radius-sm); padding: var(--space-3) var(--space-4); font-weight: 600; max-width: var(--measure); }
+</style>

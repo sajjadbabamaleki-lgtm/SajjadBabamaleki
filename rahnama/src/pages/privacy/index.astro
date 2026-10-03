@@ -1,7 +1,9 @@
 ---
-import Base from '../../layouts/Base.astro';
+import Page from '../../layouts/Page.astro';
 ---
-<Base title="حریم خصوصی" breadcrumb={[{ name: 'حریم خصوصی' }]}>
-  <h1>حریم خصوصی</h1>
-  <p>متن موقت. «متن نهایی با مشورت حقوقی»</p>
-</Base>
+<Page title="حریم خصوصی" eyebrow="صفحه‌های حقوقی" icon="shield-check">
+  <div class="prose">
+    <p class="note">متن موقت — «متن نهایی با مشورت حقوقی»</p>
+    <p>ما فقط اطلاعات کاری‌ای را منتشر می‌کنیم که صاحب کسب‌وکار با رضایت خودش در فرم ثبت فرستاده است. هر وقت بخواهید، اطلاعاتتان را حذف می‌کنیم.</p>
+  </div>
+</Page>

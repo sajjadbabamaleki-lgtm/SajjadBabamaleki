@@ -1,15 +1,216 @@
 ---
 import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import BusinessCard from '../components/BusinessCard.astro';
+import OwnerCta from '../components/OwnerCta.astro';
 import { SITE_NAME } from '../lib/site';
-import { cities } from '../lib/data';
+import { cities, publishedCities, categoriesForCity, businessesIn, businessesInCity, featuredIn, getCity, fa } from '../lib/data';
+
+const first = publishedCities[0];
+const searchMap = Object.fromEntries(
+  publishedCities.map((c) => [c.slug, categoriesForCity(c).map((k) => [k.slug, k.name])]),
+);
+const defaultCat = 'dentist';
+const popular = first
+  ? categoriesForCity(first)
+      .map((k) => ({ ...k, count: businessesIn(first.slug, k.slug).length }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 6)
+  : [];
+const featured = featuredIn().slice(0, 3);
+const ordered = [...publishedCities, ...cities.filter((c) => !c.published)];
 ---
-<Base title={SITE_NAME} description="دایرکتوری فارسی کسب‌وکارها و متخصصان ایرانی در ۸ شهر.">
-  <h1>{SITE_NAME}</h1>
-  <p>کسب‌وکارها و متخصصان ایرانی در شهر خودتان را پیدا کنید.</p>
-  <h2>شهرها</h2>
-  <ul>
-    {cities.map((c) => (
-      <li>{c.published ? <a href={`/${c.slug}/`}>{c.name}</a> : <span>{c.name} (به‌زودی)</span>}</li>
-    ))}
-  </ul>
+<Base title={SITE_NAME} description="کسب‌وکارها و متخصصان ایرانی در استانبول، دبی، تورنتو، لندن و شهرهای دیگر را به فارسی پیدا کنید: دندانپزشک، وکیل، مشاور املاک، رستوران و بیشتر.">
+  <section class="hero">
+    <div class="tiles tile-bg" aria-hidden="true">
+      <div class="medallion"><span></span></div>
+    </div>
+    <div class="container hero-inner">
+      <p class="eyebrow">دایرکتوری فارسی ایرانیان در {fa(cities.length)} شهر</p>
+      <h1 class="sr-only">پیدا کردن کسب‌وکارها و متخصصان ایرانی</h1>
+
+      <form class="finder" id="finder" action="/" method="get">
+        <p class="sentence">
+          <span>در</span>
+          <label class="pick">
+            <span class="sr-only">شهر</span>
+            <select id="f-city" name="city">
+              {publishedCities.map((c) => <option value={c.slug}>{c.name}</option>)}
+              {cities.filter((c) => !c.published).map((c) => <option disabled>{c.name} (به‌زودی)</option>)}
+            </select>
+            <Icon name="chevron-down" size={22} />
+          </label>
+          <span>دنبال</span>
+          <label class="pick">
+            <span class="sr-only">تخصص</span>
+            <select id="f-cat" name="category">
+              {first && categoriesForCity(first).map((k) => <option value={k.slug} selected={k.slug === defaultCat}>{k.name}</option>)}
+            </select>
+            <Icon name="chevron-down" size={22} />
+          </label>
+          <span>هستم.</span>
+        </p>
+        <button class="btn btn-primary go" type="submit"><Icon name="search" />پیدا کن</button>
+      </form>
+
+      {first && (
+        <div class="popular">
+          <span class="label">پرطرفدار در {first.name}:</span>
+          <ul>
+            {popular.map((k) => (
+              <li><a class="pill" href={`/${first.slug}/${k.slug}/`}><Icon name={k.icon} size={16} />{k.name}</a></li>
+            ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <section class="section container" aria-labelledby="cities-title">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">شهرها</p>
+        <h2 id="cities-title">ایرانیان کجا زندگی می‌کنند، ما همان‌جاییم</h2>
+      </div>
+    </div>
+    <ul class="cities">
+      {ordered.map((c) => {
+        const count = businessesInCity(c.slug).length;
+        return c.published ? (
+          <li class="city live">
+            <a href={`/${c.slug}/`}>
+              <span class="country">{c.country}</span>
+              <span class="cname">{c.name}</span>
+              <span class="count">{fa(count)} کسب‌وکار · {fa(categoriesForCity(c).length)} تخصص</span>
+              <span class="arrow"><Icon name="arrow-left" size={22} /></span>
+            </a>
+          </li>
+        ) : (
+          <li class="city soon">
+            <span class="country">{c.country}</span>
+            <span class="cname">{c.name}</span>
+            <span class="tag">به‌زودی</span>
+          </li>
+        );
+      })}
+      <li class="city suggest">
+        <a href="/contact/">
+          <Icon name="map-pin" size={22} />
+          <span class="cname">شهر شما؟</span>
+          <span class="country">پیشنهاد بدهید شهر بعدی کجا باشد</span>
+        </a>
+      </li>
+    </ul>
+  </section>
+
+  {featured.length > 0 && (
+    <section class="section featured-band" aria-labelledby="featured-title">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow gold">کسب‌وکارهای ویژه</p>
+            <h2 id="featured-title">پیشنهادهای این هفته</h2>
+          </div>
+          <a href="/featured/" class="link">ویژه‌ها چه هستند؟</a>
+        </div>
+        <div class="grid">
+          {featured.map((b) => <BusinessCard business={b} showCity={getCity(b.city)?.name} />)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <section class="section container how" aria-labelledby="how-title">
+    <p class="eyebrow">چطور کار می‌کند</p>
+    <h2 id="how-title">سه قدم تا متخصص ایرانی</h2>
+    <ol>
+      <li><span class="n">۱</span><h3>شهر و تخصص را انتخاب کنید</h3><p>از دندانپزشک و وکیل تا سوپرمارکت ایرانی؛ همه به فارسی.</p></li>
+      <li><span class="n">۲</span><h3>مقایسه کنید</h3><p>محله، زبان‌های گفتگو، خدمات و ساعات کار را کنار هم ببینید.</p></li>
+      <li><span class="n">۳</span><h3>مستقیم تماس بگیرید</h3><p>با یک لمس زنگ بزنید یا در واتساپ پیام بدهید. بدون واسطه.</p></li>
+    </ol>
+  </section>
+
+  <div class="container"><OwnerCta /></div>
 </Base>
+
+<script is:inline define:vars={{ searchMap }}>
+  const form = document.getElementById('finder');
+  const city = document.getElementById('f-city');
+  const cat = document.getElementById('f-cat');
+  city.addEventListener('change', () => {
+    const current = cat.value;
+    cat.innerHTML = '';
+    for (const [slug, name] of searchMap[city.value] || []) {
+      const o = new Option(name, slug, false, slug === current);
+      cat.add(o);
+    }
+  });
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    location.href = `/${city.value}/${cat.value}/`;
+  });
+</script>
+
+<style>
+  .hero { position: relative; overflow: hidden; background: var(--color-surface); border-bottom: 1px solid var(--color-border); }
+  .tiles { position: absolute; inset: 0; opacity: .9; mask-image: radial-gradient(120% 90% at 0% 50%, #000 20%, transparent 70%); -webkit-mask-image: radial-gradient(120% 90% at 0% 50%, #000 20%, transparent 70%); }
+  .medallion { position: absolute; inset-inline-end: -120px; top: 50%; width: 340px; height: 340px; translate: 0 -50%; background: var(--color-primary); clip-path: var(--shape-star); display: none; place-items: center; }
+  .medallion span { width: 62%; height: 62%; background: var(--color-surface); clip-path: var(--shape-star); }
+  .hero-inner { position: relative; padding-block: var(--space-7) var(--space-7); }
+  .finder { display: grid; gap: var(--space-5); max-width: 46rem; }
+  .sentence { margin: 0; font-size: var(--text-hero); font-weight: 900; line-height: 1.6; color: var(--color-text); display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 .35em; }
+  .pick { position: relative; display: inline-flex; align-items: center; color: var(--color-primary); }
+  .pick select { appearance: none; -webkit-appearance: none; font: inherit; color: inherit; background: transparent; border: 0; border-bottom: 4px solid currentColor; padding: 0 0 0 1.1em; margin: 0; cursor: pointer; border-radius: 0; max-width: 100%; field-sizing: content; }
+  .pick select:focus-visible { outline: 3px solid var(--color-primary); outline-offset: 4px; }
+  .pick select:hover { color: var(--color-primary-strong); }
+  .pick :global(svg) { position: absolute; inset-inline-end: 0; pointer-events: none; width: .6em; height: .6em; }
+  .pick option { font-size: 1rem; font-weight: 500; color: var(--color-text); }
+  .go { justify-self: start; min-height: 56px; padding-inline: var(--space-6); font-size: var(--text-lg); }
+  .popular { margin-top: var(--space-6); display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3); }
+  .popular .label { color: var(--color-muted); font-size: var(--text-sm); }
+  .popular ul { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: var(--space-2); }
+  .pill { display: inline-flex; align-items: center; gap: var(--space-2); min-height: 40px; padding: 0 var(--space-4); border-radius: var(--radius-pill); background: var(--color-bg); border: 1px solid var(--color-border); color: var(--color-text); text-decoration: none; font-weight: 600; font-size: var(--text-sm); transition: border-color var(--dur-fast), color var(--dur-fast); }
+  .pill:hover { border-color: var(--color-primary); color: var(--color-primary); }
+  .pill :global(svg) { color: var(--color-primary); }
+  @media (min-width: 900px) {
+    .hero-inner { padding-block: var(--space-9); }
+    .medallion { display: grid; }
+  }
+  @media (min-width: 1200px) { .medallion { inset-inline-end: 40px; } }
+
+  .cities { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--space-3); grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .city { position: relative; border-radius: var(--radius-lg); min-height: 128px; }
+  .city .country { font-size: var(--text-sm); }
+  .city .cname { font-size: var(--text-xl); font-weight: 900; line-height: 1.3; }
+  .live { grid-column: 1 / -1; }
+  .live a { display: grid; align-content: end; gap: var(--space-1); min-height: 220px; height: 100%; padding: var(--space-5); border-radius: inherit; text-decoration: none; color: #fff; background: var(--color-primary-strong) url('/tile-dark.svg') 0 0 / 64px 64px; transition: background-color var(--dur) var(--ease-out); }
+  .live a:hover { background-color: var(--color-primary); color: #fff; }
+  .live .cname { font-size: var(--text-3xl); }
+  .live .country, .live .count { color: rgb(255 255 255 / 85%); }
+  .live .arrow { position: absolute; top: var(--space-5); inset-inline-end: var(--space-5); width: 48px; height: 48px; display: grid; place-items: center; border-radius: 50%; background: #fff; color: var(--color-primary-strong); transition: transform var(--dur) var(--ease-out); }
+  .live a:hover .arrow { transform: translateX(-4px); }
+  .soon { display: grid; align-content: end; gap: 2px; padding: var(--space-4); border: 1px dashed var(--color-border-strong); color: var(--color-muted); background: var(--color-bg); }
+  .soon .cname { color: var(--color-text); font-size: var(--text-lg); }
+  .soon .tag { position: absolute; top: var(--space-3); inset-inline-end: var(--space-3); font-size: .75rem; font-weight: 700; padding: 0 var(--space-2); border-radius: var(--radius-pill); background: var(--color-surface); }
+  .suggest a { display: grid; align-content: end; gap: 2px; height: 100%; min-height: 128px; padding: var(--space-4); border-radius: inherit; background: var(--color-primary-soft); color: var(--color-primary-strong); text-decoration: none; transition: background-color var(--dur-fast); }
+  .suggest a:hover { background: #d3e9e7; color: var(--color-primary-strong); }
+  .suggest .cname { font-size: var(--text-lg); }
+  @media (min-width: 768px) {
+    .cities { grid-template-columns: repeat(4, minmax(0, 1fr)); grid-auto-rows: 140px; }
+    .live { grid-column: span 2; grid-row: span 2; }
+    .live a { min-height: 0; }
+  }
+
+  .featured-band { background: var(--color-featured-soft); border-block: 1px solid #efe1b8; }
+  .eyebrow.gold { color: var(--color-featured-text); }
+  .grid { display: grid; gap: var(--space-5); padding-top: var(--space-3); }
+  @media (min-width: 768px) { .grid { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); } }
+  .link { font-weight: 700; }
+
+  .how ol { list-style: none; padding: 0; margin: var(--space-5) 0 0; display: grid; gap: var(--space-5); }
+  .how li { display: grid; gap: var(--space-1); padding-top: var(--space-4); border-top: 2px solid var(--color-text); }
+  .how .n { font-size: var(--text-3xl); font-weight: 900; color: var(--color-primary); line-height: 1; margin-bottom: var(--space-2); }
+  .how h3 { margin: 0; }
+  .how p { color: var(--color-muted); margin: 0; }
+  @media (min-width: 768px) { .how ol { grid-template-columns: repeat(3, 1fr); gap: var(--space-6); } }
+</style>

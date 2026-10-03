@@ -1,0 +1,19 @@
+---
+import { SITE_NAME } from '../lib/site';
+interface Props { tone?: 'light' | 'dark' }
+const { tone = 'light' } = Astro.props;
+---
+<a class:list={['logo', tone]} href="/" aria-label={`${SITE_NAME} — صفحه‌ی اصلی`}>
+  <span class="mark" aria-hidden="true"><span></span></span>
+  <span class="name">{SITE_NAME}</span>
+</a>
+<style>
+  .logo { display: inline-flex; align-items: center; gap: var(--space-2); text-decoration: none; min-height: 44px; }
+  .mark { width: 30px; height: 30px; background: var(--color-primary); clip-path: var(--shape-star); display: grid; place-items: center; transition: transform var(--dur) var(--ease-out); }
+  .mark span { width: 9px; height: 9px; border-radius: 50%; background: #fff; }
+  .logo:hover .mark { transform: rotate(45deg); }
+  .name { font-weight: 900; font-size: 1.15rem; letter-spacing: -0.01em; color: var(--color-text); }
+  .dark .name { color: var(--color-on-ink); }
+  .dark .mark { background: var(--color-ink-accent); }
+  .dark .mark span { background: var(--color-ink); }
+</style>

@@ -1,0 +1,28 @@
+---
+import Icon from './Icon.astro';
+interface Props { eyebrow?: string; title: string; lead?: string; icon?: string }
+const { eyebrow, title, lead, icon } = Astro.props;
+---
+<header class="page-hero">
+  <div class="container inner">
+    {icon && <span class="icon-star" aria-hidden="true"><Icon name={icon} size={30} /></span>}
+    <div>
+      {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+      <h1>{title}</h1>
+      {lead && <p class="lead">{lead}</p>}
+      <slot />
+    </div>
+  </div>
+</header>
+<style>
+  .page-hero { padding-block: var(--space-5) var(--space-6); border-bottom: 1px solid var(--color-border); background: linear-gradient(var(--color-bg), var(--color-bg)) padding-box; }
+  .inner { display: flex; gap: var(--space-4); align-items: flex-start; }
+  h1 { font-size: var(--text-2xl); margin-bottom: var(--space-2); }
+  .lead { color: var(--color-muted); font-size: var(--text-lg); max-width: 46rem; margin: 0; }
+  .icon-star { flex: none; width: 64px; height: 64px; display: grid; place-items: center; background: var(--color-primary-soft); color: var(--color-primary-strong); clip-path: var(--shape-star); }
+  @media (min-width: 768px) {
+    .page-hero { padding-block: var(--space-6) var(--space-7); }
+    h1 { font-size: var(--text-3xl); }
+    .icon-star { width: 84px; height: 84px; }
+  }
+</style>

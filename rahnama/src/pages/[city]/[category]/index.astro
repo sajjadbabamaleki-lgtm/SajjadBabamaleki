@@ -1,6 +1,14 @@
 ---
 import Base from '../../../layouts/Base.astro';
-import { publishedCities, categoriesForCity, businessesIn, businessUrl, type City, type Category } from '../../../lib/data';
+import Icon from '../../../components/Icon.astro';
+import PageHero from '../../../components/PageHero.astro';
+import BusinessCard from '../../../components/BusinessCard.astro';
+import Faq from '../../../components/Faq.astro';
+import OwnerCta from '../../../components/OwnerCta.astro';
+import {
+  publishedCities, categoriesForCity, businessesIn, isCategoryIndexable, isFeatured, fa,
+  type City, type Category,
+} from '../../../lib/data';
 
 export function getStaticPaths() {
   return publishedCities.flatMap((city) =>
@@ -13,18 +21,111 @@ export function getStaticPaths() {
 const { city, category } = Astro.props as { city: City; category: Category };
 const list = businessesIn(city.slug, category.slug);
 const intro = city.categoryIntros[category.slug];
+const hoods = [...new Set(list.map((b) => b.neighborhood).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'fa'));
+const featuredCount = list.filter(isFeatured).length;
+const related = categoriesForCity(city)
+  .filter((c) => c.slug !== category.slug)
+  .map((c) => ({ ...c, count: businessesIn(city.slug, c.slug).length }))
+  .sort((a, b) => b.count - a.count)
+  .slice(0, 6);
+const title = `${category.name} ایرانی در ${city.name}`;
+const faq = [
+  { q: `چطور ${category.name} ایرانی خوب در ${city.name} انتخاب کنم؟`, a: `محله، زبان‌های گفتگو و خدمات هر ${category.name} را در این فهرست مقایسه کنید. قبل از مراجعه، تماس بگیرید و درباره‌ی هزینه و وقت ملاقات بپرسید.` },
+  { q: 'آیا اطلاعات این صفحه به‌روز است؟', a: 'اطلاعات را صاحبان کسب‌وکارها می‌دهند. اگر اشتباهی دیدید، در صفحه‌ی همان کسب‌وکار روی «گزارش اشتباه» بزنید.' },
+  { q: 'چرا بعضی‌ها بالای فهرست هستند؟', a: 'کسب‌وکارهای «ویژه» برای نمایش در بالای فهرست هزینه پرداخته‌اند و با برچسب «ویژه · آگهی» مشخص شده‌اند.' },
+];
 ---
 <Base
-  title={`${category.name} ایرانی در ${city.name}`}
+  title={title}
+  description={`فهرست ${category.name}‌های ایرانی و فارسی‌زبان در ${city.name}: آدرس، محله، تلفن، واتساپ و ساعات کار.`}
   breadcrumb={[{ name: city.name, href: `/${city.slug}/` }, { name: category.name }]}
+  noindex={!isCategoryIndexable(city.slug, category.slug)}
 >
-  <h1>{category.name} ایرانی در {city.name}</h1>
-  {intro && <p>{intro}</p>}
-  {list.length > 0 ? (
+  <PageHero
+    eyebrow={city.name}
+    title={title}
+    icon={category.icon}
+    lead={list.length > 0 ? `${fa(list.length)} ${category.name} فارسی‌زبان${featuredCount ? ` · ${fa(featuredCount)} ویژه` : ''}` : undefined}
+  >
+    {intro && <p class="intro prose">{intro}</p>}
+  </PageHero>
+
+  <section class="container section results" aria-label="فهرست">
+    {list.length > 0 ? (
+      <>
+        {hoods.length > 1 && (
+          <div class="filter" role="group" aria-label="فیلتر محله">
+            <span class="flabel"><Icon name="map-pin" size={18} />محله:</span>
+            <button type="button" class="fchip" aria-pressed="true" data-hood="">همه</button>
+            {hoods.map((h) => <button type="button" class="fchip" aria-pressed="false" data-hood={h}>{h}</button>)}
+          </div>
+        )}
+        <p class="sr-only" aria-live="polite" id="result-count"></p>
+        <div class="grid" id="results">
+          {list.map((b) => <BusinessCard business={b} />)}
+        </div>
+      </>
+    ) : (
+      <div class="empty">
+        <span class="empty-star" aria-hidden="true"><Icon name={category.icon} size={36} /></span>
+        <h2>هنوز {category.name} ایرانی در {city.name} ثبت نشده</h2>
+        <p>اگر {category.name} هستید یا یکی را می‌شناسید، اولین نفر باشید. ثبت پایه رایگان است.</p>
+        <a class="btn btn-primary" href="/business-add/"><Icon name="plus" />ثبت رایگان</a>
+      </div>
+    )}
+  </section>
+
+  <section class="container section related" aria-labelledby="rel-title">
+    <h2 id="rel-title">تخصص‌های دیگر در {city.name}</h2>
     <ul>
-      {list.map((b) => <li><a href={businessUrl(b)}>{b.nameFa}</a> — {b.neighborhood}</li>)}
+      {related.map((c) => (
+        <li><a class="pill" href={`/${city.slug}/${c.slug}/`}><Icon name={c.icon} size={16} />{c.name}{c.count > 0 && <span class="n">{fa(c.count)}</span>}</a></li>
+      ))}
     </ul>
-  ) : (
-    <p>هنوز کسب‌وکاری در این بخش ثبت نشده. <a href="/business-add/">کسب‌وکار خود را رایگان ثبت کنید.</a></p>
-  )}
+  </section>
+
+  <div class="container section"><Faq items={faq} /></div>
+  <div class="container"><OwnerCta /></div>
 </Base>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>('.fchip');
+  const cards = document.querySelectorAll<HTMLElement>('#results > [data-hood]');
+  const live = document.getElementById('result-count');
+  buttons.forEach((btn) =>
+    btn.addEventListener('click', () => {
+      const hood = btn.dataset.hood;
+      buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+      let shown = 0;
+      cards.forEach((c) => {
+        const ok = !hood || c.dataset.hood === hood;
+        c.hidden = !ok;
+        if (ok) shown++;
+      });
+      if (live) live.textContent = `${shown.toLocaleString('fa-IR')} نتیجه`;
+    }),
+  );
+</script>
+
+<style>
+  .intro { margin-top: var(--space-4); }
+  .results { padding-top: var(--space-6); }
+  .filter { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); margin-bottom: var(--space-6); }
+  .flabel { display: inline-flex; align-items: center; gap: var(--space-1); color: var(--color-muted); font-size: var(--text-sm); margin-inline-end: var(--space-1); }
+  .fchip { font: inherit; font-size: var(--text-sm); font-weight: 600; min-height: 40px; padding: 0 var(--space-4); border-radius: var(--radius-pill); border: 1px solid var(--color-border-strong); background: var(--color-bg); color: var(--color-text); cursor: pointer; transition: background-color var(--dur-fast), color var(--dur-fast); }
+  .fchip:hover { border-color: var(--color-primary); color: var(--color-primary); }
+  .fchip[aria-pressed='true'] { background: var(--color-text); border-color: var(--color-text); color: #fff; }
+  .grid { display: grid; gap: var(--space-5); }
+  .grid > [hidden] { display: none; }
+  @media (min-width: 768px) { .grid { grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: var(--space-6) var(--space-5); } }
+
+  .empty { text-align: center; max-width: 34rem; margin-inline: auto; padding: var(--space-7) var(--space-5); border: 1px dashed var(--color-border-strong); border-radius: var(--radius-lg); background: var(--color-surface) url('/tile-light.svg') 0 0 / 64px 64px; }
+  .empty-star { width: 88px; height: 88px; margin: 0 auto var(--space-4); display: grid; place-items: center; background: var(--color-bg); color: var(--color-primary); clip-path: var(--shape-star); }
+  .empty p { color: var(--color-muted); }
+
+  .related ul { list-style: none; padding: 0; margin: var(--space-4) 0 0; display: flex; flex-wrap: wrap; gap: var(--space-2); }
+  .pill { display: inline-flex; align-items: center; gap: var(--space-2); min-height: 44px; padding: 0 var(--space-4); border-radius: var(--radius-pill); border: 1px solid var(--color-border); color: var(--color-text); text-decoration: none; font-weight: 600; }
+  .pill:hover { border-color: var(--color-primary); color: var(--color-primary); }
+  .pill :global(svg) { color: var(--color-primary); }
+  .pill .n { font-size: .75rem; background: var(--color-surface); border-radius: var(--radius-pill); padding: 0 var(--space-2); color: var(--color-muted); }
+</style>

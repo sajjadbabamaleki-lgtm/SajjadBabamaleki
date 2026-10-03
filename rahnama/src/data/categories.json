@@ -2,81 +2,97 @@
   {
     "slug": "real-estate",
     "name": "مشاور املاک",
-    "core": true
+    "core": true,
+    "icon": "house"
   },
   {
     "slug": "lawyer",
     "name": "وکیل",
-    "core": true
+    "core": true,
+    "icon": "scale"
   },
   {
     "slug": "accountant",
     "name": "حسابدار و مالیات",
-    "core": true
+    "core": true,
+    "icon": "calculator"
   },
   {
     "slug": "doctor",
     "name": "پزشک",
-    "core": true
+    "core": true,
+    "icon": "stethoscope"
   },
   {
     "slug": "dentist",
     "name": "دندانپزشک",
-    "core": true
+    "core": true,
+    "icon": "smile"
   },
   {
     "slug": "immigration",
     "name": "مشاور مهاجرت",
-    "core": true
+    "core": true,
+    "icon": "plane-takeoff"
   },
   {
     "slug": "translator",
     "name": "مترجم رسمی",
-    "core": true
+    "core": true,
+    "icon": "languages"
   },
   {
     "slug": "restaurant",
     "name": "رستوران ایرانی",
-    "core": true
+    "core": true,
+    "icon": "utensils-crossed"
   },
   {
     "slug": "grocery",
     "name": "سوپرمارکت ایرانی",
-    "core": true
+    "core": true,
+    "icon": "shopping-basket"
   },
   {
     "slug": "beauty-salon",
     "name": "سالن زیبایی",
-    "core": true
+    "core": true,
+    "icon": "scissors"
   },
   {
     "slug": "company-formation",
     "name": "ثبت شرکت",
-    "core": false
+    "core": false,
+    "icon": "briefcase-business"
   },
   {
     "slug": "residency-visa",
     "name": "اقامت و ویزا",
-    "core": false
+    "core": false,
+    "icon": "id-card"
   },
   {
     "slug": "language-school",
     "name": "آموزش زبان",
-    "core": false
+    "core": false,
+    "icon": "graduation-cap"
   },
   {
     "slug": "mortgage",
     "name": "مشاور وام مسکن",
-    "core": false
+    "core": false,
+    "icon": "key-round"
   },
   {
     "slug": "insurance",
     "name": "بیمه",
-    "core": false
+    "core": false,
+    "icon": "shield-check"
   },
   {
     "slug": "financial-advisor",
     "name": "مشاور مالی",
-    "core": false
+    "core": false,
+    "icon": "trending-up"
   }
 ]

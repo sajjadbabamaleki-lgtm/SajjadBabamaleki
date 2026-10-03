@@ -1,7 +1,14 @@
 ---
-import Base from '../../layouts/Base.astro';
+import Page from '../../layouts/Page.astro';
+import Icon from '../../components/Icon.astro';
 ---
-<Base title="تماس با ما" breadcrumb={[{ name: 'تماس با ما' }]}>
-  <h1>تماس با ما</h1>
-  <p>متن موقت.</p>
-</Base>
+<Page title="تماس با ما" eyebrow="تماس" icon="mail" lead="سؤال، پیشنهاد یا گزارش اشتباه؟ خوشحال می‌شویم بشنویم.">
+  <div class="prose">
+    <p id="report-note" hidden class="note">برای گزارش اشتباه، اسم کسب‌وکار و مورد اشتباه را برایمان بفرستید.</p>
+    <p class="note">راه تماس (ایمیل یا واتساپ) بعد از انتخاب، اینجا قرار می‌گیرد.</p>
+    <p><a class="btn btn-primary" href="/business-add/"><Icon name="plus" />ثبت رایگان کسب‌وکار</a></p>
+  </div>
+</Page>
+<script>
+  if (new URLSearchParams(location.search).has('report')) document.getElementById('report-note')!.hidden = false;
+</script>

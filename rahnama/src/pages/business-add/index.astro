@@ -1,7 +1,171 @@
 ---
 import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import Icon from '../../components/Icon.astro';
+import { publishedCities, categories } from '../../lib/data';
+const cityExtras = Object.fromEntries(publishedCities.map((c) => [c.slug, c.extraCategories]));
+const langs = ['فارسی', 'انگلیسی', 'ترکی', 'عربی', 'آلمانی', 'فرانسوی'];
 ---
-<Base title="ثبت رایگان کسب‌وکار" breadcrumb={[{ name: 'ثبت رایگان کسب‌وکار' }]} noindex>
-  <h1>ثبت رایگان کسب‌وکار</h1>
-  <p>فرم ثبت در مرحله‌ی ۴ ساخته می‌شود.</p>
+<Base title="ثبت رایگان کسب‌وکار" breadcrumb={[{ name: 'ثبت رایگان' }]} noindex>
+  <PageHero eyebrow="رایگان، برای همیشه" title="کسب‌وکارتان را ثبت کنید" icon="store" lead="چند دقیقه وقت می‌گیرد. بعد از بررسی، صفحه‌ی شما منتشر می‌شود و ایرانیان شهرتان پیدایتان می‌کنند." />
+
+  <div class="container section wrap">
+    <form name="business-add" method="POST" action="/business-add/thanks/" data-netlify="true" netlify-honeypot="bot-field" class="form" id="add-form">
+      <input type="hidden" name="form-name" value="business-add" />
+      <p class="hp"><label>این فیلد را خالی بگذارید: <input name="bot-field" tabindex="-1" autocomplete="off" /></label></p>
+
+      <fieldset>
+        <legend><span class="step">۱</span>معرفی</legend>
+        <div class="row2">
+          <div class="field"><label for="nameFa">نام کسب‌وکار (فارسی) <b>*</b></label><input id="nameFa" name="nameFa" required placeholder="مثلاً: دندانپزشکی دکتر رضایی" /></div>
+          <div class="field"><label for="nameEn">نام کسب‌وکار (انگلیسی) <b>*</b></label><input id="nameEn" name="nameEn" required dir="ltr" placeholder="Dr. Rezaei Dental Clinic" /></div>
+        </div>
+        <div class="field">
+          <label for="city">شهر <b>*</b></label>
+          <select id="city" name="city" required>
+            {publishedCities.map((c) => <option value={c.slug}>{c.name}</option>)}
+          </select>
+          <p class="help">فعلاً فقط شهرهای فعال را می‌شود انتخاب کرد.</p>
+        </div>
+        <div class="field">
+          <span class="label" id="cats-label">تخصص <b>*</b></span>
+          <p class="help" id="cats-help">حداکثر ۳ مورد. اولین انتخاب، تخصص اصلی شماست.</p>
+          <div class="checks" role="group" aria-labelledby="cats-label" aria-describedby="cats-help">
+            {categories.map((c) => (
+              <label class="check" data-core={String(c.core)} data-slug={c.slug}>
+                <input type="checkbox" name="categories" value={c.slug} />
+                <Icon name={c.icon} size={18} /><span>{c.name}</span>
+              </label>
+            ))}
+          </div>
+          <p class="error" id="cats-error" hidden>حداقل یک تخصص انتخاب کنید.</p>
+        </div>
+        <div class="field"><label for="description">توضیح کوتاه <b>*</b></label><textarea id="description" name="description" rows="3" maxlength="400" required placeholder="در یکی دو جمله بگویید چه کاری انجام می‌دهید."></textarea></div>
+        <div class="field"><label for="services">خدمات</label><textarea id="services" name="services" rows="3" placeholder="هر خدمت در یک خط"></textarea><p class="help">هر خدمت را در یک خط جدا بنویسید.</p></div>
+      </fieldset>
+
+      <fieldset>
+        <legend><span class="step">۲</span>آدرس و ساعات کار</legend>
+        <div class="field"><label for="address">آدرس <b>*</b></label><input id="address" name="address" required autocomplete="street-address" /></div>
+        <div class="row2">
+          <div class="field"><label for="neighborhood">محله <b>*</b></label><input id="neighborhood" name="neighborhood" required placeholder="مثلاً: شیشلی" /></div>
+          <div class="field"><label for="hours">ساعات کار</label><input id="hours" name="hours" placeholder="شنبه تا پنجشنبه ۹ تا ۱۸" /></div>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend><span class="step">۳</span>راه‌های تماس</legend>
+        <div class="row2">
+          <div class="field"><label for="phone">تلفن <b>*</b></label><input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" required placeholder="+90 212 123 45 67" /><p class="help">با کد کشور، مثل ‎+90</p></div>
+          <div class="field"><label for="whatsapp">واتساپ</label><input id="whatsapp" name="whatsapp" type="tel" inputmode="tel" dir="ltr" placeholder="+90 5xx xxx xx xx" /></div>
+          <div class="field"><label for="email">ایمیل</label><input id="email" name="email" type="email" autocomplete="email" dir="ltr" /></div>
+          <div class="field"><label for="website">وب‌سایت</label><input id="website" name="website" type="url" inputmode="url" dir="ltr" placeholder="https://" /></div>
+          <div class="field"><label for="instagram">اینستاگرام</label><input id="instagram" name="instagram" dir="ltr" placeholder="@username" /></div>
+        </div>
+        <div class="field">
+          <span class="label" id="langs-label">زبان‌های گفتگو</span>
+          <div class="checks" role="group" aria-labelledby="langs-label">
+            {langs.map((l, i) => <label class="check"><input type="checkbox" name="languages" value={l} checked={i === 0} /><span>{l}</span></label>)}
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset class="consent">
+        <label class="tick"><input type="checkbox" name="isOwner" required /><span>صاحب یا نماینده‌ی این کسب‌وکار هستم. <b>*</b></span></label>
+        <label class="tick"><input type="checkbox" name="consent" required /><span>با انتشار اطلاعات کاری بالا طبق <a href="/privacy/">سیاست حریم خصوصی</a> موافقم. <b>*</b></span></label>
+      </fieldset>
+
+      <div class="submit">
+        <button class="btn btn-primary" type="submit" id="submit-btn"><Icon name="check" />ارسال برای بررسی</button>
+        <p class="help">لوگو و عکس‌ها را بعد از ارسال، از طریق واتساپ می‌گیریم.</p>
+      </div>
+    </form>
+
+    <aside class="side">
+      <h2>چه چیزی می‌گیرید؟</h2>
+      <ul>
+        <li><Icon name="check" size={18} />یک صفحه‌ی اختصاصی فارسی</li>
+        <li><Icon name="check" size={18} />دکمه‌ی تماس و واتساپ مستقیم</li>
+        <li><Icon name="check" size={18} />نمایش در فهرست تخصص و شهر</li>
+        <li><Icon name="check" size={18} />نشان «تأییدشده» بعد از تأیید اطلاعات</li>
+      </ul>
+      <a href="/featured/" class="up"><Icon name="star" size={18} />می‌خواهید بالای فهرست باشید؟ ثبت ویژه</a>
+    </aside>
+  </div>
 </Base>
+
+<script is:inline define:vars={{ cityExtras }}>
+  const form = document.getElementById('add-form');
+  const city = document.getElementById('city');
+  const boxes = [...form.querySelectorAll('input[name="categories"]')];
+  const err = document.getElementById('cats-error');
+  function sync() {
+    const extras = cityExtras[city.value] || [];
+    for (const box of boxes) {
+      const label = box.closest('.check');
+      const allowed = label.dataset.core === 'true' || extras.includes(label.dataset.slug);
+      label.hidden = !allowed;
+      if (!allowed) box.checked = false;
+    }
+    const n = boxes.filter((b) => b.checked).length;
+    for (const box of boxes) box.disabled = !box.checked && n >= 3;
+    if (n > 0) err.hidden = true;
+  }
+  city.addEventListener('change', sync);
+  boxes.forEach((b) => b.addEventListener('change', sync));
+  sync();
+  form.addEventListener('submit', (e) => {
+    if (!boxes.some((b) => b.checked)) {
+      e.preventDefault();
+      err.hidden = false;
+      boxes.find((b) => !b.closest('.check').hidden)?.focus();
+      return;
+    }
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.lastChild.textContent = 'در حال ارسال…';
+  });
+</script>
+
+<style>
+  .wrap { display: grid; gap: var(--space-7); }
+  @media (min-width: 1000px) { .wrap { grid-template-columns: 1fr 20rem; align-items: start; } }
+  .form { display: grid; gap: var(--space-6); max-width: 48rem; }
+  .hp { position: absolute; inset-inline-start: -9999px; }
+  fieldset { border: 0; padding: 0; margin: 0; display: grid; gap: var(--space-4); }
+  legend { display: flex; align-items: center; gap: var(--space-3); font-size: var(--text-xl); font-weight: 800; margin-bottom: var(--space-4); padding: 0; }
+  .step { width: 40px; height: 40px; display: grid; place-items: center; background: var(--color-primary); color: #fff; clip-path: var(--shape-star); font-size: var(--text-base); }
+  .row2 { display: grid; gap: var(--space-4); }
+  @media (min-width: 640px) { .row2 { grid-template-columns: 1fr 1fr; } }
+  .field { display: grid; gap: var(--space-1); }
+  label, .label { font-weight: 700; }
+  b { color: var(--color-danger); font-weight: 700; }
+  input:not([type='checkbox']), select, textarea { width: 100%; font: inherit; color: var(--color-text); background: var(--color-bg); border: 1.5px solid var(--color-border-strong); border-radius: var(--radius-sm); padding: var(--space-3) var(--space-4); min-height: 50px; transition: border-color var(--dur-fast), box-shadow var(--dur-fast); }
+  input::placeholder, textarea::placeholder { color: #8a96a1; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--color-primary); box-shadow: 0 0 0 3px var(--color-primary-soft); }
+  input[dir='ltr'] { text-align: left; }
+  .help { margin: 0; color: var(--color-muted); font-size: var(--text-sm); }
+  .error { margin: 0; color: var(--color-danger); font-weight: 700; font-size: var(--text-sm); }
+  .checks { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+  .check { display: inline-flex; align-items: center; gap: var(--space-2); min-height: 44px; padding: 0 var(--space-4); border: 1.5px solid var(--color-border); border-radius: var(--radius-pill); font-weight: 600; cursor: pointer; user-select: none; transition: border-color var(--dur-fast), background-color var(--dur-fast); }
+  .check[hidden] { display: none; }
+  .check input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+  .check :global(svg) { color: var(--color-primary); }
+  .check:hover { border-color: var(--color-primary); }
+  .check:has(input:checked) { background: var(--color-primary); border-color: var(--color-primary); color: #fff; }
+  .check:has(input:checked) :global(svg) { color: #fff; }
+  .check:has(input:disabled) { opacity: .45; cursor: not-allowed; }
+  .check:has(input:focus-visible) { outline: 3px solid var(--color-primary); outline-offset: 2px; }
+  .consent { background: var(--color-surface); border-radius: var(--radius-lg); padding: var(--space-5); }
+  .tick { display: flex; gap: var(--space-3); align-items: flex-start; font-weight: 500; cursor: pointer; }
+  .tick input { width: 22px; height: 22px; margin-top: 4px; accent-color: var(--color-primary); flex: none; }
+  .submit { display: grid; gap: var(--space-2); justify-items: start; }
+  .submit .btn { min-height: 56px; padding-inline: var(--space-7); font-size: var(--text-lg); }
+  .submit .btn:disabled { opacity: .7; cursor: progress; }
+  .side { position: sticky; top: var(--space-5); background: var(--color-primary-soft) url('/tile-light.svg') 0 0 / 64px 64px; border-radius: var(--radius-lg); padding: var(--space-5); }
+  .side h2 { font-size: var(--text-lg); }
+  .side ul { list-style: none; padding: 0; margin: 0 0 var(--space-4); display: grid; gap: var(--space-2); }
+  .side li { display: flex; gap: var(--space-2); align-items: center; font-weight: 600; }
+  .side li :global(svg) { color: var(--color-primary); flex: none; }
+  .up { display: inline-flex; align-items: center; gap: var(--space-2); font-weight: 700; color: var(--color-featured-text); }
+</style>

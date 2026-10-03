@@ -1,12 +1,18 @@
 ---
 import Base from '../../../../layouts/Base.astro';
-import { businesses, getCity, getCategory, type Business, type City, type Category } from '../../../../lib/data';
+import Icon from '../../../../components/Icon.astro';
+import Avatar from '../../../../components/Avatar.astro';
+import BusinessCard from '../../../../components/BusinessCard.astro';
+import {
+  businesses, businessesIn, getCity, getCategory, isFeatured, telHref, whatsappHref, mapHref,
+  type Business, type City, type Category,
+} from '../../../../lib/data';
 
 export function getStaticPaths() {
   return businesses.flatMap((business) => {
     const city = getCity(business.city);
+    if (!city?.published) return [];
     const category = getCategory(business.categories[0]);
-    if (!city?.published || !category) return [];
     return [{
       params: { city: city.slug, category: category.slug, business: business.slug },
       props: { business, city, category },
@@ -14,30 +20,136 @@ export function getStaticPaths() {
   });
 }
 const { business: b, city, category } = Astro.props as { business: Business; city: City; category: Category };
-const tel = (n: string) => n.replace(/[^\d+]/g, '');
+const featured = isFeatured(b);
+const websiteRel = featured ? 'sponsored noopener' : 'noopener';
+const others = businessesIn(city.slug, category.slug).filter((x) => x.slug !== b.slug).slice(0, 3);
+const insta = b.instagram.replace(/^@/, '');
 ---
 <Base
   title={`${b.nameFa} — ${category.name} ایرانی در ${city.name}`}
-  description={b.description}
+  description={`${b.nameFa}، ${category.name} فارسی‌زبان در ${b.neighborhood}، ${city.name}. ${b.description}`.slice(0, 160)}
   breadcrumb={[
     { name: city.name, href: `/${city.slug}/` },
     { name: category.name, href: `/${city.slug}/${category.slug}/` },
     { name: b.nameFa },
   ]}
 >
-  <h1>{b.nameFa}</h1>
-  <p lang="en" dir="ltr">{b.nameEn}</p>
-  {b.verified && <p>✓ تأییدشده</p>}
-  <p>{b.description}</p>
-  <h2>خدمات</h2>
-  <ul>{b.services.map((s) => <li>{s}</li>)}</ul>
-  <h2>اطلاعات تماس</h2>
-  <ul>
-    <li>آدرس: {b.address}</li>
-    <li>ساعات کار: {b.hours}</li>
-    <li>تلفن: <a class="ltr" dir="ltr" href={`tel:${tel(b.phone)}`}>{b.phone}</a></li>
-    {b.whatsapp && <li>واتساپ: <a class="ltr" dir="ltr" href={`https://wa.me/${tel(b.whatsapp).replace('+', '')}`}>{b.whatsapp}</a></li>}
-    {b.website && <li>وب‌سایت: <a href={b.website} rel="noopener">{b.website}</a></li>}
-    <li>زبان‌ها: {b.languages.join('، ')}</li>
-  </ul>
+  <article class="container biz">
+    <header class:list={['head', { featured }]}>
+      {featured && <span class="badge-featured"><Icon name="star" />ویژه · آگهی</span>}
+      <div class="id">
+        <Avatar name={b.nameFa} logo={b.logo} size={88} featured={featured} onTint />
+        <div>
+          <h1>{b.nameFa}</h1>
+          <p class="en" lang="en" dir="ltr">{b.nameEn}</p>
+          <div class="tags">
+            {b.categories.map((c) => <a class="chip" href={`/${city.slug}/${c}/`}>{getCategory(c).name}</a>)}
+            {b.verified && <span class="badge-verified"><Icon name="badge-check" />تأییدشده</span>}
+          </div>
+        </div>
+      </div>
+      <div class="actions">
+        <a class="btn btn-primary" href={telHref(b.phone)}><Icon name="phone" />تماس</a>
+        {b.whatsapp && <a class="btn btn-ghost" href={whatsappHref(b.whatsapp)} rel="noopener"><Icon name="message-circle" />واتساپ</a>}
+        <a class="btn btn-ghost" href={mapHref(b)} rel="noopener"><Icon name="map-pin" />مسیریابی</a>
+      </div>
+    </header>
+
+    <div class="layout">
+      <div class="main">
+        <section>
+          <h2>درباره</h2>
+          <p class="prose">{b.description}</p>
+        </section>
+        {b.services.length > 0 && (
+          <section>
+            <h2>خدمات</h2>
+            <ul class="services">
+              {b.services.map((s) => <li><Icon name="check" size={18} />{s}</li>)}
+            </ul>
+          </section>
+        )}
+        {b.photos.length > 0 && (
+          <section>
+            <h2>عکس‌ها</h2>
+            <div class="photos">{b.photos.map((p) => <img src={p} alt={`عکس ${b.nameFa}`} width="400" height="300" loading="lazy" />)}</div>
+          </section>
+        )}
+      </div>
+
+      <aside class="info" aria-label="اطلاعات تماس">
+        <dl>
+          <div><dt><Icon name="map-pin" />آدرس</dt><dd>{b.address}<br /><a href={mapHref(b)} rel="noopener">دیدن روی نقشه</a></dd></div>
+          <div><dt><Icon name="clock" />ساعات کار</dt><dd>{b.hours}</dd></div>
+          <div><dt><Icon name="phone" />تلفن</dt><dd><a class="ltr" dir="ltr" href={telHref(b.phone)}>{b.phone}</a></dd></div>
+          {b.whatsapp && <div><dt><Icon name="message-circle" />واتساپ</dt><dd><a class="ltr" dir="ltr" href={whatsappHref(b.whatsapp)} rel="noopener">{b.whatsapp}</a></dd></div>}
+          {b.email && <div><dt><Icon name="mail" />ایمیل</dt><dd><a class="ltr" dir="ltr" href={`mailto:${b.email}`}>{b.email}</a></dd></div>}
+          {b.website && <div><dt><Icon name="globe" />وب‌سایت</dt><dd><a class="ltr" dir="ltr" href={b.website} rel={websiteRel}>{b.website.replace(/^https?:\/\//, '').replace(/\/$/, '')}</a></dd></div>}
+          {insta && <div><dt><Icon name="camera" />اینستاگرام</dt><dd><a class="ltr" dir="ltr" href={`https://instagram.com/${insta}`} rel="noopener">@{insta}</a></dd></div>}
+          <div><dt><Icon name="languages" />زبان‌ها</dt><dd>{b.languages.join('، ')}</dd></div>
+        </dl>
+        <a class="report" href={`/contact/?report=${b.slug}`}><Icon name="flag" size={18} />گزارش اشتباه در اطلاعات</a>
+      </aside>
+    </div>
+  </article>
+
+  {others.length > 0 && (
+    <section class="container section" aria-labelledby="others-title">
+      <h2 id="others-title">{category.name}‌های دیگر در {city.name}</h2>
+      <div class="grid">{others.map((x) => <BusinessCard business={x} />)}</div>
+      <p class="all"><a href={`/${city.slug}/${category.slug}/`}>همه‌ی {category.name}‌ها در {city.name}<Icon name="arrow-left" size={18} /></a></p>
+    </section>
+  )}
+
+  <div class="sticky-bar" aria-label="تماس سریع">
+    <a class="btn btn-primary" href={telHref(b.phone)}><Icon name="phone" />تماس</a>
+    {b.whatsapp && <a class="btn btn-ghost" href={whatsappHref(b.whatsapp)} rel="noopener"><Icon name="message-circle" />واتساپ</a>}
+  </div>
 </Base>
+<style>
+  .biz { padding-top: var(--space-5); }
+  .head { position: relative; display: grid; gap: var(--space-5); padding: var(--space-5); border-radius: var(--radius-lg); background: var(--color-surface) url('/tile-light.svg') 0 0 / 64px 64px; border: 1px solid var(--color-border); }
+  .head.featured { background: var(--color-featured-soft) url('/tile-gold.svg') 0 0 / 64px 64px; border: 2px solid var(--color-featured); padding-top: var(--space-6); }
+  .head .badge-featured { position: absolute; top: -14px; inset-inline-start: var(--space-5); background: var(--color-bg); }
+  .id { display: flex; gap: var(--space-4); align-items: center; }
+  h1 { margin: 0; font-size: var(--text-2xl); }
+  .en { margin: 0; color: var(--color-muted); text-align: start; }
+  .tags { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); margin-top: var(--space-2); }
+  .tags .chip { background: var(--color-bg); text-decoration: none; color: var(--color-text); border: 1px solid var(--color-border); }
+  .tags .chip:hover { border-color: var(--color-primary); color: var(--color-primary); }
+  .actions { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-2); }
+  .actions .btn-primary { grid-column: 1 / -1; }
+  @media (min-width: 768px) { .actions { display: flex; } }
+  .actions .btn-ghost { background: var(--color-bg); }
+  @media (min-width: 768px) {
+    .head { grid-template-columns: 1fr auto; align-items: center; padding: var(--space-6); }
+    h1 { font-size: var(--text-3xl); }
+  }
+
+  .layout { display: grid; gap: var(--space-6); margin-top: var(--space-6); }
+  .main { display: grid; gap: var(--space-6); align-content: start; }
+  .main h2, .info h2 { font-size: var(--text-lg); }
+  .services { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--space-2); grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr)); }
+  .services li { display: flex; align-items: center; gap: var(--space-2); padding: var(--space-3) var(--space-4); border-radius: var(--radius-sm); background: var(--color-surface); font-weight: 600; }
+  .services :global(svg) { color: var(--color-primary); flex: none; }
+  .photos { display: grid; gap: var(--space-3); grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+  .photos img { border-radius: var(--radius-sm); aspect-ratio: 4 / 3; object-fit: cover; }
+
+  .info { align-self: start; border: 1px solid var(--color-border); border-radius: var(--radius-lg); padding: var(--space-2) var(--space-5) var(--space-4); }
+  dl { margin: 0; }
+  dl > div { padding-block: var(--space-3); border-bottom: 1px solid var(--color-border); }
+  dt { display: flex; align-items: center; gap: var(--space-2); font-size: var(--text-sm); color: var(--color-muted); }
+  dt :global(svg) { width: 16px; height: 16px; color: var(--color-primary); }
+  dd { margin: 2px 0 0; font-weight: 600; overflow-wrap: anywhere; }
+  .report { display: inline-flex; align-items: center; gap: var(--space-2); margin-top: var(--space-3); color: var(--color-muted); font-size: var(--text-sm); min-height: 44px; }
+  .report:hover { color: var(--color-danger); }
+  @media (min-width: 900px) { .layout { grid-template-columns: 1fr 22rem; gap: var(--space-7); } }
+
+  .grid { display: grid; gap: var(--space-5); margin-top: var(--space-4); }
+  @media (min-width: 768px) { .grid { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); } }
+  .all a { display: inline-flex; align-items: center; gap: var(--space-1); font-weight: 700; margin-top: var(--space-4); }
+
+  .sticky-bar { position: sticky; bottom: 0; z-index: 20; display: flex; gap: var(--space-2); padding: var(--space-3) var(--space-4) calc(var(--space-3) + env(safe-area-inset-bottom)); background: rgb(255 255 255 / 96%); border-top: 1px solid var(--color-border); backdrop-filter: blur(8px); }
+  .sticky-bar .btn { flex: 1; }
+  @media (min-width: 768px) { .sticky-bar { display: none; } }
+</style>

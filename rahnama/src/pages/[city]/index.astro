@@ -1,25 +1,140 @@
 ---
 import Base from '../../layouts/Base.astro';
-import { publishedCities, categoriesForCity, businessesIn, guides, type City } from '../../lib/data';
+import Icon from '../../components/Icon.astro';
+import BusinessCard from '../../components/BusinessCard.astro';
+import Faq from '../../components/Faq.astro';
+import OwnerCta from '../../components/OwnerCta.astro';
+import { publishedCities, categoriesForCity, businessesIn, businessesInCity, featuredIn, guides, fa, type City } from '../../lib/data';
 
 export function getStaticPaths() {
   return publishedCities.map((city) => ({ params: { city: city.slug }, props: { city } }));
 }
 const { city } = Astro.props as { city: City };
 const cats = categoriesForCity(city).map((c) => ({ ...c, count: businessesIn(city.slug, c.slug).length }));
+const core = cats.filter((c) => c.core);
+const extra = cats.filter((c) => !c.core);
+const total = businessesInCity(city.slug).length;
+const featured = featuredIn(city.slug);
 const cityGuides = guides.filter((g) => g.city === city.slug);
+const faq = [
+  { q: `چطور یک متخصص ایرانی در ${city.name} پیدا کنم؟`, a: `تخصص موردنظرتان را از فهرست بالا انتخاب کنید. در هر فهرست، محله، زبان‌های گفتگو و راه تماس هر کسب‌وکار را می‌بینید و می‌توانید مستقیم تماس بگیرید یا در واتساپ پیام بدهید.` },
+  { q: 'برچسب «ویژه» یعنی چه؟', a: 'کسب‌وکارهای ویژه برای نمایش در بالای فهرست هزینه پرداخته‌اند؛ یعنی آگهی هستند. این برچسب درباره‌ی کیفیت کار چیزی نمی‌گوید.' },
+  { q: 'نشان «تأییدشده» یعنی چه؟', a: 'یعنی صاحب کسب‌وکار اطلاعات صفحه را خودش تأیید کرده است. این نشان ربطی به پرداخت ندارد.' },
+  { q: `کسب‌وکارم در ${city.name} است؛ چطور ثبتش کنم؟`, a: 'از صفحه‌ی «ثبت رایگان» فرم را پر کنید. بعد از بررسی، صفحه‌ی کسب‌وکارتان منتشر می‌شود.' },
+];
 ---
-<Base title={`کسب‌وکارهای ایرانی در ${city.name}`} breadcrumb={[{ name: city.name }]}>
-  <h1>کسب‌وکارهای ایرانی در {city.name}</h1>
-  <p>{city.guide}</p>
-  <h2>تخصص‌ها</h2>
-  <ul>
-    {cats.map((c) => <li><a href={`/${city.slug}/${c.slug}/`}>{c.name}</a> ({c.count})</li>)}
-  </ul>
-  {cityGuides.length > 0 && (
-    <>
-      <h2>راهنماهای {city.name}</h2>
-      <ul>{cityGuides.map((g) => <li><a href={`/guides/${city.slug}/${g.slug}/`}>{g.title}</a></li>)}</ul>
-    </>
+<Base
+  title={`کسب‌وکارهای ایرانی در ${city.name}`}
+  description={`دندانپزشک، وکیل، مشاور املاک، رستوران و ${fa(cats.length)} تخصص دیگر: کسب‌وکارها و متخصصان ایرانی در ${city.name} به فارسی.`}
+  breadcrumb={[{ name: city.name }]}
+>
+  <header class="city-hero">
+    <div class="medallion" aria-hidden="true"><span></span></div>
+    <div class="container inner">
+      <p class="eyebrow light">{city.country}</p>
+      <h1>ایرانیان {city.name}</h1>
+      <p class="lead">راهنمای فارسی کسب‌وکارها و متخصصان ایرانی در {city.name}.</p>
+      <dl class="stats">
+        <div><dt>کسب‌وکار</dt><dd>{fa(total)}</dd></div>
+        <div><dt>تخصص</dt><dd>{fa(cats.length)}</dd></div>
+        <div><dt>ویژه</dt><dd>{fa(featured.length)}</dd></div>
+      </dl>
+    </div>
+  </header>
+
+  <section class="section container" aria-labelledby="cats-title">
+    <h2 id="cats-title">دنبال چه کسی هستید؟</h2>
+    <ul class="cats">
+      {core.map((c) => (
+        <li>
+          <a class:list={['cat', { empty: c.count === 0 }]} href={`/${city.slug}/${c.slug}/`}>
+            <span class="ci"><Icon name={c.icon} size={24} /></span>
+            <span class="cn">{c.name}</span>
+            <span class="cc">{c.count > 0 ? `${fa(c.count)} مورد` : 'هنوز خالی'}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+    {extra.length > 0 && (
+      <>
+        <h3 class="sub">مخصوص {city.name}</h3>
+        <ul class="cats">
+          {extra.map((c) => (
+            <li>
+              <a class:list={['cat', { empty: c.count === 0 }]} href={`/${city.slug}/${c.slug}/`}>
+                <span class="ci"><Icon name={c.icon} size={24} /></span>
+                <span class="cn">{c.name}</span>
+                <span class="cc">{c.count > 0 ? `${fa(c.count)} مورد` : 'هنوز خالی'}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </>
+    )}
+  </section>
+
+  {featured.length > 0 && (
+    <section class="section featured-band" aria-labelledby="f-title">
+      <div class="container">
+        <p class="eyebrow gold">ویژه‌های {city.name}</p>
+        <h2 id="f-title">کسب‌وکارهای ویژه</h2>
+        <div class="grid">{featured.map((b) => <BusinessCard business={b} />)}</div>
+      </div>
+    </section>
   )}
+
+  <section class="section container guide" aria-labelledby="g-title">
+    <div class="guide-text prose">
+      <p class="eyebrow">راهنمای محلی</p>
+      <h2 id="g-title">زندگی ایرانیان در {city.name}</h2>
+      <p>{city.guide}</p>
+    </div>
+    {cityGuides.length > 0 && (
+      <aside class="guides" aria-label="مقاله‌های راهنما">
+        <h3>مقاله‌های راهنما</h3>
+        <ul>
+          {cityGuides.map((g) => <li><a href={`/guides/${city.slug}/${g.slug}/`}><Icon name="book-open" />{g.title}</a></li>)}
+        </ul>
+      </aside>
+    )}
+  </section>
+
+  <div class="container section"><Faq items={faq} /></div>
+  <div class="container"><OwnerCta title={`کسب‌وکار ایرانی در ${city.name} دارید؟`} /></div>
 </Base>
+<style>
+  .city-hero { position: relative; overflow: hidden; background: var(--color-primary-strong) url('/tile-dark.svg') 0 0 / 64px 64px; color: #fff; margin-top: var(--space-4); }
+  .inner { position: relative; padding-block: var(--space-7); }
+  .medallion { display: none; position: absolute; inset-inline-end: 6%; top: 50%; translate: 0 -50%; width: 300px; height: 300px; background: var(--color-ink-accent); clip-path: var(--shape-star); place-items: center; opacity: .9; }
+  .medallion span { width: 62%; height: 62%; background: var(--color-primary-strong); clip-path: var(--shape-star); }
+  @media (min-width: 1000px) { .medallion { display: grid; } }
+  .eyebrow.light { color: var(--color-ink-accent); }
+  .eyebrow.light::before { background: var(--color-ink-accent); }
+  h1 { font-size: clamp(2.2rem, 1.4rem + 4vw, 4rem); font-weight: 900; color: #fff; margin-bottom: var(--space-2); }
+  .lead { color: rgb(255 255 255 / 88%); font-size: var(--text-lg); max-width: 36rem; }
+  .stats { display: flex; flex-wrap: wrap; gap: var(--space-3); margin: var(--space-5) 0 0; }
+  .stats div { background: rgb(255 255 255 / 10%); border: 1px solid rgb(255 255 255 / 18%); border-radius: var(--radius-sm); padding: var(--space-2) var(--space-4); min-width: 96px; }
+  .stats dt { font-size: var(--text-sm); color: rgb(255 255 255 / 80%); }
+  .stats dd { margin: 0; font-size: var(--text-xl); font-weight: 900; line-height: 1.3; }
+
+  .cats { list-style: none; padding: 0; margin: var(--space-4) 0 0; display: grid; gap: var(--space-2); grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr)); }
+  .cat { display: grid; grid-template-columns: auto 1fr; grid-template-rows: auto auto; column-gap: var(--space-3); align-items: center; padding: var(--space-3) var(--space-4); border-radius: var(--radius-sm); border: 1px solid var(--color-border); text-decoration: none; color: var(--color-text); min-height: 72px; transition: border-color var(--dur-fast), background-color var(--dur-fast); }
+  .cat:hover { border-color: var(--color-primary); background: var(--color-primary-soft); }
+  .ci { grid-row: span 2; width: 44px; height: 44px; display: grid; place-items: center; background: var(--color-primary-soft); color: var(--color-primary-strong); clip-path: var(--shape-star); }
+  .cat:hover .ci { background: var(--color-bg); }
+  .cn { font-weight: 700; }
+  .cc { font-size: var(--text-sm); color: var(--color-muted); }
+  .cat.empty .ci { background: var(--color-surface); color: var(--color-muted); }
+  .sub { margin-top: var(--space-6); }
+
+  .featured-band { background: var(--color-featured-soft); border-block: 1px solid #efe1b8; }
+  .eyebrow.gold { color: var(--color-featured-text); }
+  .grid { display: grid; gap: var(--space-5); padding-top: var(--space-4); }
+  @media (min-width: 768px) { .grid { grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); } }
+
+  .guide { display: grid; gap: var(--space-6); }
+  .guides { align-self: start; background: var(--color-surface); border-radius: var(--radius-lg); padding: var(--space-5); }
+  .guides ul { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--space-2); }
+  .guides a { display: flex; align-items: center; gap: var(--space-2); font-weight: 600; min-height: 44px; }
+  @media (min-width: 900px) { .guide { grid-template-columns: 1fr 20rem; } }
+</style>

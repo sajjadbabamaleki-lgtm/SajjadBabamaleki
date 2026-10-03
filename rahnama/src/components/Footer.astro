@@ -1,0 +1,55 @@
+---
+import Logo from './Logo.astro';
+import { cities, publishedCities } from '../lib/data';
+import { SITE_NAME } from '../lib/site';
+---
+<footer class="site-footer">
+  <div class="band" aria-hidden="true"></div>
+  <div class="container grid">
+    <div class="about">
+      <Logo tone="dark" />
+      <p>دایرکتوری فارسی کسب‌وکارها و متخصصان ایرانی در {cities.length.toLocaleString('fa-IR')} شهر. ثبت پایه همیشه رایگان است.</p>
+    </div>
+    <nav aria-label="شهرها">
+      <h2>شهرها</h2>
+      <ul>
+        {publishedCities.map((c) => <li><a href={`/${c.slug}/`}>{c.name}</a></li>)}
+        {cities.filter((c) => !c.published).map((c) => <li class="soon">{c.name} <span>به‌زودی</span></li>)}
+      </ul>
+    </nav>
+    <nav aria-label="برای کسب‌وکارها">
+      <h2>برای کسب‌وکارها</h2>
+      <ul>
+        <li><a href="/business-add/">ثبت رایگان</a></li>
+        <li><a href="/featured/">ثبت ویژه</a></li>
+        <li><a href="/services/">برند بوک، سایت و ویدیو</a></li>
+      </ul>
+    </nav>
+    <nav aria-label="درباره">
+      <h2>درباره</h2>
+      <ul>
+        <li><a href="/about/">درباره‌ی ما</a></li>
+        <li><a href="/contact/">تماس</a></li>
+        <li><a href="/terms/">شرایط استفاده</a></li>
+        <li><a href="/privacy/">حریم خصوصی</a></li>
+        <li><a href="/impressum/">Impressum</a></li>
+      </ul>
+    </nav>
+  </div>
+  <div class="container legal">© {new Date().getFullYear().toLocaleString('fa-IR', { useGrouping: false })} {SITE_NAME}</div>
+</footer>
+<style>
+  .site-footer { background: var(--color-ink); color: var(--color-on-ink-muted); margin-top: var(--space-8); padding-bottom: calc(var(--space-5) + env(safe-area-inset-bottom)); }
+  .band { height: 40px; background: var(--color-ink) url('/tile-dark.svg') repeat-x center / 40px 40px; border-bottom: 1px solid rgb(255 255 255 / 8%); }
+  .grid { display: grid; gap: var(--space-6); padding-block: var(--space-7) var(--space-6); grid-template-columns: 1fr 1fr; }
+  .about { grid-column: 1 / -1; max-width: 32ch; }
+  .about p { margin-top: var(--space-3); font-size: var(--text-sm); }
+  h2 { color: var(--color-on-ink); font-size: var(--text-base); margin-bottom: var(--space-3); }
+  ul { list-style: none; padding: 0; margin: 0; display: grid; gap: var(--space-1); font-size: var(--text-sm); }
+  a { color: var(--color-on-ink-muted); text-decoration: none; display: inline-block; padding-block: var(--space-1); }
+  a:hover { color: var(--color-ink-accent); }
+  .soon { opacity: .75; padding-block: var(--space-1); }
+  .soon span { font-size: .75rem; border: 1px solid rgb(255 255 255 / 20%); border-radius: var(--radius-pill); padding: 0 var(--space-2); margin-inline-start: var(--space-1); }
+  .legal { border-top: 1px solid rgb(255 255 255 / 10%); padding-top: var(--space-4); font-size: var(--text-sm); }
+  @media (min-width: 900px) { .grid { grid-template-columns: 1.4fr 1fr 1fr 1fr; } .about { grid-column: auto; } }
+</style>
