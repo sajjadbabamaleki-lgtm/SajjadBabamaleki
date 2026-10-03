@@ -54,7 +54,7 @@ const faq = [
       <>
         {hoods.length > 1 && (
           <div class="filter" role="group" aria-label="فیلتر محله">
-            <span class="flabel"><Icon name="map-pin" size={16} /><span class="sr-only">محله</span></span>
+            <span class="flabel"><Icon name="map-pin" size={16} />محله:</span>
             <button type="button" class="fchip" aria-pressed="true" data-hood="">همه</button>
             {hoods.map((h) => <button type="button" class="fchip" aria-pressed="false" data-hood={h}>{h}</button>)}
           </div>
@@ -114,12 +114,10 @@ const faq = [
   .fcount { display: inline-flex; align-items: center; gap: 3px; color: var(--color-featured-text); font-weight: 700; }
   .intro { margin-top: var(--space-3); color: var(--color-muted); }
   .results { padding-top: var(--space-4); }
-  /* فیلتر محله: یک ردیف که افقی اسکرول می‌شود */
-  .filter { display: flex; align-items: center; gap: var(--space-2); margin: 0 calc(var(--space-4) * -1) var(--space-4); padding: 2px var(--space-4) 6px; overflow-x: auto; scrollbar-width: none; scroll-snap-type: x proximity; }
-  .filter::-webkit-scrollbar { display: none; }
-  .flabel { flex: none; display: inline-flex; align-items: center; color: var(--color-muted); }
-  .fchip { flex: none; scroll-snap-align: start; white-space: nowrap; font: inherit; font-size: var(--text-sm); font-weight: 600; min-height: 40px; padding: 0 var(--space-4); border-radius: var(--radius-pill); border: 1px solid var(--color-border-strong); background: var(--color-bg); color: var(--color-text); cursor: pointer; transition: background-color var(--dur-fast), color var(--dur-fast); }
-  @media (min-width: 768px) { .filter { flex-wrap: wrap; overflow: visible; margin-inline: 0; padding-inline: 0; } .cat-head { padding-top: var(--space-5); } .cat-head .ic { width: 64px; height: 64px; } }
+  .filter { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2); margin-bottom: var(--space-4); }
+  .flabel { display: inline-flex; align-items: center; gap: 2px; color: var(--color-muted); font-size: var(--text-sm); }
+  .fchip { white-space: nowrap; font: inherit; font-size: var(--text-sm); font-weight: 600; min-height: 40px; padding: 0 var(--space-4); border-radius: var(--radius-pill); border: 1px solid var(--color-border-strong); background: var(--color-bg); color: var(--color-text); cursor: pointer; transition: background-color var(--dur-fast), color var(--dur-fast); }
+  @media (min-width: 768px) { .cat-head { padding-top: var(--space-5); } .cat-head .ic { width: 64px; height: 64px; } }
   .fchip:hover { border-color: var(--color-primary); color: var(--color-primary); }
   .fchip[aria-pressed='true'] { background: var(--color-text); border-color: var(--color-text); color: #fff; }
   .grid { display: grid; gap: var(--space-5); }
